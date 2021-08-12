@@ -1,0 +1,90 @@
+.toast {display: none; position: fixed; z-index: 99999; width: 100%; text-align: center; top: 2em;}
+
+.toast .message {display: inline-block; color: #fff; padding: 5px; border-radius: 5px; box-shadow: 2px 2px 2px #666; -webkit-box-shadow: 2px 2px 2px #666; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: .8em; background: #282324; background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #554434), color-stop(1, #282324));}
+
+html
+  {
+    height:100%
+  }
+
+body
+  {
+    height:100%;
+    background-image: linear-gradient(white, #d4d4d4);
+  }
+
+header
+  {
+  background-color: #e85a4f;
+  height:fit-content
+  }
+
+  a:hover 
+  {
+     color: #424242 !important;
+  }
+
+  button:hover 
+  {
+    color: #424242 !important;
+  }
+
+  button:focus{
+      color: #424242;
+  }
+
+  .intro{
+    height:100%
+  }
+
+  body{
+    background-color: #eae7dc;
+  }
+  .nav-link{
+    color: #424242;
+  }
+
+  .tab-content{
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+
+  a:selection{
+      background-color: #8e8d8a;
+  }
+  
+  .left{
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    background-color:#3d231b;
+    height : 100%;
+    color : #FFF;
+  
+  }
+  .right{
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    background-color:#FFF;
+    height : 100%;
+    color : #3d231b;
+  }
+  @media (max-width: 1200px) { 
+    .left{
+      height:50%
+    }
+    .right{
+      height:50%
+    }
+  }
+  .about{
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    background-color:#000;
+    color : #FFF;
+    height:100%
+  }
