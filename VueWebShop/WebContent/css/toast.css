@@ -1,22 +1,31 @@
-.toast {display: none; position: fixed; z-index: 99999; width: 100%; text-align: center; top: 2em;}
-
-.toast .message {display: inline-block; color: #fff; padding: 5px; border-radius: 5px; box-shadow: 2px 2px 2px #666; -webkit-box-shadow: 2px 2px 2px #666; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: .8em; background: #282324; background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #554434), color-stop(1, #282324));}
 
 html
   {
-    height:100%
+    height:auto
   }
 
 body
   {
-    height:100%;
-    background-image: linear-gradient(white, #d4d4d4);
+    height:auto;
+    background-color: white !important;
+    background-image: linear-gradient(white, #eae7dc);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
 
 header
   {
   background-color: #e85a4f;
   height:fit-content
+  }
+
+  div
+  {
+    text-align: center;
+  vertical-align: middle; 
+  }
+
+  a{
+    color: #eae7dc;
   }
 
   a:hover 
@@ -42,6 +51,24 @@ header
   }
   .nav-link{
     color: #424242;
+    font-weight: bold;
+  }
+
+  .nav-item
+  {
+    font-variant-caps: all-petite-caps;
+  }
+  
+  img{
+    border-radius: 2%;
+    border-top-left-radius: 2%;
+  }
+  .card{
+    border-color: #e85a4f;
+    border-style: solid;
+    border-width: 0.5mm;
+    border-radius: 2%;
+    background-color: #eae7dc;
   }
 
   .tab-content{
@@ -51,10 +78,17 @@ header
     margin-right: 3%;
   }
 
+  .list-group-item{
+    background-color: #eae7dc;
+  }
+
   a:selection{
       background-color: #8e8d8a;
   }
   
+  .row{
+    margin: 3%;
+  }
   .left{
     display : flex;
     justify-content : center;
@@ -87,4 +121,10 @@ header
     background-color:#000;
     color : #FFF;
     height:100%
+  }
+
+  #restaurantimage
+  {
+    width: 200;
+    height: 200;
   }
