@@ -58,7 +58,25 @@ header
   {
     font-variant-caps: all-petite-caps;
   }
-  
+ /*
+  .my-row
+  {
+    border-style: solid;
+    border-color: green;
+  }
+
+  .my-col
+  {
+    border-style: solid;
+    border-color: green;
+  }
+
+  .my-container
+  {
+    border-style: solid;
+    border-color: green;
+  }
+*/
   img{
     border-radius: 2%;
     border-top-left-radius: 2%;
@@ -87,7 +105,7 @@ header
   }
   
   .row{
-    margin: 3%;
+    margin: 1%;
   }
   .left{
     display : flex;

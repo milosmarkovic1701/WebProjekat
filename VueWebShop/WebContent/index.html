@@ -204,33 +204,51 @@
       </div>
     </div>
     <div class="tab-pane fade" id="addrestaurant" role="tabpanel" aria-labelledby="addrestaurant-tab">
-      <div class="input-group mb-3" >
-        <div class="row">
-          <div class="col">
-            <label class="input-group-text" for="inputGroupFile01">Izbor logoa restorana</label>
-            <input type="file" class="form-control" id="inputGroupFile01">
+      <div class="container-fluid my-container">
+        <div class="row my-row  justify-content-around">
+          <div class="col-sm-4 my-col">
+              <label class="input-group-text" for="inputGroupFile01">Izbor logoa restorana:</label>
+              <input type="file" class="form-control" id="inputGroupFile01">
           </div>
-          <div class="col">
-            <div class="input-group">
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">Ime restorana:</span>
-                <input type="text" class="form-control" placeholder="Unesite ime..." aria-label="Username" aria-describedby="basic-addon1">
-              </div>
+          <div class="col-sm-2 my-col"></div>
+          <div class="col-sm-6 my-col">
+              <span class="input-group-text" id="basic-addon1">Ime restorana:</span>
+              <input type="text" class="form-control" placeholder="Unesite ime..." aria-label="type" aria-describedby="basic-addon1">
             </div>
+          </div>
+        <div class="row my-row justify-content-around">
+          <div class="col-sm-4 my-col">
+            <img src="icons/placeholder-image.png" width="200" height="200" style="border-style: solid;">
+          </div>
+          <div class="col-sm-2 my-col"></div>
+          <div class="col-sm-6 my-col" style="height: 100px;">
+            <span class="input-group-text" id="basic-addon1">Tip restorana:</span>
+            <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+            <span class="input-group-text" id="basic-addon1" style="margin-top: 3%;">Lokacija restorana:</span>
+            <input type="text" class="form-control" placeholder="Odaberite lokaciju na mapi..." aria-label="location" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="row my-row  justify-content-around">
+          <div class="col-sm-4 my-col">
+            <img src="icons/map.png" width="500" height="350" style="border-style: solid;">
+          </div>
+          <div class="col-sm-2 my-col"></div>
+          <div class="col-sm-6 my-col">
+            <div class="input-group">
+              <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                <option selected>Izaberite menadžera...</option>
+                <option value="1">Misa Markovic</option>
+                <option value="2">Nikola Mijatovic</option>
+              </select>
+              <button class="btn btn-outline-danger" type="button">Dodavanje novog menadžera</button>
+            </div>
+              <button type="button" style="margin-top: 25%;" class="btn btn-danger btn-lg">Dodaj restoran</button>
           </div>
         </div>
       </div>
-        <div class="row">
-          <div class="col">
-            <img src="icons/placeholder-image.png" width="300" height="500">
-          </div>
-          <div class="col">
-            <span class="input-group-text" id="basic-addon1">Vrsta restorana:</span>
-            <input type="text" class="form-control" placeholder="Unesite ime..." aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        </div>
+      </div>
     </div>
-    </div>
+    
     <div class="tab-pane fade" id="addemployee" role="tabpanel" aria-labelledby="addemployee-tab">
       <ul class="list-group list-group-horizontal">
         <li class="list-group-item">An item</li>
