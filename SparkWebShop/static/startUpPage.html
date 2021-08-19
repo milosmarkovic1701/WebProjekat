@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+	<link href="css/startUpPage.css" rel="stylesheet" />
+	<meta charset="utf-8"/>
+</head> 
+
+<header class="p-6 mb-6" style="background-color: #dc3545;">
+  <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+      <img id="logo" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
+    </a>
+
+    <ul class="nav col-12 col-lg-auto ">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li>
+          <button type="button" disabled style="margin-left: 3cm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+            Dobrodošli na početnu stranu ponesi.com ! Ako nešto želite da naručite, molimo Vas da se prijavite. Ako ste nov korisnik, molimo Vas da se registrujete. --->
+          </button>
+          <button type="button" style="margin-left: 20mm; margin-top: 1mm; margin-bottom: 1mm;" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logInModal">
+            Prijava
+          </button>
+          <button type="button" style="margin-left: 5mm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">
+            Registracija
+          </button>
+        </li>
+      </ul>
+    </ul>
+  </div>
+</header>
+
+<body>
+
+<!--MODALNI PROZOR ZA PRIJAVU-->
+<div class="modal fade" id="logInModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Prijava</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="images/login.png" width="120" height="120">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
+        <input type="text" class="form-control" placeholder="Unesite korisničko ime...">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
+        <input type="text" class="form-control" placeholder="Unesite lozinku...">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
+        <button type="button" class="btn btn-danger">Prijavi se</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--MODALNI PROZOR ZA REGISTRACIJU-->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Registracija</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Ime:</span>
+        <input type="text" class="form-control" placeholder="Unesite ime...">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Prezime:</span>
+        <input type="text" class="form-control" placeholder="Unesite prezime...">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Pol:</span>
+        <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+          <option value="" disabled selected>Izaberite pol...</option>
+          <option value="1">Muški</option>
+          <option value="2">Ženski</option>
+        </select>
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Datum rođenja:</span>
+        <input type="text" class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
+        <input type="text" class="form-control" placeholder="Unesite korisničko ime...">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
+        <input type="text" class="form-control" placeholder="Unesite lozinku...">
+        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Adresa:</span>
+        <input type="text" class="form-control" placeholder="Unesite adresu (ulica, broj, mesto)">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
+        <button type="button" class="btn btn-danger">Registruj se</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" style="margin-top: 3mm;">
+<div class="row">
+  <div class="col">
+    <img src="images/startupfood.jpg" width="100%" style="border-style: groove; border-color: #dc3545;">
+  </div>
+  <div class="col">
+    <img src="images/food_cookies_donuts.jpg" width="100%" style="border-style: groove; border-color: #dc3545;">
+  </div>
+  <div class="col">
+    <img src="images/wallpaper-burger.jpg" width="100%" style="border-style: groove; border-color: #dc3545;">
+  </div>
+  <div class="row">
+    <p style="margin-top: 2cm; font-size: 12mm;"><b>SVI RESTORANI</b></p>
+  </div>
+</div>
+</div>
+
+  <div class="surface">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-sm-3" style="border-left: #dc3545; border-left-style: groove">
+        <input type="text" class="form-control" placeholder="Pretraga (naziv, tip, lokacija, prosečna ocena)">
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-danger">Pretraži</button>
+      </div>
+      <div class="col" style="border-left: #dc3545; border-left-style: groove;">
+        <select class="form-select" id="inputGroupSelect04">
+          <option value="" disabled selected>Sortiraj...</option>
+          <option value="1">Naziv</option>
+          <option value="2">Lokacija</option>
+          <option value="3">Prosečna ocena</option>
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-select" id="inputGroupSelect04">
+          <option value="" disabled selected>Vrsta sortiranja</option>
+          <option value="1">Rastuće</option>
+          <option value="2">Opadajuće</option>
+        </select>
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-danger">Sortiraj</button>
+      </div>
+      <div class="col" style="border-left: #dc3545; border-left-style: groove;">
+        <select class="form-select" id="inputGroupSelect04">
+          <option value="" disabled selected>Filter (radno vreme)</option>
+          <option value="1">Otvoren</option>
+          <option value="2">Zatvoren</option>
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-select" id="inputGroupSelect04">
+          <option value="" disabled selected>Filter (tip)</option>
+          <option value="1">Roštilj</option>
+          <option value="2">Palačinke</option>
+          <option value="3">Krofne</option>
+          <option value="4">Pekara</option>
+          <option value="5">Poslastičarnica</option>
+          <option value="6">Picerija</option>
+          <option value="7">Italijanski</option>
+          <option value="8">Meksički</option>
+          <option value="9">Kineski</option>
+          <option value="10">Francuski</option>
+          <option value="11">Japanski</option>
+          <option value="12">Indijski</option>
+          <option value="13">Turski</option>
+          <option value="14">Grčki</option>
+        </select>
+      </div>
+      <div class="col" style="border-right: #dc3545; border-right-style: groove">
+        <button type="button" class="btn btn-danger">Filtriraj</button>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="row"></div>
+  </div>
+  
+  <div class="container-fluid" style="margin-top: 15mm; margin-left: 5mm;">
+  <div class="row" style="margin-top: 1%;">
+    <div class="col">
+      <div class="card" style="width: 21rem;">
+        <img  src="restaurant logos/gyros master.jpg" width="300" height="220" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Gyros Master</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Adresa</li>
+          <li class="list-group-item">Tip</li>
+          <li class="list-group-item">Radi/ne radi</li>
+          <li class="list-group-item">Ocena</li>
+        </ul>
+        <div class="card-body">
+          <button type="button" class="btn btn-danger">
+            <a href="#" class="card-link">Prikazi artikle</a>
+          </button>
+      </div>
+    </div>
+    </div>
+  <div class="col">
+    <div class="card" style="width: 21rem;">
+      <img src="restaurant logos/balans.jpg" width="300" height="220" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <button type="button" class="btn btn-danger">
+          <a href="#" class="card-link">Prikazi artikle</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="width: 21rem;">
+      <img src="restaurant logos/gyros master.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="width: 21rem;">
+      <img src="restaurant logos/gyros master.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+  
+  </div>
+  <div class="row" style="margin-top: 1%;">
+    <div class="col">
+      <div class="card" style="width: 21rem;">
+        <img src="restaurant logos/gyros master.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    </div>
+  <div class="col">
+    <div class="card" style="width: 21rem;">
+      <img src="restaurant logos/gyros master.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="width: 21rem;">
+      <img src="restaurant logos/gyros master.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card" style="width: 21rem;">
+      <img src="restaurant logos/gyros master.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
+<script src="js/axios.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/toast.js"></script>
+<script src="app/webShop.js"></script>
+<script src="app/shoppingCart.js"></script>
+<script src="app/app.js"></script>
+
+</body>
+</html>
