@@ -28,6 +28,16 @@ header
     color: #eae7dc;
   }
 
+  .badge {
+    position: relative;
+    top: 0px;
+    right: -5px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: #424242;
+    color: white;
+  }
+
   a:hover 
   {
      color: #424242 !important;
