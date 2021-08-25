@@ -28,6 +28,11 @@ header
     color: #eae7dc;
   }
 
+  #tabs
+  {
+    background-color: #dc3545;
+  }
+
   .badge {
     position: relative;
     top: 0px;

@@ -9,65 +9,50 @@ import java.io.File;
 
 import com.google.gson.Gson;
 
-import beans.webshop.ProductToAdd;
-import beans.webshop.Products;
-import beans.webshop.ShoppingCart;
-import spark.Request;
-import spark.Session;
+import beans.Administrator;
+import dto.LoginUserDTO;
+import dto.RestaurantQueryDTO;
+import services.AdministratorService;
+import services.RestaurantService;
 
 public class SparkWebShopMain {
 
-	private static Products products = new Products();
+	private static RestaurantService restaurantService = new RestaurantService();
+	private static AdministratorService administratorService = new AdministratorService();
 	private static Gson g = new Gson();
 
 
 	public static void main(String[] args) throws Exception {
-		port(8081);
+		port(8080);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
-		get("/test", (req, res) -> {
-			return "Works";
+		
+		get("/rest/restaurants/getRestaurants", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(restaurantService.getRestaurants().values());
 		});
 		
-		get("/rest/proizvodi/getJustProducts", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(products.values());
+		post("/rest/restaurants/searchRestaurants", (req, res) -> {
+			RestaurantQueryDTO query = g.fromJson(req.body(), RestaurantQueryDTO.class);
+			res.type("application/json");		
+			return g.toJson(restaurantService.searchRestaurants(query));
 		});
 		
-		get("/rest/proizvodi/getJustSc", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(getSc(req).getItems());
+		post("/rest/users/loginAdministrator", (req, res) -> {
+			LoginUserDTO user = g.fromJson(req.body(), LoginUserDTO.class);
+			Administrator admin = administratorService.login(user);
+			if (admin == null || admin.getUser().isDeleted()) 
+				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
+			return g.toJson(admin);
 		});
 		
-		get("/rest/proizvodi/getTotal", (req, res) -> {
+		post("/rest/users/register", (req, res) -> {
 			res.type("application/json");
-			return g.toJson(getSc(req).getTotal());
-		});
-		
-		post("/rest/proizvodi/add", (req, res) -> {
-			res.type("application/json");
-			String payload = req.body();
-			ProductToAdd pd = g.fromJson(payload, ProductToAdd.class);
-			getSc(req).addItem(products.getProduct(pd.id), pd.count);
+			String user = req.body();
 			return ("OK");
 		});
-		
-		post("/rest/proizvodi/clearSc", (req, res) -> {
-			res.type("application/json");
-			getSc(req).getItems().clear();
-			return "OK";
-		});
 	}
-	
-	private static ShoppingCart getSc(Request req) {
-		Session ss = req.session(true);
-		ShoppingCart sc = ss.attribute("sc"); 
-		if (sc == null) {
-			sc = new ShoppingCart();
-			ss.attribute("sc", sc);
-		}
-		return sc;
-	}
+
 
 }

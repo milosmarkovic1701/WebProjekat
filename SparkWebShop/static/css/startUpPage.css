@@ -12,6 +12,11 @@ body
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+#tabs
+  {
+    background-color: #dc3545;
+  }
+
 header
 {
 background-color: #dc3545;
