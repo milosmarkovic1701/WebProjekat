@@ -4,17 +4,10 @@ import java.util.ArrayList;
 
 public class Cart {
 	
-	private int id;
 	private ArrayList <FoodItem> items;
 	private int customerId;
 	private double price;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public ArrayList<FoodItem> getItems() {
 		return items;
 	}
@@ -33,9 +26,8 @@ public class Cart {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Cart(int id, ArrayList<FoodItem> items, int customerId, double price) {
+	public Cart(ArrayList<FoodItem> items, int customerId, double price) {
 		super();
-		this.id = id;
 		this.items = items;
 		this.customerId = customerId;
 		this.price = price;

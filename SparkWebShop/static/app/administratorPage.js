@@ -2,12 +2,14 @@ Vue.component("administrator-page", {
 	data: function () {
 		    return {
 				restaurants : null,
-				searchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
+				restaurantSearchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
+				restaurantLogo : "",
+				location : {latitude: 0, longitude: 0},
 		    }
 	},
 	
 	template:`
-<div>
+  <div>
   <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <img src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
       <ul class="nav col-12 col-lg-auto me-lg-auto justify-content-center mb-md-0">
@@ -69,19 +71,19 @@ Vue.component("administrator-page", {
 		  <div class="container-fluid">
 		  	  <div class="row">
 			      <div class="col col-sm-1" style="border-left: #dc3545; border-left-style: groove">
-			        <input type="text" v-model="searchQuery.name" class="form-control" placeholder="Naziv">
+			        <input type="text" v-model="restaurantSearchQuery.name" class="form-control" placeholder="Naziv">
 			      </div>
 			      <div class="col col-sm-1">
-			        <input type="text" v-model="searchQuery.type" class="form-control" placeholder="Tip">
+			        <input type="text" v-model="restaurantSearchQuery.type" class="form-control" placeholder="Tip">
 			      </div>
 			      <div class="col col-sm-1">
-			        <input type="text" v-model="searchQuery.location" class="form-control" placeholder="Lokacija">
+			        <input type="text" v-model="restaurantSearchQuery.location" class="form-control" placeholder="Lokacija">
 			      </div>
 			      <div class="col col-sm-1">
-			        <input type="text" v-model="searchQuery.rating" class="form-control" placeholder="Ocena">
+			        <input type="text" v-model="restaurantSearchQuery.rating" class="form-control" placeholder="Ocena">
 			      </div>
 			      <div class="col col-sm-2">
-			        <select class="form-select" v-model="searchQuery.filterType" id="inputGroupSelect04">
+			        <select class="form-select" v-model="restaurantSearchQuery.filterType" id="inputGroupSelect04">
 			          <option value="" selected>Filter (tip)</option>
 			          <option value="rostilj">Roštilj</option>
 			          <option value="palacinke">Palačinke</option>
@@ -100,14 +102,14 @@ Vue.component("administrator-page", {
 			        </select>
 			      </div>
 			      <div class="col col-sm-2">
-			        <select class="form-select" v-model="searchQuery.filterStatus" id="inputGroupSelect04">
+			        <select class="form-select" v-model="restaurantSearchQuery.filterStatus" id="inputGroupSelect04">
 			          <option value="" selected>Filter (status)</option>
 			          <option value="opened">Otvoren</option>
 			          <option value="closed">Zatvoren</option>
 			        </select>
 			      </div>
 			      <div class="col col-sm-3">
-			        <select class="form-select" v-model="searchQuery.sort" id="inputGroupSelect04">
+			        <select class="form-select" v-model="restaurantSearchQuery.sort" id="inputGroupSelect04">
 			          <option value="" selected>Tip sortiranja</option>
 			          <option value="naziv_rastuce">Naziv (rastuće)</option>
 			          <option value="naziv_opadajuce">Naziv (opadajuće)</option>
@@ -136,7 +138,8 @@ Vue.component("administrator-page", {
 	          <ul class="list-group list-group-flush">
 	            <li class="list-group-item">{{restaurant.location.street}} {{restaurant.location.number}}, {{restaurant.location.city}}</li>
 	            <li class="list-group-item">{{restaurant.type}}</li>
-	            <li class="list-group-item">{{restaurant.status}}</li>
+	            <li v-if="restaurant.status === 'OPENED'" class="list-group-item">OTVORENO</li>
+            	<li v-else class="list-group-item">ZATVORENO</li>
 	          </ul>
 	          <div class="card-body">
 	            {{restaurant.rating}}/5
@@ -152,7 +155,7 @@ Vue.component("administrator-page", {
         <div class="row my-row  justify-content-around">
           <div class="col-sm-4 my-col">
               <label class="input-group-text" for="inputGroupFile01">Izbor logoa restorana:</label>
-              <input type="file" class="form-control" id="inputGroupFile01">
+              <input id="uploadImage" name="myPhoto" onchange="PreviewImage();" type="file" accept="image/png, image/jpeg" class="form-control">
           </div>
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col">
@@ -162,7 +165,7 @@ Vue.component("administrator-page", {
           </div>
         <div class="row my-row justify-content-around">
           <div class="col-sm-4 my-col">
-            <img src="images/placeholder-image.png" width="200" height="200" style="border-style: solid; border-color: #dc3545;">
+            <img id="uploadPreview" style="width: 270px; height: 200px;" />
           </div>
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col" style="height: 100px; margin-top: 2mm;">
@@ -173,9 +176,9 @@ Vue.component("administrator-page", {
           </div>
         </div>
         <div class="row my-row  justify-content-around">
-          <div class="col-sm-4 my-col" style="margin-top: 8mm;">
-            <img src="images/map.png" width="550" height="350" style="border-style: solid; border-color: #dc3545;">
-          </div>
+          <div class="col-sm-4 my-col" style="margin-top: 2mm;">
+          <div id="dvMap" style="width: 600px; height: 370px"></div>
+            </div>
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col">
             <div class="input-group">
@@ -422,13 +425,25 @@ Vue.component("administrator-page", {
 	methods : {
 		searchRestaurant() {
 		axios
-			.post('rest/restaurants/searchRestaurants', this.searchQuery)
+			.post('rest/restaurants/searchRestaurants', this.restaurantSearchQuery)
           	.then(response => (this.restaurants = response.data))
 		},
-    },
+	},
     mounted () {
 	    axios
 	      .get('rest/restaurants/getRestaurants')
 	      .then(response => (this.restaurants = response.data))
+	      
+	      var mapOptions = {
+                center: new google.maps.LatLng(45.2450573,19.8390942),
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.SATELITE
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            google.maps.event.addListener(map, 'click', function (e) {
+                alert("Latitude: " + e.latLng.lat() + "\r\nLongitude: " + e.latLng.lng());
+            });
 		},
 });

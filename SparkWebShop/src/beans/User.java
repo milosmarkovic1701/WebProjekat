@@ -71,7 +71,7 @@ public class User {
 		this.birthDate = birthDate;
 		this.role = role;
 		this.deleted = false;
-		this.id = 1; //promenicemo da uzme count users+1;
+		this.id = id;
 	}
 	
 }

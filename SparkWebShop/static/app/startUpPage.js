@@ -1,7 +1,7 @@
 Vue.component("startup-page", {
 	data: function () {
 		    return {
-		    	userRegister : {usernameRegister: "", passwordRegister: "", name: "", lastname: "", birthDate: null, gender: ""},
+		    	userRegister : {usernameRegister: "", passwordRegister: "", name: "", lastname: "", birthDate: "", gender: "", address: ""},
 		    	userLogin : {usernameLogin: "", passwordLogin: ""},
 		    	searchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
 				restaurants : null,
@@ -81,13 +81,13 @@ Vue.component("startup-page", {
 	          <option value="zensko">Ženski</option>
 	        </select>
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Datum rođenja:</span>
-	        <input type="text" v-model="userRegister.birthdate" class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
+	        <input type="date" v-model="userRegister.birthDate" class="form-control" placeholder="dd-mm-yyyy">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
 	        <input type="text" v-model="userRegister.usernameRegister" class="form-control" placeholder="Unesite korisničko ime...">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
 	        <input type="text" v-model="userRegister.passwordRegister" class="form-control" placeholder="Unesite lozinku...">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Adresa:</span>
-	        <input type="text" class="form-control" placeholder="Unesite adresu (ulica, broj, mesto)">
+	        <input type="text" v-model="userRegister.address" class="form-control" placeholder="Unesite adresu (ulica, broj, mesto)">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
@@ -185,7 +185,8 @@ Vue.component("startup-page", {
           <ul class="list-group list-group-flush">
             <li class="list-group-item">{{restaurant.location.street}} {{restaurant.location.number}}, {{restaurant.location.city}}</li>
             <li class="list-group-item">{{restaurant.type}}</li>
-            <li class="list-group-item">{{restaurant.status}}</li>
+            <li v-if="restaurant.status === 'OPENED'" class="list-group-item">OTVORENO</li>
+            <li v-else class="list-group-item">ZATVORENO</li>
           </ul>
           <div class="card-body">
             {{restaurant.rating}}/5
@@ -209,7 +210,7 @@ Vue.component("startup-page", {
 	            .post("/rest/users/loginAdministrator", this.userLogin)
 	            .then(response => {
 	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku."){
-	                    localStorage.setItem("user", JSON.stringify(response.data));
+	                    localStorage.setItem("admin", JSON.stringify(response.data));
 	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
 	                    this.$router.push('/administratorPage'); 
 	                    this.$router.go();
@@ -220,10 +221,17 @@ Vue.component("startup-page", {
 	            });
 	        }
         },
-		register: function(userRegister) {
+		register() {
 		axios
 			.post('rest/users/register', this.userRegister)	
-			console.log(this.userRegister)
+			.then(response => {
+	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
+						alert("Obaveštenje: " + response.data);
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	            });
 		}
 	},
 	mounted () {
