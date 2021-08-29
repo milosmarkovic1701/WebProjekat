@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import beans.Administrator;
+import beans.DeliveryMan;
 import beans.User;
 import dto.LoginUserDTO;
 import enums.Role;
@@ -31,6 +32,14 @@ public class AdministratorService {
 				return admin;
 		}
 		return null;
+	}
+	
+	public boolean checkUsername(String username) {
+		for (Administrator admin : administrators) {
+			if (admin.getUser().getUsername().equalsIgnoreCase(username))
+				return false;
+		}
+		return true;
 	}
 	
 }

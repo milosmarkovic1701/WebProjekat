@@ -5,12 +5,19 @@ import enums.Type;
 public class Customer {
 	
 	private User user;
-	private Type type; //bronze, silver, gold
-	private int cancels;
-	private boolean blocked;
+	private Type type = Type.BRONZE; //bronze, silver, gold
+	private int cancels = 0;
+	private boolean blocked = false;
 	private String address;
-	private Cart cart;
+	private int points = 0;
+	private Cart cart = new Cart();
 	
+	public int getPoints() {
+		return points;
+	}
+	public void setPoints(int points) {
+		this.points = points;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -48,13 +55,9 @@ public class Customer {
 		this.cart = cart;
 	}
 	
-	public Customer(User user, Type type, int cancels, boolean blocked, String address, Cart cart) {
+	public Customer(User user, String address) {
 		super();
 		this.user = user;
-		this.type = type;
-		this.cancels = cancels;
-		this.blocked = blocked;
 		this.address = address;
-		this.cart = cart;
 	}
 }

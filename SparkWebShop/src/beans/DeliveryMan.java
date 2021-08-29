@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class DeliveryMan {
 
 	private User user;
-	private boolean blocked;
-	private ArrayList <Order> ordersToDeliver;
+	private boolean blocked = false;
+	private ArrayList <Order> ordersToDeliver = new ArrayList <Order>();
 	
 	public User getUser() {
 		return user;
@@ -27,11 +27,9 @@ public class DeliveryMan {
 		this.ordersToDeliver = ordersToDeliver;
 	}
 	
-	public DeliveryMan(User user, boolean blocked, ArrayList<Order> ordersToDeliver) {
+	public DeliveryMan(User user) {
 		super();
 		this.user = user;
-		this.blocked = blocked;
-		this.ordersToDeliver = ordersToDeliver;
 	}
 	
 	

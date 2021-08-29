@@ -26,12 +26,15 @@ public class Cart {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
 	public Cart(ArrayList<FoodItem> items, int customerId, double price) {
 		super();
 		this.items = items;
 		this.customerId = customerId;
 		this.price = price;
 	}
+	
+	public Cart() {}
 	
 	
 }

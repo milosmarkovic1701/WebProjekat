@@ -1,10 +1,14 @@
 Vue.component("administrator-page", {
 	data: function () {
 		    return {
-				restaurants : null,
 				restaurantSearchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
 				restaurantLogo : "",
 				location : {latitude: 0, longitude: 0},
+				employee : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
+				restaurants : null,
+				adminComments : null,
+				users : null,
+				spamUsers: null,
 		    }
 	},
 	
@@ -59,7 +63,7 @@ Vue.component("administrator-page", {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-        <button type="button" class="btn btn-danger">Potvrdi</button>
+        <button type="button" v-on:click="logOut()" class="btn btn-danger">Potvrdi</button>
       </div>
     </div>
   </div>
@@ -200,82 +204,80 @@ Vue.component("administrator-page", {
           <div class="row my-row  justify-content-around">
             <div class="col-sm-6 my-col">
                 <span class="input-group-text" id="basic-addon1">Ime:</span>
-                <input type="text" class="form-control" placeholder="Unesite ime...">
+                <input type="text" v-model="employee.name" class="form-control" placeholder="Unesite ime...">
                 <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Prezime:</span>
-                <input type="text" class="form-control" placeholder="Unesite prezime...">
+                <input type="text" v-model="employee.lastname" class="form-control" placeholder="Unesite prezime...">
                 <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
-                <input type="text" class="form-control" placeholder="Unesite korisničko ime...">
+                <input type="text" v-model="employee.username" class="form-control" placeholder="Unesite korisničko ime...">
                 <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
-                <input type="text" class="form-control" placeholder="Unesite lozinku...">
+                <input type="password" v-model="employee.password" class="form-control" placeholder="Unesite lozinku...">
                 <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Uloga:</span>
-                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                <select class="form-select" v-model="employee.role" id="inputGroupSelect04" aria-label="Example select with button addon">
                   <option value="" disabled selected>Izaberite ulogu...</option>
-                  <option value="1">Menadžer</option>
-                  <option value="2">Dostavljač</option>
+                  <option value="manager">Menadžer</option>
+                  <option value="deliveryman">Dostavljač</option>
                 </select>
                 <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Datum rođenja:</span>
-                <input type="text" class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
+                <input type="date" v-model="employee.birthDate" class="form-control">
               </div>
               <div class="col-sm-6 my-col">
                 <img src="images/new employee.jpg" height="450" width="600" style="border-style: solid; border-color: #dc3545;">
-                <button type="button" style="margin-top: 10%;" class="btn btn-danger btn-lg">Dodaj zaposlenog</button>
+                <button type="button" v-on:click="addEmployee()" style="margin-top: 10%;" class="btn btn-danger btn-lg">Dodaj zaposlenog</button>
               </div>
             </div>
         </div>
       </div>
     
     <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col col-sm-3" style="border-left: #dc3545; border-left-style: groove;">
-            <input type="text" class="form-control" placeholder="Pretraga (korisničko ime, ime, prezime)">
-          </div>
-          <div class="col">
-            <button type="button" class="btn btn-danger">Pretraži</button>
-          </div>
-          <div class="col" style="border-left: #dc3545; border-left-style: groove;">
-            <select class="form-select" id="inputGroupSelect04">
-              <option value="" disabled selected>Sortiraj...</option>
-              <option value="1">Ime</option>
-              <option value="2">Prezime</option>
-              <option value="3">Korisničko ime</option>
-              <option value="4">Broj bodova</option>
-            </select>
-          </div>
-          <div class="col">
-            <select class="form-select" id="inputGroupSelect04">
-              <option value="" disabled selected>Vrsta sortiranja</option>
-              <option value="1">Rastuće</option>
-              <option value="2">Opadajuće</option>
-            </select>
-          </div>
-          <div class="col">
-            <button type="button" class="btn btn-danger">Sortiraj</button>
-          </div>
-          <div class="col" style="border-left: #dc3545; border-left-style: groove;">
-            <select class="form-select" id="inputGroupSelect04">
-              <option value="" disabled selected>Filter (uloga)</option>
-              <option value="1">Kupac</option>
-              <option value="2">Menadžer</option>
-              <option value="2">Dostavljač</option>
-              <option value="2">Administator</option>
-            </select>
-          </div>
-          <div class="col">
-            <select class="form-select" id="inputGroupSelect04">
-              <option value="" disabled selected>Filter (tip)</option>
-              <option value="1">Bronzani</option>
-              <option value="2">Srebrni</option>
-              <option value="2">Zlatni</option>
-            </select>
-          </div>
-          <div class="col" style="border-right: #dc3545; border-right-style: groove;">
-            <button type="button" class="btn btn-danger">Filtriraj</button>
-          </div>
-        </div>
-        <div class="row"></div>
-        <div class="row"></div>
-      </div>
+      <div class="surface">
+		  <div class="container-fluid">
+		  	  <div class="row">
+		  	  <div class="col col-sm-2" style="border-left: #dc3545; border-left-style: groove">
+			        <input type="text" class="form-control" placeholder="Korisničko ime">
+			      </div>
+			      <div class="col col-sm-1">
+			        <input type="text" class="form-control" placeholder="Ime">
+			      </div>
+			      <div class="col col-sm-1">
+			        <input type="text" class="form-control" placeholder="Prezime">
+			      </div>
+			      <div class="col col-sm-2">
+			        <select class="form-select">
+			          <option value="" selected>Filter (uloga)</option>
+			          <option value="administrator">Administrator</option>
+			          <option value="buyer">Kupac</option>
+			          <option value="deliveryman">Dostavljač</option>
+			          <option value="manager">Menadžer</option>
+			        </select>
+			      </div>
+			      <div class="col col-sm-2">
+			        <select class="form-select">
+			          <option value="" selected>Filter (tip)</option>
+			          <option value="bronze">Bronzani</option>
+			          <option value="silver">Srebrni</option>
+			          <option value="gold">Zlatni</option>
+			        </select>
+			      </div>
+			      <div class="col col-sm-3">
+			        <select class="form-select" id="inputGroupSelect04">
+			          <option value="" selected>Tip sortiranja</option>
+			          <option value="naziv_rastuce">Ime (rastuće)</option>
+			          <option value="naziv_opadajuce">Ime (opadajuće)</option>
+			          <option value="prezime_rastuce">Prezime (rastuće)</option>
+			          <option value="prezime_opadajuce">Prezime (opadajuće)</option>
+			          <option value="korisnicko_rastuce">Korisničko ime (rastuće)</option>
+			          <option value="korisnicko_opadajuce">Korisničko ime (opadajuće)</option>
+			          <option value="bodovi_rastuce">Broj bodova (rastuće)</option>
+			          <option value="bodovi_opadajuce">Broj bodova (opadajuće)</option>
+			        </select>
+			      </div>
+			      <div class="col col-sm-1" style="border-right: #dc3545; border-right-style: groove">
+			        <button type="button" class="btn btn-danger">Pretraži</button>
+			      </div>
+			    <div class="row"></div>
+			  </div>
+		  </div>
+	  </div>
       <div class="container-fluid">
         <table class="table">
           <thead>
@@ -291,25 +293,16 @@ Vue.component("administrator-page", {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>mihhh47</td>
-              <td>Mihailo</td>
-              <td>Majstorovic</td>
-              <td>19.3.1999.</td>
-              <td>Dostavljac</td>
-              <td>/</td>
-              <td>/</td>
-              <td><button type="button" class="btn btn-danger">Obriši</button></td>
-            </tr>
-            <tr>
-              <td>misa00</td>
-              <td>Misa</td>
-              <td>Markovic</td>
-              <td>17.1.2000.</td>
-              <td>Menadzer</td>
-              <td>/</td>
-              <td>/</td>
-              <td><button type="button" class="btn btn-danger">Obriši</button></td>
+            <tr v-for="user in users">
+              <td>{{user.username}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.lastname}}</td>
+              <td>{{user.birthDate}}</td>
+              <td>{{user.role}}</td>
+              <td>{{user.points}}</td>
+              <td>{{user.userType}}</td>
+              <td><button v-if="user.role === 'Administrator'" type="button" disabled class="btn btn-danger">Obriši</button>
+              	  <button v-else type="button" class="btn btn-danger">Obriši</button></td>
             </tr>
           </tbody>
         </table>
@@ -331,23 +324,14 @@ Vue.component("administrator-page", {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>mihhh47</td>
-              <td>Mihailo</td>
-              <td>Majstorovic</td>
-              <td>Ognjište</td>
-              <td>Top sine a sta ce da se desi ako napisem neki ogroman komentar da li ce se lomiti ili samo rasiriti hajde da probamo da vidimo na sta lici. Moramo jos malo jos nije otislo u nov red. Top, lepo je </td>
-              <td>5/5</td>
-              <td>DA</td>
-            </tr>
-            <tr>
-              <td>misa00</td>
-              <td>Misa</td>
-              <td>Markovic</td>
-              <td>Milky</td>
-              <td>Previše slatko.</td>
-              <td>2/5</td>
-              <td>NE</td>
+            <tr v-for="comment in adminComments">
+              <td>{{comment.username}}</td>
+              <td>{{comment.name}}</td>
+              <td>{{comment.lastname}}</td>
+              <td>{{comment.restaurantName}}</td>
+              <td>{{comment.content}}</td>
+              <td>{{comment.rating}}/5</td>
+              <td>{{comment.approved}}</td>
             </tr>
           </tbody>
         </table>
@@ -428,12 +412,33 @@ Vue.component("administrator-page", {
 			.post('rest/restaurants/searchRestaurants', this.restaurantSearchQuery)
           	.then(response => (this.restaurants = response.data))
 		},
+		logOut() {
+			this.$router.push('/'); 
+	        this.$router.go();
+		},
+		addEmployee() {
+			axios
+			.post('rest/users/addEmployee', this.employee)	
+			.then(response => {
+	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
+						alert("Obaveštenje: " + response.data);
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	            });
+		},
 	},
     mounted () {
 	    axios
-	      .get('rest/restaurants/getRestaurants')
-	      .then(response => (this.restaurants = response.data))
-	      
+	        .get('rest/restaurants/getRestaurants')
+	        .then(response => (this.restaurants = response.data))
+	  	axios
+	  	    .get('rest/comments/getComments')
+	  		.then(response => (this.adminComments = response.data))
+	  	axios
+	  	    .get('rest/users/getUsers')
+	  		.then(response => (this.users = response.data))	
 	      var mapOptions = {
                 center: new google.maps.LatLng(45.2450573,19.8390942),
                 zoom: 13,

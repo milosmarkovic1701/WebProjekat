@@ -44,7 +44,7 @@ Vue.component("startup-page", {
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
 	        <input type="text" v-model="userLogin.usernameLogin" class="form-control" placeholder="Unesite korisničko ime...">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
-	        <input type="text" v-model="userLogin.passwordLogin" class="form-control" placeholder="Unesite lozinku...">
+	        <input type="password" v-model="userLogin.passwordLogin" class="form-control" placeholder="Unesite lozinku...">
 	        <select class="form-select" v-model="roleLogin" style="margin-top: 5%;">
 		          <option value="" selected>Uloga</option>
 		          <option value="customer">Kupac</option>
@@ -85,7 +85,7 @@ Vue.component("startup-page", {
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
 	        <input type="text" v-model="userRegister.usernameRegister" class="form-control" placeholder="Unesite korisničko ime...">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
-	        <input type="text" v-model="userRegister.passwordRegister" class="form-control" placeholder="Unesite lozinku...">
+	        <input type="password" v-model="userRegister.passwordRegister" class="form-control" placeholder="Unesite lozinku...">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Adresa:</span>
 	        <input type="text" v-model="userRegister.address" class="form-control" placeholder="Unesite adresu (ulica, broj, mesto)">
 	      </div>

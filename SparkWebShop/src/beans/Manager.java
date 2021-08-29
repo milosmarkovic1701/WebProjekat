@@ -3,8 +3,8 @@ package beans;
 public class Manager {
 
 	private User user;
-	private int restaurantId;
-	private boolean blocked;
+	private int restaurantId = 0;
+	private boolean blocked = false;
 	
 	public User getUser() {
 		return user;
@@ -25,11 +25,9 @@ public class Manager {
 		this.blocked = blocked;
 	}
 	
-	public Manager(User user, int restaurantId) {
+	public Manager(User user) {
 		super();
 		this.user = user;
-		this.restaurantId = restaurantId;
-		this.blocked = false;
 	}
 	
 	

@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/rest/SparkWebShopMain.java=UTF-8
+encoding//src/services/CustomerService.java=UTF-8
+encoding//src/services/DeliveryManService.java=UTF-8
+encoding//src/services/ManagerService.java=UTF-8
+encoding//src/services/UsersService.java=UTF-8
