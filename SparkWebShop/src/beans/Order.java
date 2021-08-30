@@ -1,22 +1,56 @@
 package beans;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import enums.OrderStatus;
+import enums.RestaurantStatus;
+import services.RestaurantService;
 
 public class Order {
 
+	private static RestaurantService restaurantService = new RestaurantService();
+	
 	private int id;
-	private ArrayList <FoodItem> items;
+	private String restaurantName; 
 	private int restaurantId;
-	private LocalDate orderDateTime;
+	private String restaurantLogo;
+	private String restaurantType;
+	private ArrayList <FoodItem> items;
+	private String orderInfo;
+	private LocalDateTime orderDateTime;
+	private String dateInfo;
 	private double price;
 	private int deliveryId;
 	private int customerId;
 	private OrderStatus status;
 	private int rating; //0-not rated, 1-5-rated
 	
+	public String getOrderInfo() {
+		return orderInfo;
+	}
+	public void setOrderInfo(String orderInfo) {
+		this.orderInfo = orderInfo;
+	}
+	public String getDateInfo() {
+		return dateInfo;
+	}
+	public void setDateInfo(String dateInfo) {
+		this.dateInfo = dateInfo;
+	}
+	public String getRestaurantLogo() {
+		return restaurantLogo;
+	}
+	public void setRestaurantLogo(String restaurantLogo) {
+		this.restaurantLogo = restaurantLogo;
+	}
+	public String getRestaurantName() {
+		return restaurantName;
+	}
+	public void setRestaurantName(String restaurantName) {
+		this.restaurantName = restaurantName;
+	}
 	public int getId() {
 		return id;
 	}
@@ -35,10 +69,10 @@ public class Order {
 	public void setRestaurantId(int restaurantId) {
 		this.restaurantId = restaurantId;
 	}
-	public LocalDate getOrderDateTime() {
+	public LocalDateTime getOrderDateTime() {
 		return orderDateTime;
 	}
-	public void setOrderDateTime(LocalDate orderDateTime) {
+	public void setOrderDateTime(LocalDateTime orderDateTime) {
 		this.orderDateTime = orderDateTime;
 	}
 	public double getPrice() {
@@ -72,7 +106,23 @@ public class Order {
 		this.rating = rating;
 	}
 	
-	public Order(int id, ArrayList<FoodItem> items, int restaurantId, LocalDate orderDateTime, double price,
+	public String getRestaurantType() {
+		return restaurantType;
+	}
+	public void setRestaurantType(String restaurantType) {
+		this.restaurantType = restaurantType;
+	}
+	
+	public String formatDate(LocalDateTime date) {
+		String year = String.valueOf(orderDateTime.getYear());
+		String month = String.valueOf(orderDateTime.getMonthValue());
+		String day = String.valueOf(orderDateTime.getDayOfMonth());
+		String hours = String.valueOf(orderDateTime.getHour());
+		String minutes = String.valueOf(orderDateTime.getMinute());
+		return day + "." + month +"." + year + ".  " + hours + ":" + minutes;
+	}
+	
+	public Order(int id, ArrayList<FoodItem> items, int restaurantId, LocalDateTime orderDateTime, double price,
 			int deliveryId, int customerId, OrderStatus status) {
 		super();
 		this.id = id;
@@ -84,5 +134,17 @@ public class Order {
 		this.customerId = customerId;
 		this.status = status;
 		this.rating = 0;
+		this.orderInfo = "";
+		this.dateInfo = formatDate(orderDateTime);
+		for (Restaurant restaurant : restaurantService.getRestaurants()) {
+			if (restaurant.getId() == restaurantId) {
+				this.restaurantLogo = restaurant.getLogo();
+				this.restaurantName = restaurant.getName();
+				this.restaurantType = restaurant.getType();
+			}
+		}
+		for (FoodItem food : items) {
+			this.orderInfo = this.orderInfo + food.getName() + " " + food.getSize() + " " + food.getAmount() + "X, ";
+		}
 	}
 }

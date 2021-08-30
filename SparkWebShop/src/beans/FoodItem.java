@@ -7,7 +7,7 @@ public class FoodItem {
 	private String size;
 	private String description;
 	private String photo;
-	private double amount;
+	private int amount;
 	private boolean deleted;
 	public String getName() {
 		return name;
@@ -45,10 +45,10 @@ public class FoodItem {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public boolean isDeleted() {
@@ -58,7 +58,7 @@ public class FoodItem {
 		this.deleted = deleted;
 	}
 	public FoodItem(String name, double price, int restaurantId, String size, String description, String photo,
-			double amount) {
+			int amount) {
 		super();
 		this.name = name;
 		this.price = price;

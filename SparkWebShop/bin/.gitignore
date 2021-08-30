@@ -1,7 +1,5 @@
-/beans/
 /rest/
-/Role.class
-/UserType.class
-/enums/
 /services/
+/beans/
 /dto/
+/enums/

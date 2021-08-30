@@ -8,7 +8,7 @@ public class UserDTO {
 	private String lastname;
 	private String birthDate;
 	private String role;
-	private int points;
+	private double points;
 	private String userType;
 	private int cancels;
 	private boolean blocked;
@@ -55,10 +55,10 @@ public class UserDTO {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public int getPoints() {
+	public double getPoints() {
 		return points;
 	}
-	public void setPoints(int points) {
+	public void setPoints(double points) {
 		this.points = points;
 	}
 	public String getUserType() {
@@ -75,7 +75,7 @@ public class UserDTO {
 	}
 	
 	public UserDTO(String id, String username, String name, String lastname, String birthDate, String role,
-			int points, String userType, int cancels, boolean blocked) {
+			double points, String userType, int cancels, boolean blocked) {
 		super();
 		this.id = id;
 		this.username = username;

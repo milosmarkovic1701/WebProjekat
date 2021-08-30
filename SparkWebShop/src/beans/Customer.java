@@ -9,13 +9,13 @@ public class Customer {
 	private int cancels = 0;
 	private boolean blocked = false;
 	private String address;
-	private int points = 10;
+	private double points = 10;
 	private Cart cart = new Cart();
 	
-	public int getPoints() {
+	public double getPoints() {
 		return points;
 	}
-	public void setPoints(int points) {
+	public void setPoints(double points) {
 		this.points = points;
 	}
 	public User getUser() {

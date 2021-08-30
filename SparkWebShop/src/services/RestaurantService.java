@@ -17,12 +17,12 @@ public class RestaurantService {
 
 	public RestaurantService() {
 		super();
-		restaurants.put(1, new Restaurant("Gyros Master", "grcki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 1, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
-		restaurants.put(2, new Restaurant("Balans", "palacinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 2, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
-		restaurants.put(3, new Restaurant("Gyros Master", "grcki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 3, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
-		restaurants.put(4, new Restaurant("Balans", "palacinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 4, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
-		restaurants.put(5, new Restaurant("Gyros Master", "grcki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 5, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
-		restaurants.put(6, new Restaurant("Balans", "palacinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 6, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
+		restaurants.put(1, new Restaurant("Gyros Master", "grčki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 1, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
+		restaurants.put(2, new Restaurant("Balans", "palačinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 2, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
+		restaurants.put(3, new Restaurant("Gyros Master", "grčki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 3, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
+		restaurants.put(4, new Restaurant("Balans", "palačinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 4, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
+		restaurants.put(5, new Restaurant("Gyros Master", "grčki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 5, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
+		restaurants.put(6, new Restaurant("Balans", "palačinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 6, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
 	}
 
 	public ArrayList<Restaurant> getRestaurants() {

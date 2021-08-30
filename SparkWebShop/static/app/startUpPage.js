@@ -209,7 +209,7 @@ Vue.component("startup-page", {
 			axios
 	            .post("/rest/users/loginAdministrator", this.userLogin)
 	            .then(response => {
-	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku."){
+	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Ovaj nalog je obrisan."){
 	                    localStorage.setItem("admin", JSON.stringify(response.data));
 	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
 	                    this.$router.push('/administratorPage'); 
@@ -219,6 +219,24 @@ Vue.component("startup-page", {
 	                    alert("Greška: " + response.data);
 	                }
 	            });
+	        }
+	        else if (this.roleLogin == "customer") {
+			axios
+	            .post("/rest/users/loginCustomer", this.userLogin)
+	            .then(response => {
+	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Ovaj nalog je obrisan."){
+	                    localStorage.setItem("customer", JSON.stringify(response.data));
+	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
+	                    this.$router.push('/customerPage'); 
+	                    this.$router.go();
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	            });
+	        }
+	        else if (this.roleLogin == "") {
+	        	alert("Greška: Morate odabrati ulogu za koju se prijavljujete !")
 	        }
         },
 		register() {

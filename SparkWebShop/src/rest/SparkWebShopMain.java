@@ -21,6 +21,7 @@ import beans.FoodItem;
 import beans.Manager;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
+import dto.OrderQueryDTO;
 import dto.RegisterUserDTO;
 import dto.RestaurantQueryDTO;
 import dto.UsersQueryDTO;
@@ -32,6 +33,7 @@ import services.CommentService;
 import services.CustomerService;
 import services.DeliveryManService;
 import services.ManagerService;
+import services.OrderService;
 import services.RestaurantService;
 import services.UsersService;
 
@@ -44,6 +46,7 @@ public class SparkWebShopMain {
 	private static DeliveryManService deliveryManService = new DeliveryManService();
 	private static UsersService usersService = new UsersService();
 	private static CommentService commentService = new CommentService();
+	private static OrderService orderService = new OrderService();
 	private static Gson g = new Gson();
 
 	public static void main(String[] args) throws Exception {
@@ -108,6 +111,14 @@ public class SparkWebShopMain {
 			if (admin == null || admin.getUser().isDeleted()) 
 				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
 			return g.toJson(admin);
+		});
+		
+		post("/rest/users/loginCustomer", (req, res) -> {
+			LoginUserDTO user = g.fromJson(req.body(), LoginUserDTO.class);
+			Customer customer = customerService.login(user);
+			if (customer == null || customer.getUser().isDeleted()) 
+				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
+			return g.toJson(customer);
 		});
 		
 		post("/rest/users/register", (req, res) -> {
@@ -177,11 +188,32 @@ public class SparkWebShopMain {
 			}	
 		});
 		
+		post("/rest/orders/searchOrders", (req, res) -> {
+			OrderQueryDTO query = g.fromJson(req.body(), OrderQueryDTO.class);
+			res.type("application/json");		
+			return g.toJson(orderService.searchOrders(query));
+		});
+		
 		get("/rest/comments/getComments", (req, res) -> {
 			res.type("application/json");
 			ArrayList<AdminCommentDTO> coms = new ArrayList<AdminCommentDTO>();
 			coms.add(new AdminCommentDTO("misa00", "Milos", "Markovic", "Balans", "Dobar.", "4.7", "DA"));
 			return g.toJson(coms);
+		});
+		
+		get("/rest/orders/getOrders", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(orderService.getOrders());
+		});
+		
+		get("/rest/orders/getNotDeliveredOrders", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(orderService.getNotDeliveredOrders());
+		});
+		
+		get("/rest/orders/getNotRatedOrders", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(orderService.getNotRatedOrders());
 		});
 		
 	}

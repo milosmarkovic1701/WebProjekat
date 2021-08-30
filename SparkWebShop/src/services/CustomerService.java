@@ -3,8 +3,10 @@ package services;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import beans.Administrator;
 import beans.Customer;
 import beans.User;
+import dto.LoginUserDTO;
 import enums.Role;
 
 public class CustomerService {
@@ -12,7 +14,7 @@ public class CustomerService {
 	ArrayList<Customer> customers = new ArrayList<Customer>();
 	
 public CustomerService () {
-		customers.add(new Customer(new User("anag", "anag", "Ana", "Gavrilović", LocalDate.of(1999, 9, 23), Role.CUSTOMER, 10), "Andre Jovanovića 6, Šabac"));
+		customers.add(new Customer(new User("anag", "ana", "Ana", "Gavrilović", LocalDate.of(1999, 9, 23), Role.CUSTOMER, 10), "Andre Jovanovića 6, Šabac"));
 		customers.add(new Customer(new User("mica6699", "mica6699", "Milica", "Samardžija", LocalDate.of(1999, 5, 1), Role.CUSTOMER, 40), "Andre Jovanovića 10, Šabac"));
 		customers.get(1).setCancels(7);
 		customers.get(1).setBlocked(true);
@@ -38,6 +40,14 @@ public CustomerService () {
 				return false;
 		}
 		return true;
+	}
+	
+	public Customer login(LoginUserDTO user) {
+		for (Customer customer : customers) {
+			if (user.getUsernameLogin().equals(customer.getUser().getUsername()) && user.getPasswordLogin().equals(customer.getUser().getPassword()))
+				return customer;
+		}
+		return null;
 	}
 	
 	public ArrayList<Customer> spamCustomers() {

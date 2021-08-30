@@ -94,20 +94,20 @@ Vue.component("administrator-page", {
 			      <div class="col col-sm-2">
 			        <select class="form-select" v-model="restaurantSearchQuery.filterType" id="inputGroupSelect04">
 			          <option value="" selected>Filter (tip)</option>
-			          <option value="rostilj">Roštilj</option>
-			          <option value="palacinke">Palačinke</option>
+			          <option value="roštilj">Roštilj</option>
+			          <option value="palačinke">Palačinke</option>
 			          <option value="krofne">Krofne</option>
 			          <option value="pekara">Pekara</option>
-			          <option value="poslasticarnica">Poslastičarnica</option>
+			          <option value="poslastičarnica">Poslastičarnica</option>
 			          <option value="picerija">Picerija</option>
 			          <option value="italijanski">Italijanski</option>
-			          <option value="meksicki">Meksički</option>
+			          <option value="meksički">Meksički</option>
 			          <option value="kineski">Kineski</option>
 			          <option value="francuski">Francuski</option>
 			          <option value="japanski">Japanski</option>
 			          <option value="indijski">Indijski</option>
 			          <option value="turski">Turski</option>
-			          <option value="grcki">Grčki</option>
+			          <option value="grčki">Grčki</option>
 			        </select>
 			      </div>
 			      <div class="col col-sm-2">
