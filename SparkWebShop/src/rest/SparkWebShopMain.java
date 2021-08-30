@@ -23,6 +23,7 @@ import dto.EmployeeDTO;
 import dto.LoginUserDTO;
 import dto.RegisterUserDTO;
 import dto.RestaurantQueryDTO;
+import dto.UsersQueryDTO;
 import dto.AdminCommentDTO;
 import enums.Role;
 import enums.Type;
@@ -50,10 +51,9 @@ public class SparkWebShopMain {
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
-		
 		get("/rest/restaurants/getRestaurants", (req, res) -> {
 			res.type("application/json");
-			return g.toJson(restaurantService.getRestaurants().values());
+			return g.toJson(restaurantService.getRestaurants());
 		});
 		
 		post("/rest/restaurants/searchRestaurants", (req, res) -> {
@@ -62,9 +62,44 @@ public class SparkWebShopMain {
 			return g.toJson(restaurantService.searchRestaurants(query));
 		});
 		
+		post("/rest/restaurants/addRestaurant", (req, res) -> {
+			res.type("application/json");		
+			return g.toJson(restaurantService.getRestaurants());
+		});
+		
 		get("/rest/users/getUsers", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(usersService.getAllUsers());
+		});
+		
+		get("/rest/users/getManagers", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(managerService.getManagers());
+		});
+		
+		get("/rest/users/getSpamUsers", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(usersService.getSpam());
+		});
+		
+		post("/rest/users/searchUsers", (req, res) -> {
+			UsersQueryDTO query = g.fromJson(req.body(), UsersQueryDTO.class);
+			res.type("application/json");		
+			return g.toJson(usersService.searchUsers(query));
+		});
+		
+		post("/rest/users/deleteSelectedUser", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int userId = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(usersService.deleteUser(userId));
+		});
+		
+		post("/rest/users/changeBlockedUser", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int userId = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(usersService.changeBlockedUser(userId));
 		});
 		
 		post("/rest/users/loginAdministrator", (req, res) -> {

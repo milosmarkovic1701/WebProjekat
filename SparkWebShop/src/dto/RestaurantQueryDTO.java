@@ -1,7 +1,7 @@
 package dto;
 
 public class RestaurantQueryDTO {
-//searchQuery : {name: "", type: "", location: "", rating: 0, filterType: "", filterStatus: "", sort: ""},
+
 	private String name;
 	private String type;
 	private String location;

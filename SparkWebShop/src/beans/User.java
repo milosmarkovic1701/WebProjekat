@@ -9,6 +9,7 @@ public class User {
 	private String password;
 	private String name;
 	private String lastName;
+	private String fullName;
 	private LocalDate birthDate;
 	private Role role;
 	private boolean deleted;
@@ -68,6 +69,7 @@ public class User {
 		this.password = password;
 		this.name = name;
 		this.lastName = lastName;
+		this.fullName = name + " " + lastName;
 		this.birthDate = birthDate;
 		this.role = role;
 		this.deleted = false;

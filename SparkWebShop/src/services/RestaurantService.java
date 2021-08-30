@@ -25,8 +25,10 @@ public class RestaurantService {
 		restaurants.put(6, new Restaurant("Balans", "palacinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 6, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
 	}
 
-	public HashMap<Integer, Restaurant> getRestaurants() {
-		return restaurants;
+	public ArrayList<Restaurant> getRestaurants() {
+		ArrayList<Restaurant> sortedRestaurants = new ArrayList<>(restaurants.values());
+		Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
+		return sortedRestaurants;
 	}
 
 	public void setRestaurants(HashMap<Integer, Restaurant> restaurants) {

@@ -13,6 +13,11 @@ public class CustomerService {
 	
 public CustomerService () {
 		customers.add(new Customer(new User("anag", "anag", "Ana", "Gavrilović", LocalDate.of(1999, 9, 23), Role.CUSTOMER, 10), "Andre Jovanovića 6, Šabac"));
+		customers.add(new Customer(new User("mica6699", "mica6699", "Milica", "Samardžija", LocalDate.of(1999, 5, 1), Role.CUSTOMER, 40), "Andre Jovanovića 10, Šabac"));
+		customers.get(1).setCancels(7);
+		customers.get(1).setBlocked(true);
+		customers.get(0).setCancels(5);
+		customers.get(1).setPoints(110);
 	}
 	
 	public ArrayList<Customer> getCustomers() {
@@ -33,6 +38,15 @@ public CustomerService () {
 				return false;
 		}
 		return true;
+	}
+	
+	public ArrayList<Customer> spamCustomers() {
+		ArrayList<Customer> spam = new ArrayList<Customer>();
+		for (Customer c : customers) {
+			if (c.getCancels() >= 5)
+				spam.add(c);
+		}
+		return spam;
 	}
 	
 	public String customerTypeStr(Customer customer) {

@@ -8,9 +8,17 @@ public class UserDTO {
 	private String lastname;
 	private String birthDate;
 	private String role;
-	private String points;
+	private int points;
 	private String userType;
-	private String cancels;
+	private int cancels;
+	private boolean blocked;
+	
+	public boolean isBlocked() {
+		return blocked;
+	}
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
 	public String getId() {
 		return id;
 	}
@@ -47,10 +55,10 @@ public class UserDTO {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public String getPoints() {
+	public int getPoints() {
 		return points;
 	}
-	public void setPoints(String points) {
+	public void setPoints(int points) {
 		this.points = points;
 	}
 	public String getUserType() {
@@ -59,15 +67,15 @@ public class UserDTO {
 	public void setUserType(String userType) {
 		this.userType = userType;
 	}
-	public String getCancels() {
+	public int getCancels() {
 		return cancels;
 	}
-	public void setCancels(String cancels) {
+	public void setCancels(int cancels) {
 		this.cancels = cancels;
 	}
 	
 	public UserDTO(String id, String username, String name, String lastname, String birthDate, String role,
-			String points, String userType, String cancels) {
+			int points, String userType, int cancels, boolean blocked) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -78,6 +86,7 @@ public class UserDTO {
 		this.points = points;
 		this.userType = userType;
 		this.cancels = cancels;
+		this.blocked = blocked;
 	}
 	
 	

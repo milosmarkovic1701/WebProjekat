@@ -168,11 +168,9 @@
             <img src="images/placeholder-image.png" width="200" height="200" style="border-style: solid; border-color: #dc3545;">
           </div>
           <div class="col-sm-2 my-col"></div>
-          <div class="col-sm-6 my-col" style="height: 100px; margin-top: 2mm;">
+          <div class="col-sm-6 my-col" style="height: 100px; margin-top: 15mm;">
             <span class="input-group-text" id="basic-addon1">Tip restorana:</span>
             <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
-            <span class="input-group-text" id="basic-addon1" style="margin-top: 3%;">Lokacija restorana:</span>
-            <input type="text" class="form-control" placeholder="Odaberite lokaciju na mapi..." aria-label="location" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="row my-row  justify-content-around">
@@ -181,15 +179,46 @@
           </div>
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col">
-            <div class="input-group">
+            <div container>
+              <div class="row my-row justify-content-around">
+                <div class="col-sm-4 my-col">
+                  <span class="input-group-text" id="basic-addon1">Geografska širina:</span>
+                  <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-sm-4 my-col">
+                  <span class="input-group-text" id="basic-addon1">Geografska dužina:</span>
+                  <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-sm-4 my-col">
+                  <span class="input-group-text" id="basic-addon1">Poštanski broj:</span>
+                  <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+                </div>
+              </div>
+              <div class="row my-row justify-content-around">
+                <div class="col-sm-4 my-col">
+                  <span class="input-group-text" id="basic-addon1">Ulica:</span>
+                  <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-sm-4 my-col">
+                  <span class="input-group-text" id="basic-addon1">Broj:</span>
+                  <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-sm-4 my-col">
+                  <span class="input-group-text" id="basic-addon1">Mesto:</span>
+                  <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+                </div>
+              </div>
+            <div class="input-group" style="margin-top: 5%;">
               <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                 <option value="" disabled selected>Izaberite menadžera...</option>
                 <option value="1">Misa Markovic</option>
                 <option value="2">Nikola Mijatovic</option>
               </select>
+              
               <button class="btn btn-outline-danger" type="button">Dodavanje novog menadžera</button>
             </div>
-              <button type="button" style="margin-top: 25%;" class="btn btn-danger btn-lg">Dodaj restoran</button>
+            </div>
+              <button type="button" style="margin-top: 10%;" class="btn btn-danger btn-lg">Dodaj restoran</button>
           </div>
         </div>
       </div>
