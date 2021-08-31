@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import org.eclipse.jetty.websocket.common.events.ParamList;
+
+import beans.FoodItem;
 import beans.Location;
 import beans.Restaurant;
 import dto.RestaurantQueryDTO;
@@ -26,9 +29,24 @@ public class RestaurantService {
 	}
 
 	public ArrayList<Restaurant> getRestaurants() {
-		ArrayList<Restaurant> sortedRestaurants = new ArrayList<>(restaurants.values());
-		Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
-		return sortedRestaurants;
+		ArrayList<Restaurant> allRestaurants = new ArrayList<>(restaurants.values());
+		ArrayList<Restaurant> validRestaurants = new ArrayList<Restaurant>();
+		for (Restaurant r : allRestaurants) {
+			if (!r.isDeleted())
+				validRestaurants.add(r);
+		}
+		Collections.sort(validRestaurants, Comparator.comparing(Restaurant::getStatus));
+		
+		return validRestaurants;
+	}
+	
+	public Restaurant getRestaurant(int id) {
+		return restaurants.get(id);
+	}
+	
+	public ArrayList<Restaurant> deleteRestaurant(int id) {
+		restaurants.get(id).setDeleted(true);
+		return getRestaurants();
 	}
 
 	public void setRestaurants(HashMap<Integer, Restaurant> restaurants) {
@@ -79,8 +97,10 @@ public class RestaurantService {
 				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getAddress).reversed());
 			else if (query.getSort().equalsIgnoreCase("ocena_rastuce"))
 				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating));
-			else
+			else if (query.getSort().equalsIgnoreCase("ocena_opadajuce"))
 				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating).reversed());
+			else
+				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
 		}
 		return sortedRestaurants;
 	}

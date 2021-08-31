@@ -1,7 +1,7 @@
 Vue.component("startup-page", {
 	data: function () {
 		    return {
-		    	userRegister : {usernameRegister: "", passwordRegister: "", name: "", lastname: "", birthDate: "", gender: "", address: ""},
+		    	userRegister : {usernameRegister: "", passwordRegister: "", name: "", lastname: "", birthDate: "", address: ""},
 		    	userLogin : {usernameLogin: "", passwordLogin: ""},
 		    	searchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
 				restaurants : null,
@@ -74,12 +74,6 @@ Vue.component("startup-page", {
 	        <input type="text" v-model="userRegister.name" class="form-control" placeholder="Unesite ime...">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Prezime:</span>
 	        <input type="text" v-model="userRegister.lastname" class="form-control" placeholder="Unesite prezime...">
-	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Pol:</span>
-	        <select class="form-select" v-model="userRegister.gender" id="inputGroupSelect04" aria-label="Example select with button addon">
-	          <option value="" selected>Izaberite pol...</option>
-	          <option value="musko">Muški</option>
-	          <option value="zensko">Ženski</option>
-	        </select>
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Datum rođenja:</span>
 	        <input type="date" v-model="userRegister.birthDate" class="form-control" placeholder="dd-mm-yyyy">
 	        <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>

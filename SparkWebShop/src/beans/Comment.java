@@ -5,10 +5,17 @@ public class Comment {
 	
 	private int customerId;
 	private int restaurantId;
+	private int orderId;
 	private double rating;
 	private String content;
 	private boolean approved;
 	
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -40,10 +47,11 @@ public class Comment {
 		this.approved = approved;
 	}
 	
-	public Comment(int customerId, int restaurantId, double rating, String content) {
+	public Comment(int customerId, int restaurantId, int orderId, double rating, String content) {
 		super();
 		this.customerId = customerId;
 		this.restaurantId = restaurantId;
+		this.orderId = orderId;
 		this.rating = rating;
 		this.content = content;
 		this.approved = false;

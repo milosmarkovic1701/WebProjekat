@@ -31,18 +31,15 @@ template:`
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="notdeliveredorders-tab" data-bs-toggle="tab" data-bs-target="#notdeliveredorders" type="button" role="tab" aria-controls="notdeliveredorders" aria-selected="false">Nedostavljene porudžbine
-              <span class="badge">{{this.notDeliveredOrders.length}}</span>
+              <span class="badge"></span>
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="notgradedorders-tab" data-bs-toggle="tab" data-bs-target="#notgradedorders" type="button" role="tab" aria-controls="notgradedorders" aria-selected="false">Neocenjene porudžbine
-              <span class="badge">{{this.notRatedOrders.length}}</span>
+              <span class="badge"></span>
             </button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" disabled id="test-tab" data-bs-toggle="tab" data-bs-target="#test" type="button" role="tab" aria-controls="test" aria-selected="false">Restoran</button>
-          </li>
-          <li class="nav-item" role="presentation" style="margin-left: 80mm;"> <!--125mm-->
+          <li class="nav-item" role="presentation" style="margin-left: 100mm;"> <!--125mm-->
             <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
               <img src="icons/user.png" alt="mdo" width="24" height="24" class="rounded-circle">
               <img src="icons/gold.png" alt="mdo" width="24" height="24" class="rounded-circle">
@@ -92,7 +89,7 @@ template:`
 			        <input type="text" v-model="restaurantSearchQuery.location" class="form-control" placeholder="Lokacija">
 			      </div>
 			      <div class="col col-sm-1">
-			        <input type="text" v-model="restaurantSearchQuery.rating" class="form-control" placeholder="Ocena">
+			        <input type="number" min="0" max="5" step="0.1" v-model="restaurantSearchQuery.rating" class="form-control" placeholder="Ocena">
 			      </div>
 			      <div class="col col-sm-2">
 			        <select class="form-select" v-model="restaurantSearchQuery.filterType" id="inputGroupSelect04">
@@ -155,7 +152,7 @@ template:`
             	<li class="list-group-item">{{restaurant.rating}}/5</li>
 	          </ul>
 	          <div class="card-body">
-				<button type="button" v-on:click="getFoodItems(restaurant.id)" class="btn btn-danger">Prikaži artikle</button>
+				<button type="button" id="showArticles" v-on:click="getRestaurantFoodItems(restaurant.id)" class="btn btn-danger">Prikaži artikle</button>
 	          </div>
 	        </div>
 	      </div>
@@ -317,186 +314,6 @@ template:`
       </div>
     </div>
 
-    <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
-      <div class="container-fluid my-container justify-content-between">
-        <div class="card mb-3" style="width: 100%;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="restaurant logos/gyros master.jpg" class="img-fluid rounded-start" width="400" height="550">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h2 class="card-title" style="color: #dc3545;">Gyros Master</h2>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Tip restorana:</li>
-                    <li class="list-group-item">Adresa:</li>
-                    <li class="list-group-item">Radno vreme:</li>
-                    <li class="list-group-item">Prosečna ocena:</li>
-                  </ul>
-                </div>
-                <div class="col">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Grčki</li>
-                    <li class="list-group-item">Spensova 3, Novi Sad</li>
-                    <li class="list-group-item">08:00 - 24:00</li>
-                    <li class="list-group-item">4.5/5</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container-fluid my-container justify-content-between" style="margin-top: 14mm;">
-        <div class="row">
-          <div class="col">
-            <h2 style="color: #dc3545; margin-left: 10%">Svi artikli:</h2>
-          </div>
-          <div class="col"></div>
-          <div class="col">
-            <td><button type="button" class="btn btn-lg btn-danger">Sadržaj korpe</button><p style="font-size: 20px; color: #424242; margin-top: 2mm;">Iznos korpe: 800,00 din</p></td>
-          </div>
-        </div>
-      </div>
-      <div class="container-fluid my-container justify-content-between" style="margin-top: 5mm;">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-          <div class="col">
-            <div class="card" style="width: 21rem;">
-              <img  src="food images/pizza.png" width="300" height="200" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Capricozza</h5>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">pelat, sunka, kackavalj, origano</li>
-                <li class="list-group-item">50 cm</li>
-                <li class="list-group-item">800,00 din.</li>
-              </ul>
-              <div class="card-body">
-                <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" value="1" name="quantity" min="1" max="10" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 13mm;" type="button" class="btn btn-danger">Dodaj u korpu</button>
-                </div>
-            </div>
-          </div>
-          </div>
-          <div class="col">
-            <div class="card" style="width: 21rem;">
-              <img  src="food images/pizza.png" width="300" height="200" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Capricozza</h5>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">pelat, sunka, kackavalj, origano</li>
-                <li class="list-group-item">50 cm</li>
-                <li class="list-group-item">800,00 din.</li>
-              </ul>
-              <div class="card-body">
-                <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" value="1" name="quantity" min="1" max="10" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 13mm;" type="button" class="btn btn-danger">Dodaj u korpu</button>
-                </div>
-            </div>
-          </div>
-          </div>
-          <div class="col">
-            <div class="card" style="width: 21rem;">
-              <img  src="food images/pizza.png" width="300" height="200" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Capricozza</h5>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">pelat, sunka, kackavalj, origano</li>
-                <li class="list-group-item">50 cm</li>
-                <li class="list-group-item">800,00 din.</li>
-              </ul>
-              <div class="card-body">
-                <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" value="1" name="quantity" min="1" max="10" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 13mm;" type="button" class="btn btn-danger">Dodaj u korpu</button>
-                </div>
-            </div>
-          </div>
-          </div>
-          <div class="col">
-            <div class="card" style="width: 21rem;">
-              <img  src="food images/pizza.png" width="300" height="200" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Capricozza</h5>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">pelat, sunka, kackavalj, origano</li>
-                <li class="list-group-item">50 cm</li>
-                <li class="list-group-item">800,00 din.</li>
-              </ul>
-              <div class="card-body">
-                <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" value="1" name="quantity" min="1" max="10" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 13mm;" type="button" class="btn btn-danger">Dodaj u korpu</button>
-                </div>
-            </div>
-          </div>
-          </div>
-          <div class="col">
-            <div class="card" style="width: 21rem;">
-              <img  src="food images/pizza.png" width="300" height="200" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Capricozza</h5>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">pelat, sunka, kackavalj, origano</li>
-                <li class="list-group-item">50 cm</li>
-                <li class="list-group-item">800,00 din.</li>
-              </ul>
-              <div class="card-body">
-                <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" value="1" name="quantity" min="1" max="10" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 13mm;" type="button" class="btn btn-danger">Dodaj u korpu</button>
-                </div>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="container-fluid" style="margin-top: 15mm; margin-bottom: 15mm;">
-        <h2 style="color: #dc3545;">Gyros Master - Komentari i iskustva mušterija:</h2>
-      </div>
-      <div class="container-fluid">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Korisničko ime</th>
-              <th scope="col">Ime</th>
-              <th scope="col">Prezime</th>
-              <th scope="col">Porudžbina</th>
-              <th scope="col">Sadržaj komentara</th>
-              <th scope="col">Ocena</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>mihhh47</td>
-              <td>Mihailo</td>
-              <td>Majstorovic</td>
-              <td>Burger 1x, Pizza 2x</td>
-              <td>Burger je fenomenalan, pica je mogla biti pecenija.</td>
-              <td>4/5</td>
-            </tr>
-            <tr>
-              <td>misa00</td>
-              <td>Misa</td>
-              <td>Markovic</td>
-              <td>Palačinka Bueno 1x</td>
-              <td>Perfection.</td>
-              <td>5/5</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
     <div class="tab-pane fade" id="myinfo" role="tabpanel" aria-labelledby="myinfo-tab">
       <div class="container-fluid my-container">
         <div class="row my-row  justify-content-around">
@@ -537,6 +354,10 @@ template:`
 			.post('rest/orders/searchOrders', this.orderSearchQuery)
           	.then(response => (this.orders = response.data))
 		},
+		getRestaurantFoodItems(id){
+            this.restaurantId = id;
+            this.$router.push({ path: '/selectedRestaurant', query: { id: this.restaurantId }});
+        },
 	},
     mounted () {
 	    axios

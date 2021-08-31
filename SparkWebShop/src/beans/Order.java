@@ -25,7 +25,7 @@ public class Order {
 	private int deliveryId;
 	private int customerId;
 	private OrderStatus status;
-	private int rating; //0-not rated, 1-5-rated
+	private double rating; //0-not rated, 1-5-rated
 	
 	public String getOrderInfo() {
 		return orderInfo;
@@ -99,10 +99,10 @@ public class Order {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 	

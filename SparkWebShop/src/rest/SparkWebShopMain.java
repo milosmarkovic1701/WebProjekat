@@ -19,6 +19,7 @@ import beans.User;
 import beans.Cart;
 import beans.FoodItem;
 import beans.Manager;
+import beans.Restaurant;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
 import dto.OrderQueryDTO;
@@ -32,6 +33,7 @@ import services.AdministratorService;
 import services.CommentService;
 import services.CustomerService;
 import services.DeliveryManService;
+import services.FoodItemService;
 import services.ManagerService;
 import services.OrderService;
 import services.RestaurantService;
@@ -47,6 +49,7 @@ public class SparkWebShopMain {
 	private static UsersService usersService = new UsersService();
 	private static CommentService commentService = new CommentService();
 	private static OrderService orderService = new OrderService();
+	private static FoodItemService foodItemService = new FoodItemService();
 	private static Gson g = new Gson();
 
 	public static void main(String[] args) throws Exception {
@@ -59,6 +62,20 @@ public class SparkWebShopMain {
 			return g.toJson(restaurantService.getRestaurants());
 		});
 		
+		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);;
+			res.type("application/json");
+			return g.toJson(restaurantService.getRestaurant(id));
+		});
+		
+		get("/rest/restaurants/getFoodItems/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(foodItemService.getRestaurantFoodItems(id));
+		});
+		
 		post("/rest/restaurants/searchRestaurants", (req, res) -> {
 			RestaurantQueryDTO query = g.fromJson(req.body(), RestaurantQueryDTO.class);
 			res.type("application/json");		
@@ -68,6 +85,13 @@ public class SparkWebShopMain {
 		post("/rest/restaurants/addRestaurant", (req, res) -> {
 			res.type("application/json");		
 			return g.toJson(restaurantService.getRestaurants());
+		});
+		
+		post("/rest/restaurants/deleteRestaurant", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int restaurantId = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(restaurantService.deleteRestaurant(restaurantId));
 		});
 		
 		get("/rest/users/getUsers", (req, res) -> {
@@ -96,6 +120,13 @@ public class SparkWebShopMain {
 			int userId = Integer.parseInt(data);
 			res.type("application/json");		
 			return g.toJson(usersService.deleteUser(userId));
+		});
+		
+		post("/rest/users/blockSelectedUser", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int userId = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(usersService.blockUser(userId));
 		});
 		
 		post("/rest/users/changeBlockedUser", (req, res) -> {
@@ -128,10 +159,9 @@ public class SparkWebShopMain {
 			String name = user.getName().trim();
 			String lastname = user.getLastname().trim();
 			String birthDate = user.getBirthDate().trim();
-			String gender = user.getGender().trim();
 			String address = user.getAddress().trim();
 			if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || 
-				birthDate.equals("") || gender.equals("") || address.equals("")) {
+				birthDate.equals("") || address.equals("")) {
 				return "Niste popunili sve potrebne podatke !";
 			}
 			else if (!customerService.checkUsername(username) || !administratorService.checkUsername(username) || 
@@ -151,41 +181,12 @@ public class SparkWebShopMain {
 		
 		post("rest/users/addEmployee", (req, res) -> {
 			EmployeeDTO employee = g.fromJson(req.body(), EmployeeDTO.class);
-			String username = employee.getUsername().trim();
-			String password = employee.getPassword().trim();
-			String name = employee.getName().trim();
-			String lastname = employee.getLastname().trim();
-			String birthDate = employee.getBirthDate().trim();
-			String role = employee.getRole();
-			if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || 
-				birthDate.equals("") || role.equals("")) {
-				return "Niste popunili sve potrebne podatke !";
-			}
-			else if (!customerService.checkUsername(username) || !administratorService.checkUsername(username) || 
-					 !deliveryManService.checkUsername(username) || !managerService.checkUsername(username)) { 
-				return "Korisničko ime je zauzeto !";
-			}
-			else {
-				LocalDate dayOfBirth = customerService.adjustDate(birthDate);
-				int amountOfUsers = managerService.getManagers().size() +
-						customerService.getCustomers().size() +
-						administratorService.getAdministrators().size() +
-						deliveryManService.getDeliveryMen().size();
-				int id = amountOfUsers + 1;
-				if (role.equalsIgnoreCase("manager")) {
-					User newUser = new User(username, password, name, lastname, dayOfBirth, Role.MANAGER, id);
-					Manager newManager = new Manager(newUser);
-					managerService.getManagers().add(newManager);
-					System.out.println(managerService.getManagers());
-				}
-				else if (role.equalsIgnoreCase("deliveryman")) {
-					User newUser = new User(username, password, name, lastname, dayOfBirth, Role.DELIVERYMAN, id);
-					DeliveryMan newDeliveryMan = new DeliveryMan(newUser);
-					deliveryManService.getDeliveryMen().add(newDeliveryMan);
-					System.out.println(deliveryManService.getDeliveryMen());
-				}
-				return "Uspešno ste dodali novog zaposlenog.";
-			}	
+			return usersService.addEmployee(employee);	
+		});
+		
+		post("rest/users/addManager", (req, res) -> {
+			EmployeeDTO employee = g.fromJson(req.body(), EmployeeDTO.class);	
+			return usersService.addManager(employee);
 		});
 		
 		post("/rest/orders/searchOrders", (req, res) -> {
@@ -194,11 +195,18 @@ public class SparkWebShopMain {
 			return g.toJson(orderService.searchOrders(query));
 		});
 		
-		get("/rest/comments/getComments", (req, res) -> {
+		get("/rest/comments/getAllComments", (req, res) -> {
 			res.type("application/json");
 			ArrayList<AdminCommentDTO> coms = new ArrayList<AdminCommentDTO>();
 			coms.add(new AdminCommentDTO("misa00", "Milos", "Markovic", "Balans", "Dobar.", "4.7", "DA"));
 			return g.toJson(coms);
+		});
+		
+		get("/rest/comments/getRestaurantComments/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(commentService.getRestaurantComments(id));
 		});
 		
 		get("/rest/orders/getOrders", (req, res) -> {

@@ -7,7 +7,6 @@ public class RegisterUserDTO {
 	private String name;
 	private String lastname;
 	private String birthDate;
-	private String gender;
 	private String address;
 	
 	public String getUsernameRegister() {
@@ -40,12 +39,6 @@ public class RegisterUserDTO {
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 	public String getAddress() {
 		return address;
 	}
@@ -54,14 +47,13 @@ public class RegisterUserDTO {
 	}
 	
 	public RegisterUserDTO(String usernameRegister, String passwordRegister, String name, String lastname,
-			String birthDate, String gender, String address) {
+			String birthDate, String address) {
 		super();
 		this.usernameRegister = usernameRegister;
 		this.passwordRegister = passwordRegister;
 		this.name = name;
 		this.lastname = lastname;
 		this.birthDate = birthDate;
-		this.gender = gender;
 		this.address = address;
 	}
 	

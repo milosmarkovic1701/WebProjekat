@@ -1,5 +1,6 @@
 package services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,9 +12,11 @@ import beans.DeliveryMan;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dto.EmployeeDTO;
 import dto.RestaurantQueryDTO;
 import dto.UserDTO;
 import dto.UsersQueryDTO;
+import enums.Role;
 
 public class UsersService {
 
@@ -42,38 +45,124 @@ public class UsersService {
 					customer.setBlocked(false);
 				else
 					customer.setBlocked(true);
-				break;
 			}
 		}
 		return getSpam();
+	}
+	
+	public ArrayList<UserDTO> blockUser(int id) {
+		for (Customer customer : customerService.getCustomers()) {
+			if (customer.getUser().getId() == id) {
+				if (customer.isBlocked())
+					customer.setBlocked(false);
+				else
+					customer.setBlocked(true);
+			}
+		}
+		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
+			if (deliveryMan.getUser().getId() == id) {
+				if (deliveryMan.isBlocked())
+					deliveryMan.setBlocked(false);
+				else
+					deliveryMan.setBlocked(true);
+			}
+		}
+		for (Manager manager : managerService.getManagers()) {
+			if (manager.getUser().getId() == id) {
+				if (manager.isBlocked())
+					manager.setBlocked(false);
+				else
+					manager.setBlocked(true);
+			}
+		}
+		return getAllUsers();
 	}
 	
 	public ArrayList<UserDTO> deleteUser(int id) {
 		for (Customer customer : customerService.getCustomers()) {
 			if (customer.getUser().getId() == id) {
 				customer.getUser().setDeleted(true);
-				break;
-			}
-		}
-		for (Administrator admin : administratorService.getAdministrators()) {
-			if (admin.getUser().getId() == id) {
-				admin.getUser().setDeleted(true);
-				break;
 			}
 		}
 		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
 			if (deliveryMan.getUser().getId() == id) {
 				deliveryMan.getUser().setDeleted(true);;
-				break;
 			}
 		}
 		for (Manager manager : managerService.getManagers()) {
 			if (manager.getUser().getId() == id) {
 				manager.getUser().setDeleted(true);
-				break;
 			}
 		}
 		return getAllUsers();
+	}
+	
+	public String addManager(EmployeeDTO employee) {
+		String username = employee.getUsername().trim();
+		String password = employee.getPassword().trim();
+		String name = employee.getName().trim();
+		String lastname = employee.getLastname().trim();
+		String birthDate = employee.getBirthDate().trim();
+		String role = employee.getRole();
+		if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || 
+			birthDate.equals("") || role.equals("")) {
+			return "Niste popunili sve potrebne podatke !";
+		}
+		else if (!customerService.checkUsername(username) || !administratorService.checkUsername(username) || 
+				 !deliveryManService.checkUsername(username) || !managerService.checkUsername(username)) { 
+			return "Korisničko ime je zauzeto !";
+		}
+		else {
+			LocalDate dayOfBirth = customerService.adjustDate(birthDate);
+			int amountOfUsers = managerService.getManagers().size() +
+					customerService.getCustomers().size() +
+					administratorService.getAdministrators().size() +
+					deliveryManService.getDeliveryMen().size();
+				int id = amountOfUsers + 1;
+				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.MANAGER, id);
+				Manager newManager = new Manager(newUser);
+				managerService.getManagers().add(newManager);
+				System.out.println(managerService.getManagers());
+				return "Uspešno ste dodali novog menadžera.";
+		}
+	}
+	
+	public String addEmployee(EmployeeDTO employee) {
+		String username = employee.getUsername().trim();
+		String password = employee.getPassword().trim();
+		String name = employee.getName().trim();
+		String lastname = employee.getLastname().trim();
+		String birthDate = employee.getBirthDate().trim();
+		String role = employee.getRole();
+		if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || 
+			birthDate.equals("") || role.equals("")) {
+			return "Niste popunili sve potrebne podatke !";
+		}
+		else if (!customerService.checkUsername(username) || !administratorService.checkUsername(username) || 
+				 !deliveryManService.checkUsername(username) || !managerService.checkUsername(username)) { 
+			return "Korisničko ime je zauzeto !";
+		}
+		else {
+			LocalDate dayOfBirth = customerService.adjustDate(birthDate);
+			int amountOfUsers = managerService.getManagers().size() +
+					customerService.getCustomers().size() +
+					administratorService.getAdministrators().size() +
+					deliveryManService.getDeliveryMen().size();
+			int id = amountOfUsers + 1;
+			if (role.equalsIgnoreCase("manager")) {
+				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.MANAGER, id);
+				Manager newManager = new Manager(newUser);
+				managerService.getManagers().add(newManager);
+				System.out.println(managerService.getManagers());
+			}
+			else if (role.equalsIgnoreCase("deliveryman")) {
+				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.DELIVERYMAN, id);
+				DeliveryMan newDeliveryMan = new DeliveryMan(newUser);
+				deliveryManService.getDeliveryMen().add(newDeliveryMan);
+				System.out.println(deliveryManService.getDeliveryMen());
+			}
+			return "Uspešno ste dodali novog zaposlenog.";
+		}
 	}
 	
 	public void getCustomers() {
@@ -128,7 +217,7 @@ public class UsersService {
 					              0, 
 					              "/", 
 					              0, 
-					              false));
+					              deliveryMan.isBlocked()));
 			}
 		}
 	}
@@ -147,7 +236,7 @@ public class UsersService {
 					              0, 
 					              "/", 
 					              0, 
-					              false));
+					              manager.isBlocked()));
 			}
 		}
 	}

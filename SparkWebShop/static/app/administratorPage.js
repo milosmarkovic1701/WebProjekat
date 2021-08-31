@@ -6,6 +6,7 @@ Vue.component("administrator-page", {
 				restaurantLogo : "",
 				location : {latitude: 0, longitude: 0},
 				employee : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
+				newManager : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
 				restaurants : null,
 				adminComments : null,
 				users : null,
@@ -74,6 +75,34 @@ Vue.component("administrator-page", {
   </div>
 </div>
 
+<!--MODALNI PROZOR ZA DODAVANJE MENADZERA-->
+<div class="modal fade" id="modalmanager" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle">Dodavanje novog menadžera</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <span class="input-group-text" style="margin-top: 5%;">Ime:</span>
+	        <input type="text" class="form-control" v-model="newManager.name" placeholder="Unesite ime...">
+	        <span class="input-group-text" style="margin-top: 5%;">Prezime:</span>
+	        <input type="text" class="form-control" v-model="newManager.lastname" placeholder="Unesite prezime...">
+	        <span class="input-group-text" style="margin-top: 5%;">Korisničko ime:</span>
+	        <input type="text" class="form-control" v-model="newManager.username" placeholder="Unesite korisničko ime...">
+	        <span class="input-group-text" style="margin-top: 5%;">Lozinka:</span>
+	        <input type="password" class="form-control" v-model="newManager.password" placeholder="Unesite lozinku...">
+	        <span class="input-group-text" style="margin-top: 5%;">Datum rođenja:</span>
+	        <input type="date" v-model="newManager.birthDate" class="form-control">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
+	        <button type="button" v-on:click="addManager()" class="btn btn-danger">Dodaj menadžera</button>
+	      </div>
+	    </div>
+	  </div>
+</div>
+
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="restaurants" role="tabpanel" aria-labelledby="restaurants-tab">
       <div class="surface">
@@ -89,7 +118,7 @@ Vue.component("administrator-page", {
 			        <input type="text" v-model="restaurantSearchQuery.location" class="form-control" placeholder="Lokacija">
 			      </div>
 			      <div class="col col-sm-1">
-			        <input type="text" v-model="restaurantSearchQuery.rating" class="form-control" placeholder="Ocena">
+			        <input type="number" min="0" max="5" step="0.1" v-model="restaurantSearchQuery.rating" class="form-control" placeholder="Ocena">
 			      </div>
 			      <div class="col col-sm-2">
 			        <select class="form-select" v-model="restaurantSearchQuery.filterType" id="inputGroupSelect04">
@@ -149,9 +178,10 @@ Vue.component("administrator-page", {
 	            <li class="list-group-item">{{restaurant.type}}</li>
 	            <li v-if="restaurant.status === 'OPENED'" class="list-group-item">OTVORENO</li>
             	<li v-else class="list-group-item">ZATVORENO</li>
+            	<li class="list-group-item">{{restaurant.rating}}/5</li>
 	          </ul>
 	          <div class="card-body">
-	            {{restaurant.rating}}/5
+				<button type="button" v-on:click="deleteRestaurant(restaurant.id)" class="btn btn-danger">Obriši</button>
 	          </div>
 	        </div>
 	      </div>
@@ -224,7 +254,7 @@ Vue.component("administrator-page", {
               </select>
             </div>
             </div>
-              <button class="btn btn-outline-danger btn-lg" style="margin-top: 7%;" type="button">Dodavanje novog menadžera</button>
+            <button type="button" style="margin-top: 7%;" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#modalmanager">Dodavanje novog menadžera</button>
               <button type="button" v-on:click="addRestaurant()" style="margin-top: 7%; margin-left: 12%;" class="btn btn-danger btn-lg">Dodaj restoran</button>
           </div>
         </div>
@@ -321,6 +351,7 @@ Vue.component("administrator-page", {
               <th scope="col">Uloga</th>
               <th scope="col">Broj bodova</th>
               <th scope="col">Tip korisnika</th>
+              <th scope="col">Blokiranje korisnika</th>
               <th scope="col">Brisanje korisnika</th>
             </tr>
           </thead>
@@ -333,7 +364,13 @@ Vue.component("administrator-page", {
               <td>{{user.role}}</td>
               <td>{{user.points}}</td>
               <td>{{user.userType}}</td>
-              <td><button v-if="user.role === 'Administrator'" type="button" v-on:click="deleteSelectedUser(user.id)" disabled class="btn btn-danger">Obriši</button>
+              <td>
+              	  <button v-if="user.role === 'Administrator'" type="button" disabled class="btn btn-danger">Blokiraj</button>
+              	  <button v-else-if="user.blocked && user.role != 'Administrator'" v-on:click="blockSelectedUser(user.id)"  type="button" class="btn btn-danger">Odblokiraj</button>
+              	  <button v-else-if="!(user.blocked) && user.role != 'Administrator'" v-on:click="blockSelectedUser(user.id)" type="button" class="btn btn-danger">Blokiraj</button>
+              </td>
+              <td>
+              	  <button v-if="user.role === 'Administrator'" type="button" v-on:click="deleteSelectedUser(user.id)" disabled class="btn btn-danger">Obriši</button>
               	  <button v-else type="button" v-on:click="deleteSelectedUser(user.id)" class="btn btn-danger">Obriši</button>
               </td>
             </tr>
@@ -396,8 +433,8 @@ Vue.component("administrator-page", {
               <td>{{spamUser.userType}}</td>
               <td>{{spamUser.cancels}}</td>
               <td>
-              	<button v-if="spamUser.blocked" v-on:click="changeBlockedCustomer(spamUser.id)" type="button" class="btn btn-danger">Blokiraj</button>
-              	<button v-else type="button" v-on:click="changeBlockedCustomer(spamUser.id)" class="btn btn-danger">Odblokiraj</button>
+              	<button v-if="spamUser.blocked" v-on:click="changeBlockedCustomer(spamUser.id)" type="button" class="btn btn-danger">Odblokiraj</button>
+              	<button v-else type="button" v-on:click="changeBlockedCustomer(spamUser.id)" class="btn btn-danger">Blokiraj</button>
               </td>
             </tr>
           </tbody>
@@ -433,7 +470,31 @@ Vue.component("administrator-page", {
 `
 	, 
 	methods : {
-	
+		getRestaurants() {
+		axios
+	        .get('rest/restaurants/getRestaurants')
+	        .then(response => (this.restaurants = response.data))
+	  	},
+	  	getAllComments() {
+	  	axios
+	  	    .get('rest/comments/getAllComments')
+	  		.then(response => (this.adminComments = response.data))
+	  	},
+	  	getUsers() {
+	  	axios
+	  	    .get('rest/users/getUsers')
+	  		.then(response => (this.users = response.data))	
+  		},
+  		getSpamUsers() {
+  		axios
+  	    	.get('rest/users/getSpamUsers')
+  			.then(response => (this.spamUsers = response.data))	
+  		},
+  		getManagers() {
+  		axios
+	        .get('rest/users/getManagers')
+	        .then(response => (this.managers = response.data))
+		},
 		searchRestaurant() {
 		axios
 			.post('rest/restaurants/searchRestaurants', this.restaurantSearchQuery)
@@ -462,18 +523,51 @@ Vue.component("administrator-page", {
 	                    alert("Greška: " + response.data);
 	                }
 	            });
+	        this.getUsers();
+	        this.getManagers();
+		},
+		addManager() {
+			this.newManager.role = "manager";
+			axios
+			.post('rest/users/addManager', this.newManager)	
+			.then(response => {
+	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
+						alert("Obaveštenje: " + response.data);
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	            });
+	        this.getManagers();
+	        this.getUsers();
 		},
 		deleteSelectedUser(id){
             this.userId = id;
             axios
 	            .post('rest/users/deleteSelectedUser', this.userId)
 	          	.then(response => (this.users = response.data))
+	        this.getSpamUsers();   
+	        this.getManagers();
+        },
+        deleteRestaurant(id){
+            this.restaurantId = id;
+            axios
+	            .post('rest/restaurants/deleteRestaurant', this.restaurantId)
+	          	.then(response => (this.restaurants = response.data))   
+        },
+        blockSelectedUser(id){
+            this.userId = id;
+            axios
+	            .post('rest/users/blockSelectedUser', this.userId)
+	          	.then(response => (this.users = response.data))
+	        this.getSpamUsers();
         },
         changeBlockedCustomer(id){
             this.spamUserId = id;
             axios
 	            .post('rest/users/changeBlockedUser', this.spamUserId)
 	          	.then(response => (this.spamUsers = response.data))
+	       this.getUsers();
         },
         enableInfoEdit(){
         	document.getElementById("nameInput").disabled = false;
@@ -495,21 +589,11 @@ Vue.component("administrator-page", {
         },
 	},
     mounted () {
-	    axios
-	        .get('rest/restaurants/getRestaurants')
-	        .then(response => (this.restaurants = response.data))
-	  	axios
-	  	    .get('rest/comments/getComments')
-	  		.then(response => (this.adminComments = response.data))
-	  	axios
-	  	    .get('rest/users/getUsers')
-	  		.then(response => (this.users = response.data))	
-  		axios
-  	    	.get('rest/users/getSpamUsers')
-  			.then(response => (this.spamUsers = response.data))	
-  		axios
-	        .get('rest/users/getManagers')
-	        .then(response => (this.managers = response.data))
+	    this.getRestaurants();
+	  	this.getAllComments();
+	  	this.getUsers();
+  		this.getSpamUsers();
+  		this.getManagers();
 	  		
 	      var mapOptions = {
                 center: new google.maps.LatLng(45.2450573,19.8390942),

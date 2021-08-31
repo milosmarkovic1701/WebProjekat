@@ -18,6 +18,7 @@ public class ManagerService {
 	}
 	
 	public ArrayList<Manager> getManagers() {
+		ArrayList<Manager> validManagers = new ArrayList<Manager>();
 		return managers;
 	}
 
