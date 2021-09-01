@@ -1,6 +1,11 @@
 package services;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,9 +13,13 @@ import java.util.HashMap;
 
 import org.eclipse.jetty.websocket.common.events.ParamList;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import beans.FoodItem;
 import beans.Location;
 import beans.Restaurant;
+import dto.RestaurantDTO;
 import dto.RestaurantQueryDTO;
 import enums.RestaurantStatus;
 
@@ -20,12 +29,37 @@ public class RestaurantService {
 
 	public RestaurantService() {
 		super();
-		restaurants.put(1, new Restaurant("Gyros Master", "grčki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 1, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
-		restaurants.put(2, new Restaurant("Balans", "palačinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 2, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
-		restaurants.put(3, new Restaurant("Gyros Master", "grčki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 3, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
-		restaurants.put(4, new Restaurant("Balans", "palačinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 4, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
-		restaurants.put(5, new Restaurant("Gyros Master", "grčki", RestaurantStatus.CLOSED, "restaurant logos" + File.separator + "gyros master.jpg", 5, 5, new Location("Balzakova","3", "Novi Sad", "21000", 30, 30)));
-		restaurants.put(6, new Restaurant("Balans", "palačinke", RestaurantStatus.OPENED, "restaurant logos" + File.separator + "balans.jpg", 6, 4.7, new Location("Balzakova","7", "Novi Sad", "21000", 40, 40)));
+		getAllRestaurants();
+	}
+	
+	public HashMap<Integer, Restaurant> getAllRestaurants() {
+		Gson gson = new Gson();
+		
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get("./static/data/restaurants.json"));
+			Restaurant[] restaurantList = gson.fromJson(reader, Restaurant[].class);
+			if(restaurantList != null) {
+			    for (int i = 0; i < restaurantList.length; i++) {
+			        restaurants.put(restaurantList[i].getId(), restaurantList[i]);
+			    }
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return restaurants;
+	}
+	
+	public void saveAllRestaurants() {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/restaurants.json"));
+			writer.append(gson.toJson(restaurants.values().toArray(), Restaurant[].class));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList<Restaurant> getRestaurants() {
@@ -38,6 +72,30 @@ public class RestaurantService {
 		Collections.sort(validRestaurants, Comparator.comparing(Restaurant::getStatus));
 		
 		return validRestaurants;
+	}
+	
+	public int generateRestaurantId() {
+		return restaurants.size() + 1;
+	}
+	
+	public String addRestaurant(RestaurantDTO newRestaurant) {
+		String[] logoPath = newRestaurant.getLogo().split("fakepath");
+		String logoName = logoPath[1].substring(1);
+		restaurants.put(generateRestaurantId(), 
+						new Restaurant(newRestaurant.getName(), 
+							   newRestaurant.getType(), 
+						       RestaurantStatus.CLOSED, 
+						       "restaurant logos" + File.separator + logoName, 
+						       generateRestaurantId(), 
+						       0, 
+						       new Location(newRestaurant.getStreet(), 
+						    		   newRestaurant.getNumber(), 
+						    		   newRestaurant.getCity(), 
+						    		   newRestaurant.getPostalCode(), 
+						    		   Double.parseDouble(newRestaurant.getLongitude()), 
+						    		   Double.parseDouble(newRestaurant.getLatitude())),
+						       		   Integer.parseInt(newRestaurant.getManagerId())));
+		return "Nov restoran uspešno dodat.";
 	}
 	
 	public Restaurant getRestaurant(int id) {

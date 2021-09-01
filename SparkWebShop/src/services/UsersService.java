@@ -12,9 +12,11 @@ import beans.DeliveryMan;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dto.CustomerInfoEditDTO;
 import dto.EmployeeDTO;
 import dto.RestaurantQueryDTO;
 import dto.UserDTO;
+import dto.UserInfoEditDTO;
 import dto.UsersQueryDTO;
 import enums.Role;
 
@@ -48,6 +50,59 @@ public class UsersService {
 			}
 		}
 		return getSpam();
+	}
+	
+	public LocalDate adjustDate(String date) {
+		String Date[] = date.split("-");
+		int year = Integer.parseInt(Date[0]);
+		int month = Integer.parseInt(Date[1]);
+		int day = Integer.parseInt(Date[2]);
+		return LocalDate.of(year, month, day);
+	}
+	
+	public String updateCustomer(CustomerInfoEditDTO customerDTO) {
+		for (Customer c: customerService.getCustomers()) {
+			if (c.getUser().getId() == customerDTO.getId()) {
+				c.getUser().setName(customerDTO.getName());
+				c.getUser().setLastName(customerDTO.getLastname());
+				c.getUser().setUsername(customerDTO.getUsername());
+				c.getUser().setPassword(customerDTO.getPassword());
+				c.getUser().setBirthDate(adjustDate(customerDTO.getBirthDate()));
+				c.setAddress(customerDTO.getAddress());
+			}
+		}
+		return "Vaši podaci su uspešno ažurirani.";
+	}
+	
+	public String updateUser(UserInfoEditDTO userDTO) {
+		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
+			if (deliveryMan.getUser().getId() == userDTO.getId()) {
+				deliveryMan.getUser().setName(userDTO.getName());
+				deliveryMan.getUser().setLastName(userDTO.getLastname());
+				deliveryMan.getUser().setUsername(userDTO.getUsername());
+				deliveryMan.getUser().setPassword(userDTO.getPassword());
+				deliveryMan.getUser().setBirthDate(adjustDate(userDTO.getBirthDate()));
+			}
+		}
+		for (Manager manager : managerService.getManagers()) {
+			if (manager.getUser().getId() == userDTO.getId()) {
+				manager.getUser().setName(userDTO.getName());
+				manager.getUser().setLastName(userDTO.getLastname());
+				manager.getUser().setUsername(userDTO.getUsername());
+				manager.getUser().setPassword(userDTO.getPassword());
+				manager.getUser().setBirthDate(adjustDate(userDTO.getBirthDate()));
+			}
+		}
+		for (Administrator admin: administratorService.getAdministrators()) {
+			if (admin.getUser().getId() == userDTO.getId()) {
+				admin.getUser().setName(userDTO.getName());
+				admin.getUser().setLastName(userDTO.getLastname());
+				admin.getUser().setUsername(userDTO.getUsername());
+				admin.getUser().setPassword(userDTO.getPassword());
+				admin.getUser().setBirthDate(adjustDate(userDTO.getBirthDate()));
+			}
+		}
+		return "Vaši podaci su uspešno ažurirani.";
 	}
 	
 	public ArrayList<UserDTO> blockUser(int id) {

@@ -1,8 +1,17 @@
 package services;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import beans.Administrator;
 import beans.DeliveryMan;
 import beans.Manager;
 import beans.User;
@@ -34,5 +43,35 @@ public class DeliveryManService {
 				return false;
 		}
 		return true;
+	}
+	
+	public ArrayList<DeliveryMan> getAllDeliveryMen() {
+		Gson gson = new Gson();
+		
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get("./static/data/delivery men.json"));
+			DeliveryMan[] deliveryMenList = gson.fromJson(reader, DeliveryMan[].class);
+			if(deliveryMenList != null) {
+			    for (int i = 0; i < deliveryMenList.length; i++) {
+			        deliveryMen.add(deliveryMenList[i]);
+			    }
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return deliveryMen;
+	}
+	
+	public void saveAllDeliveryMen() {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/delivery men.json"));
+			writer.append(gson.toJson(deliveryMen, DeliveryMan[].class));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -12,6 +12,7 @@ public class Restaurant {
 	private double rating;
 	private boolean deleted;
 	private Location location;
+	private int managerId;
 	
 	public String getName() {
 		return name;
@@ -58,16 +59,20 @@ public class Restaurant {
 	public Location getLocation() {
 		return location;
 	}
-	
 	public String getAddress() {
 		return location.getStreet() + " " + location.getNumber() + ", " + location.getCity();
 	}
-	
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+	public int getManagerId() {
+		return managerId;
+	}
+	public void setManagerId(int managerId) {
+		this.managerId = managerId;
+	}
 	public Restaurant(String name, String type, RestaurantStatus status, String logo, int id, double rating,
-			Location location) {
+			Location location, int managerId) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -77,6 +82,7 @@ public class Restaurant {
 		this.rating = rating;
 		this.location = location;
 		this.deleted = false;
+		this.managerId = managerId;
 	}
 	
 	

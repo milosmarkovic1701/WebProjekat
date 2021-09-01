@@ -10,11 +10,11 @@ Vue.component("startup-page", {
 	},
 	template:`
 <div>
-	<div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-		<a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+	<div id="tabs" class="d-sm-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
+		<a href="#" class="d-sm-flex align-items-center mb-2 mb-sm-0 text-dark text-decoration-none">
 	      <img id="logo" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
 	    </a>
-	    <ul class="nav col-12 col-lg-auto ">
+	    <ul class="nav col-12 col-sm-auto ">
 	      <ul class="nav nav-tabs" id="myTab" role="tablist">
 	        <li>
 	          <button type="button" disabled style="margin-left: 3cm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
@@ -169,7 +169,7 @@ Vue.component("startup-page", {
   </div>
   
   <div class="container-fluid" style="margin-top: 15mm; margin-left: 5mm;">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="row row-cols-1 row-cols-sm-4 g-4">
       <div class="col" v-for="restaurant in restaurants">
         <div class="card" style="width: 21rem;">
           <img v-bind:src="restaurant.logo" width="300" height="220" class="card-img-top" alt="...">
@@ -218,7 +218,7 @@ Vue.component("startup-page", {
 			axios
 	            .post("/rest/users/loginCustomer", this.userLogin)
 	            .then(response => {
-	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Ovaj nalog je obrisan."){
+	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Prijava neuspešna. Vaš nalog je blokiran ili obrisan."){
 	                    localStorage.setItem("customer", JSON.stringify(response.data));
 	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
 	                    this.$router.push('/customerPage'); 

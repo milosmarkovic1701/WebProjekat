@@ -9,7 +9,7 @@ public class Customer {
 	private int cancels = 0;
 	private boolean blocked = false;
 	private String address;
-	private double points = 10;
+	private double points = 0;
 	private Cart cart = new Cart();
 	
 	public double getPoints() {

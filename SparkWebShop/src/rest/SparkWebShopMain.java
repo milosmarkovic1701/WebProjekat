@@ -24,9 +24,12 @@ import dto.EmployeeDTO;
 import dto.LoginUserDTO;
 import dto.OrderQueryDTO;
 import dto.RegisterUserDTO;
+import dto.RestaurantDTO;
 import dto.RestaurantQueryDTO;
+import dto.UserInfoEditDTO;
 import dto.UsersQueryDTO;
 import dto.AdminCommentDTO;
+import dto.CustomerInfoEditDTO;
 import enums.Role;
 import enums.Type;
 import services.AdministratorService;
@@ -50,6 +53,7 @@ public class SparkWebShopMain {
 	private static CommentService commentService = new CommentService();
 	private static OrderService orderService = new OrderService();
 	private static FoodItemService foodItemService = new FoodItemService();
+	
 	private static Gson g = new Gson();
 
 	public static void main(String[] args) throws Exception {
@@ -64,7 +68,7 @@ public class SparkWebShopMain {
 		
 		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
 			String idS = req.params("id");
-			int id = Integer.parseInt(idS);;
+			int id = Integer.parseInt(idS);
 			res.type("application/json");
 			return g.toJson(restaurantService.getRestaurant(id));
 		});
@@ -83,8 +87,26 @@ public class SparkWebShopMain {
 		});
 		
 		post("/rest/restaurants/addRestaurant", (req, res) -> {
-			res.type("application/json");		
-			return g.toJson(restaurantService.getRestaurants());
+			RestaurantDTO newRestaurant = g.fromJson(req.body(), RestaurantDTO.class);
+			String name = newRestaurant.getName().trim();
+			String type = newRestaurant.getType().trim();
+			String street = newRestaurant.getStreet().trim();
+			String number = newRestaurant.getNumber().trim();
+			String city = newRestaurant.getCity().trim();
+			String logo = newRestaurant.getLogo().trim();
+			String latitude = newRestaurant.getLatitude().trim();
+			String longitude = newRestaurant.getLongitude().trim();
+			String postalCode = newRestaurant.getPostalCode().trim();
+			String managerId = newRestaurant.getManagerId().trim();
+			if (name.equals("") || type.equals("") || street.equals("") || number.equals("") || city.equals("") ||
+				logo.equals("") || latitude.equals("") || longitude.equals("") || postalCode.equals("") || managerId.equals("")) {
+				return "Niste popunili sve potrebne podatke !";
+			}
+				else
+				{
+					RestaurantDTO restaurant = new RestaurantDTO(name, type, logo, street, number, city, latitude, longitude, postalCode, managerId);
+					return restaurantService.addRestaurant(restaurant);
+				}
 		});
 		
 		post("/rest/restaurants/deleteRestaurant", (req, res) -> {
@@ -115,6 +137,43 @@ public class SparkWebShopMain {
 			return g.toJson(usersService.searchUsers(query));
 		});
 		
+		post("/rest/users/saveInfoEdit", (req, res) -> {
+			UserInfoEditDTO query = g.fromJson(req.body(), UserInfoEditDTO.class);	
+			String username = query.getUsername().trim();
+			String password = query.getPassword().trim();
+			String name = query.getName().trim();
+			String lastname = query.getLastname().trim();
+			String birthDate = query.getBirthDate().trim();
+			if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || 
+				birthDate.equals("")) {
+				return "Niste popunili sve potrebne podatke !";
+			}
+				else
+				{
+					UserInfoEditDTO trimmedQuery = new UserInfoEditDTO(query.getId(), username, password, name, lastname, birthDate);	
+					return usersService.updateUser(trimmedQuery);
+				}
+		});
+		
+		post("/rest/users/saveInfoEditCustomer", (req, res) -> {
+			CustomerInfoEditDTO query = g.fromJson(req.body(), CustomerInfoEditDTO.class);	
+			String username = query.getUsername().trim();
+			String password = query.getPassword().trim();
+			String name = query.getName().trim();
+			String lastname = query.getLastname().trim();
+			String birthDate = query.getBirthDate().trim();
+			String address = query.getAddress().trim();
+			if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || 
+				birthDate.equals("") || address.equals("")) {
+				return "Niste popunili sve potrebne podatke !";
+			}
+				else
+				{
+					CustomerInfoEditDTO trimmedQuery = new CustomerInfoEditDTO(query.getId(), username, password, name, lastname, birthDate, address);	
+					return usersService.updateCustomer(trimmedQuery);
+				}
+		});
+		
 		post("/rest/users/deleteSelectedUser", (req, res) -> {
 			String data = g.fromJson(req.body(), String.class);
 			int userId = Integer.parseInt(data);
@@ -139,7 +198,7 @@ public class SparkWebShopMain {
 		post("/rest/users/loginAdministrator", (req, res) -> {
 			LoginUserDTO user = g.fromJson(req.body(), LoginUserDTO.class);
 			Administrator admin = administratorService.login(user);
-			if (admin == null || admin.getUser().isDeleted()) 
+			if (admin == null) 
 				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
 			return g.toJson(admin);
 		});
@@ -147,8 +206,10 @@ public class SparkWebShopMain {
 		post("/rest/users/loginCustomer", (req, res) -> {
 			LoginUserDTO user = g.fromJson(req.body(), LoginUserDTO.class);
 			Customer customer = customerService.login(user);
-			if (customer == null || customer.getUser().isDeleted()) 
+			if (customer == null) 
 				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
+			else if (customer.getUser().isDeleted() || customer.isBlocked())
+				return "Prijava neuspešna. Vaš nalog je blokiran ili obrisan.";
 			return g.toJson(customer);
 		});
 		

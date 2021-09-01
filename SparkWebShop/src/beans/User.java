@@ -11,6 +11,7 @@ public class User {
 	private String lastName;
 	private String fullName;
 	private LocalDate birthDate;
+	private String dateInfo;
 	private Role role;
 	private boolean deleted;
 	private int id;
@@ -71,6 +72,18 @@ public class User {
 		this.lastName = lastName;
 		this.fullName = name + " " + lastName;
 		this.birthDate = birthDate;
+		String year = String.valueOf(birthDate.getYear());
+		String month;
+		if (birthDate.getMonthValue() < 10)
+			month = "0" + String.valueOf(birthDate.getMonthValue());
+		else
+			month = String.valueOf(birthDate.getMonthValue());
+		String day;
+		if (birthDate.getDayOfMonth() < 10)
+			day = "0" + String.valueOf(birthDate.getDayOfMonth());
+		else
+			day = String.valueOf(birthDate.getDayOfMonth());
+		this.dateInfo = year + "-" + month + "-" + day;
 		this.role = role;
 		this.deleted = false;
 		this.id = id;

@@ -7,6 +7,7 @@ Vue.component("administrator-page", {
 				location : {latitude: 0, longitude: 0},
 				employee : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
 				newManager : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
+				newRestaurant : {name: "", type: "", logo: "", street: "", number: "", city: "", latitude: "", longitude: "", postalCode: "", managerId: ""},
 				restaurants : null,
 				adminComments : null,
 				users : null,
@@ -15,14 +16,16 @@ Vue.component("administrator-page", {
 				restaurantId: "",
 				userId: "",
 				spamUserId: "",
+				admin: {},
+				userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
 		    }
 	},
 	
 	template:`
   <div>
-  <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+  <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
       <img src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
-      <ul class="nav col-12 col-lg-auto me-lg-auto justify-content-center mb-md-0">
+      <ul class="nav col-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="restaurants-tab" data-bs-toggle="tab" data-bs-target="#restaurants" type="button" role="tab" aria-controls="restaurant" aria-selected="true">Svi restorani</button>
@@ -199,7 +202,7 @@ Vue.component("administrator-page", {
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col">
               <span class="input-group-text" id="basic-addon1">Ime restorana:</span>
-              <input type="text" class="form-control" placeholder="Unesite ime..." aria-label="type" aria-describedby="basic-addon1">
+              <input type="text" v-model="newRestaurant.name" class="form-control" placeholder="Unesite ime..." aria-label="type" aria-describedby="basic-addon1">
             </div>
           </div>
         <div class="row my-row justify-content-around">
@@ -209,7 +212,7 @@ Vue.component("administrator-page", {
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col" style="height: 100px; margin-top: 15mm;">
             <span class="input-group-text" id="basic-addon1">Tip restorana:</span>
-            <input type="text" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
+            <input type="text" v-model="newRestaurant.type" class="form-control" placeholder="Unesite tip..." aria-label="type" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="row my-row  justify-content-around">
@@ -222,35 +225,35 @@ Vue.component("administrator-page", {
              <div class="row my-row justify-content-around">
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Ulica:</span>
-                  <input type="text" class="form-control" placeholder="Unesite ulicu..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="text" v-model="newRestaurant.street" class="form-control" placeholder="Unesite ulicu..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Broj:</span>
-                  <input type="text" class="form-control" placeholder="Unesite broj..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="text" v-model="newRestaurant.number" class="form-control" placeholder="Unesite broj..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Mesto:</span>
-                  <input type="text" class="form-control" placeholder="Unesite mesto..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="text" v-model="newRestaurant.city" class="form-control" placeholder="Unesite mesto..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
               </div>
               <div class="row my-row justify-content-around">
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Geografska širina:</span>
-                  <input type="text" id="latitude" class="form-control" placeholder="Nadjite restoran na mapi" aria-label="type" aria-describedby="basic-addon1">
+                  <input type="number" id="latitude" min="-90" max="90" class="form-control" placeholder="Nadjite restoran na mapi" aria-label="type" aria-describedby="basic-addon1">
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Geografska dužina:</span>
-                  <input type="text" id="longitude" class="form-control" placeholder="Nadjite restoran na mapi" aria-label="type" aria-describedby="basic-addon1">
+                  <input type="number" id="longitude" min="-180" max="180" class="form-control" placeholder="Nadjite restoran na mapi" aria-label="type" aria-describedby="basic-addon1">
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Poštanski broj:</span>
-                  <input type="text" class="form-control" placeholder="Unesite poštanski broj..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="number" min="10000" max="99999" v-model="newRestaurant.postalCode" class="form-control" placeholder="Unesite poštanski broj..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
               </div>
             <div class="container" style="margin-top: 5%;">
             <span class="input-group-text sm-4" id="basic-addon1">Menadžer:</span>
-              <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                <option v-for="manager in managers" value="manager.user.id">{{manager.user.fullName}}</option>
+              <select class="form-select" v-model="newRestaurant.managerId" id="managerComboBox" aria-label="Example select with button addon">
+                <option v-for="manager in managers" v-bind:value="manager.user.id">{{manager.user.fullName}}</option>
               </select>
             </div>
             </div>
@@ -447,15 +450,15 @@ Vue.component("administrator-page", {
         <div class="row my-row  justify-content-around">
           <div class="col-sm-6 my-col">
               <span class="input-group-text">Ime:</span>
-              <input type="text" id="nameInput" disabled class="form-control" placeholder="Unesite ime...">
+              <input type="text" id="nameInput" v-model="userInfo.name" disabled class="form-control" placeholder="Unesite ime...">
               <span class="input-group-text" style="margin-top: 10%;">Prezime:</span>
-              <input type="text" id="lastnameInput" disabled class="form-control" placeholder="Unesite prezime...">
+              <input type="text" id="lastnameInput" v-model="userInfo.lastname" disabled class="form-control" placeholder="Unesite prezime...">
               <span class="input-group-text" style="margin-top: 10%;">Korisničko ime:</span>
-              <input type="text" id="usernameInput" disabled class="form-control" placeholder="Unesite korisničko ime...">
+              <input type="text" id="usernameInput"v-model="userInfo.username" disabled class="form-control" placeholder="Unesite korisničko ime...">
               <span class="input-group-text" style="margin-top: 10%;">Lozinka:</span>
-              <input type="password" id="passwordInput" disabled class="form-control" placeholder="Unesite lozinku...">
-              <span class="input-group-text" style="margin-top: 10%;">Datum rođenja:</span>
-              <input type="date" id="birthDateInput" disabled class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
+              <input type="password" id="passwordInput"v-model="userInfo.password" disabled class="form-control" placeholder="Unesite lozinku...">
+              <span class="input-group-text" style="margin-top: 10%;">Datum rođenja: (mesec/dan/godina)</span>
+              <input type="date" id="birthDateInput" v-model="userInfo.birthDate" disabled class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
             </div>
             <div class="col-sm-6 my-col">
               <img src="images/myinfo.png" height="450" width="600">
@@ -511,7 +514,6 @@ Vue.component("administrator-page", {
 			this.$router.push('/'); 
 	        this.$router.go();
 		},
-		
 		addEmployee() {
 			axios
 			.post('rest/users/addEmployee', this.employee)	
@@ -537,7 +539,7 @@ Vue.component("administrator-page", {
 	                else {
 	                    alert("Greška: " + response.data);
 	                }
-	            });
+	        });
 	        this.getManagers();
 	        this.getUsers();
 		},
@@ -578,14 +580,52 @@ Vue.component("administrator-page", {
         	
         },
         saveInfoEdit(){
+        	axios
+				.post('rest/users/saveInfoEdit', this.userInfo)	
+				.then(response => {
+	                if (response.data != "Niste popunili sve potrebne podatke !"){
+						alert("Obaveštenje: " + response.data);
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	        });	
         	document.getElementById("nameInput").disabled = true;
         	document.getElementById("lastnameInput").disabled = true;
         	document.getElementById("usernameInput").disabled = true;
         	document.getElementById("passwordInput").disabled = true;
         	document.getElementById("birthDateInput").disabled = true;
         },
-        addRestaurant() {
-        	this.restaurantLogo = document.getElementById("uploadImage").value
+        getLoggedUser() {
+        	this.admin = JSON.parse(localStorage.getItem("admin"));
+        	console.log(this.admin);
+        	this.userInfo.id = this.admin.user.id;
+        	this.userInfo.name = this.admin.user.name;
+        	this.userInfo.lastname = this.admin.user.lastName;
+        	this.userInfo.username = this.admin.user.username;
+        	this.userInfo.password = this.admin.user.password;
+			this.userInfo.birthDate = this.admin.user.dateInfo;
+			document.getElementById("birthDateInput").value = this.admin.user.dateInfo;
+        	console.log(this.userInfo);
+		},
+		formatGeoposition() {
+				this.newRestaurant.latitude = document.getElementById("latitude").value;
+                this.newRestaurant.longitude = document.getElementById("longitude").value;
+		},
+		addRestaurant() {
+        	this.newRestaurant.logo = document.getElementById("uploadImage").value
+        	this.formatGeoposition();
+        	axios
+				.post('rest/restaurants/addRestaurant', this.newRestaurant)	
+				.then(response => {
+		                if (response.data != "Niste popunili sve potrebne podatke !"){
+							alert("Obaveštenje: " + response.data);
+		                }
+		                else {
+		                    alert("Greška: " + response.data);
+		                }
+		        });
+        	
         },
 	},
     mounted () {
@@ -594,7 +634,8 @@ Vue.component("administrator-page", {
 	  	this.getUsers();
   		this.getSpamUsers();
   		this.getManagers();
-	  		
+	  	this.getLoggedUser();
+	  	
 	      var mapOptions = {
                 center: new google.maps.LatLng(45.2450573,19.8390942),
                 zoom: 13,

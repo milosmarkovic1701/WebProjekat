@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Gyros Master",
+    "type": "grčki",
+    "status": "CLOSED",
+    "logo": "restaurant logos\\gyros master.jpg",
+    "id": 1,
+    "rating": 5.0,
+    "deleted": false,
+    "location": {
+      "street": "Balzakova",
+      "number": "3",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 30.0,
+      "width": 30.0
+    },
+    "managerId": 20
+  },
+  {
+    "name": "Balans",
+    "type": "palačinke",
+    "status": "OPENED",
+    "logo": "restaurant logos\\balans.jpg",
+    "id": 2,
+    "rating": 4.7,
+    "deleted": false,
+    "location": {
+      "street": "Balzakova",
+      "number": "7",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 40.0,
+      "width": 40.0
+    },
+    "managerId": 20
+  },
+  {
+    "name": "Gyros Master",
+    "type": "grčki",
+    "status": "CLOSED",
+    "logo": "restaurant logos\\gyros master.jpg",
+    "id": 3,
+    "rating": 5.0,
+    "deleted": false,
+    "location": {
+      "street": "Balzakova",
+      "number": "3",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 30.0,
+      "width": 30.0
+    },
+    "managerId": 20
+  },
+  {
+    "name": "Balans",
+    "type": "palačinke",
+    "status": "OPENED",
+    "logo": "restaurant logos\\balans.jpg",
+    "id": 4,
+    "rating": 4.7,
+    "deleted": false,
+    "location": {
+      "street": "Balzakova",
+      "number": "7",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 40.0,
+      "width": 40.0
+    },
+    "managerId": 20
+  },
+  {
+    "name": "Gyros Master",
+    "type": "grčki",
+    "status": "CLOSED",
+    "logo": "restaurant logos\\gyros master.jpg",
+    "id": 5,
+    "rating": 5.0,
+    "deleted": false,
+    "location": {
+      "street": "Balzakova",
+      "number": "3",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 30.0,
+      "width": 30.0
+    },
+    "managerId": 20
+  },
+  {
+    "name": "Balans",
+    "type": "palačinke",
+    "status": "OPENED",
+    "logo": "restaurant logos\\balans.jpg",
+    "id": 6,
+    "rating": 4.7,
+    "deleted": false,
+    "location": {
+      "street": "Balzakova",
+      "number": "7",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 40.0,
+      "width": 40.0
+    },
+    "managerId": 20
+  }
+]

@@ -7,43 +7,46 @@ Vue.component("customer-page", {
 				restaurantComments : null,
 				restaurantId : "",
 				user : "",
-				customerStatus: "",
+				customerType: "",
+				customerPoints: "",
 		    	orders: "",
-		    	notDeliveredOrders: null,
-		    	notRatedOrders: null,
-		    	notDeliveredOrdersSize: null,
-		    	notRatedOrdersSize: null,
+		    	notDeliveredOrders: "",
+		    	notRatedOrders: "",
+		    	customer: {},
+		    	userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: "", address: ""},
 		    }
 	},
 	
 template:`
   <div>
-  <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+  <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
         <img id="logo2" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
 
-      <ul class="nav col-12 col-lg-auto me-lg-auto justify-content-center mb-md-0">
+      <ul class="nav col-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="restaurants-tab" data-bs-toggle="tab" data-bs-target="#restaurants" type="button" role="tab" aria-controls="restaurant" aria-selected="true">Svi restorani</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false">Sve porudžbine</button>
+            <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false">Sve porudžbine
+          	<span class="badge">{{this.orders.length}}</span>
+          	</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="notdeliveredorders-tab" data-bs-toggle="tab" data-bs-target="#notdeliveredorders" type="button" role="tab" aria-controls="notdeliveredorders" aria-selected="false">Nedostavljene porudžbine
-              <span class="badge"></span>
+              <span class="badge">{{this.notDeliveredOrders.length}}</span>
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="notgradedorders-tab" data-bs-toggle="tab" data-bs-target="#notgradedorders" type="button" role="tab" aria-controls="notgradedorders" aria-selected="false">Neocenjene porudžbine
-              <span class="badge"></span>
+              <span class="badge">{{this.notRatedOrders.length}}</span>
             </button>
           </li>
           <li class="nav-item" role="presentation" style="margin-left: 100mm;"> <!--125mm-->
             <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
               <img src="icons/user.png" alt="mdo" width="24" height="24" class="rounded-circle">
-              <img src="icons/gold.png" alt="mdo" width="24" height="24" class="rounded-circle">
-              <span class="badge">1000</span>
+              <img v-bind:src="this.customerType" alt="mdo" width="24" height="24" class="rounded-circle">
+              <span class="badge">{{this.customer.points}}</span>
             </button>
           </li>
           <li style="margin-left: 10mm;">
@@ -68,7 +71,7 @@ template:`
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-        <button type="button" class="btn btn-danger">Potvrdi</button>
+        <button type="button" v-on:click="logOut()" class="btn btn-danger">Potvrdi</button>
       </div>
     </div>
   </div>
@@ -318,23 +321,23 @@ template:`
       <div class="container-fluid my-container">
         <div class="row my-row  justify-content-around">
           <div class="col-sm-6 my-col">
-              <span class="input-group-text" id="basic-addon1">Ime:</span>
-              <input type="text" class="form-control" placeholder="Unesite ime...">
+              <span class="input-group-text">Ime:</span>
+              <input type="text" id="nameInput" v-model="userInfo.name" disabled class="form-control" placeholder="Unesite ime...">
               <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Prezime:</span>
-              <input type="text" class="form-control" placeholder="Unesite prezime...">
+              <input type="text" id="lastnameInput" v-model="userInfo.lastname" disabled class="form-control" placeholder="Unesite prezime...">
               <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Korisničko ime:</span>
-              <input type="text" class="form-control" placeholder="Unesite korisničko ime...">
+              <input type="text" id="usernameInput"v-model="userInfo.username" disabled class="form-control" placeholder="Unesite korisničko ime...">
               <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Lozinka:</span>
-              <input type="text" class="form-control" placeholder="Unesite lozinku...">
+              <input type="password" id="passwordInput"v-model="userInfo.password" disabled  class="form-control" placeholder="Unesite lozinku...">
               <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Adresa:</span>
-              <input type="text" class="form-control" placeholder="Unesite adresu (ulica, broj, mesto)">
-              <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Datum rođenja:</span>
-              <input type="date" class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
+              <input type="text" id="addressInput" v-model="userInfo.address" disabled  class="form-control" placeholder="Unesite adresu (ulica, broj, mesto)">
+              <span class="input-group-text" id="basic-addon1" style="margin-top: 5%;">Datum rođenja: (mesec/dan/godina)</span>
+              <input type="date" id="birthDateInput" v-model="userInfo.birthDate" disabled class="form-control">
             </div>
             <div class="col-sm-6 my-col">
               <img src="images/myinfo.png" height="450" width="600">
-              <button type="button" style="margin-top: 13%; margin-right: 10%; margin-left: 8%;" class="btn btn-secondary btn-lg">Promeni podatke</button>
-              <button type="button" style="margin-top: 13%; margin-left: 10%;" class="btn btn-danger btn-lg">Sačuvaj izmene</button>
+              <button type="button" style="margin-top: 13%; margin-right: 10%; margin-left: 8%;" v-on:click="enableInfoEdit()" class="btn btn-secondary btn-lg">Promeni podatke</button>
+              <button type="button" style="margin-top: 13%; margin-left: 10%;"  v-on:click="saveInfoEdit()" class="btn btn-danger btn-lg">Sačuvaj izmene</button>
             </div>
           </div>
       </div>
@@ -345,32 +348,102 @@ template:`
 	, 
 	methods : {
 		searchRestaurant() {
-		axios
-			.post('rest/restaurants/searchRestaurants', this.restaurantSearchQuery)
-          	.then(response => (this.restaurants = response.data))
+			axios
+				.post('rest/restaurants/searchRestaurants', this.restaurantSearchQuery)
+	          	.then(response => (this.restaurants = response.data))
 		},
 		searchOrders() {
-		axios
-			.post('rest/orders/searchOrders', this.orderSearchQuery)
-          	.then(response => (this.orders = response.data))
+			axios
+				.post('rest/orders/searchOrders', this.orderSearchQuery)
+	          	.then(response => (this.orders = response.data))
 		},
 		getRestaurantFoodItems(id){
             this.restaurantId = id;
             this.$router.push({ path: '/selectedRestaurant', query: { id: this.restaurantId }});
         },
+        getLoggedUser() {
+        	this.customer = JSON.parse(localStorage.getItem("customer"));
+        	console.log(this.customer);
+        	this.userInfo.id = this.customer.user.id;
+        	this.userInfo.name = this.customer.user.name;
+        	this.userInfo.lastname = this.customer.user.lastName;
+        	this.userInfo.username = this.customer.user.username;
+        	this.userInfo.password = this.customer.user.password;
+			this.userInfo.birthDate = this.customer.user.dateInfo;
+			this.userInfo.address = this.customer.address;
+			document.getElementById("birthDateInput").value = this.customer.user.dateInfo;
+        	console.log(this.userInfo);
+        },
+        getRestaurants() {
+	        axios
+		        .get('rest/restaurants/getRestaurants')
+		        .then(response => (this.restaurants = response.data))
+	    },
+	    getOrders() {
+		    axios
+		        .get('rest/orders/getOrders')
+		        .then(response => (this.orders = response.data))
+        },
+        getNotDeliveredOrders() {
+	        axios
+		        .get('rest/orders/getNotDeliveredOrders')
+		        .then(response => (this.notDeliveredOrders = response.data))
+        },
+        getNotRatedOrders() {
+	        axios
+		        .get('rest/orders/getNotRatedOrders')
+		        .then(response => (this.notRatedOrders = response.data))
+		},
+		getCustomerInfo() {
+			if (this.customer.type === "BRONZE") {
+				this.customerType = "icons/bronze.png";
+			}
+			else if (this.customer.type === "SILVER") {
+				this.customerType = "icons/silver.png";
+			}
+			else {	
+				this.customerType = "icons/gold.png";
+			}
+		},
+		logOut() {
+			this.$router.push('/'); 
+	        this.$router.go();
+		},
+		enableInfoEdit(){
+        	document.getElementById("nameInput").disabled = false;
+        	document.getElementById("lastnameInput").disabled = false;
+        	document.getElementById("usernameInput").disabled = false;
+        	document.getElementById("passwordInput").disabled = false;
+        	document.getElementById("addressInput").disabled = false;
+        	document.getElementById("birthDateInput").disabled = false;
+        	
+        },
+        saveInfoEdit(){
+        	axios
+				.post('rest/users/saveInfoEditCustomer', this.userInfo)	
+				.then(response => {
+	                if (response.data != "Niste popunili sve potrebne podatke !"){
+						alert("Obaveštenje: " + response.data);
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	        });	
+        	document.getElementById("nameInput").disabled = true;
+        	document.getElementById("lastnameInput").disabled = true;
+        	document.getElementById("usernameInput").disabled = true;
+        	document.getElementById("passwordInput").disabled = true;
+        	document.getElementById("addressInput").disabled = true;
+        	document.getElementById("birthDateInput").disabled = true;
+        },
 	},
     mounted () {
-	    axios
-	        .get('rest/restaurants/getRestaurants')
-	        .then(response => (this.restaurants = response.data))
-	    axios
-	        .get('rest/orders/getOrders')
-	        .then(response => (this.orders = response.data))
-        axios
-	        .get('rest/orders/getNotDeliveredOrders')
-	        .then(response => (this.notDeliveredOrders = response.data))
-        axios
-	        .get('rest/orders/getNotRatedOrders')
-	        .then(response => (this.notRatedOrders = response.data))
+	    this.getRestaurants();
+	    this.getOrders();
+        this.getNotDeliveredOrders();
+        this.getNotRatedOrders();
+	    this.getLoggedUser();
+	    this.getCustomerInfo();
 		},
+		
 });
