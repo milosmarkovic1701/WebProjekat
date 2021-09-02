@@ -28,8 +28,7 @@ public class RestaurantService {
 	private HashMap<Integer, Restaurant> restaurants = new HashMap<Integer, Restaurant>();
 
 	public RestaurantService() {
-		super();
-		getAllRestaurants();
+		restaurants = getAllRestaurants();
 	}
 	
 	public HashMap<Integer, Restaurant> getAllRestaurants() {
@@ -63,7 +62,7 @@ public class RestaurantService {
 	}
 
 	public ArrayList<Restaurant> getRestaurants() {
-		ArrayList<Restaurant> allRestaurants = new ArrayList<>(restaurants.values());
+		ArrayList<Restaurant> allRestaurants = new ArrayList<>(getAllRestaurants().values());
 		ArrayList<Restaurant> validRestaurants = new ArrayList<Restaurant>();
 		for (Restaurant r : allRestaurants) {
 			if (!r.isDeleted())
@@ -75,10 +74,12 @@ public class RestaurantService {
 	}
 	
 	public int generateRestaurantId() {
+		restaurants = getAllRestaurants();
 		return restaurants.size() + 1;
 	}
 	
 	public String addRestaurant(RestaurantDTO newRestaurant) {
+		restaurants = getAllRestaurants();
 		String[] logoPath = newRestaurant.getLogo().split("fakepath");
 		String logoName = logoPath[1].substring(1);
 		restaurants.put(generateRestaurantId(), 
@@ -95,15 +96,18 @@ public class RestaurantService {
 						    		   Double.parseDouble(newRestaurant.getLongitude()), 
 						    		   Double.parseDouble(newRestaurant.getLatitude())),
 						       		   Integer.parseInt(newRestaurant.getManagerId())));
+		saveAllRestaurants();
 		return "Nov restoran uspešno dodat.";
 	}
 	
 	public Restaurant getRestaurant(int id) {
-		return restaurants.get(id);
+		return getAllRestaurants().get(id);
 	}
 	
 	public ArrayList<Restaurant> deleteRestaurant(int id) {
+		restaurants = getAllRestaurants();
 		restaurants.get(id).setDeleted(true);
+		saveAllRestaurants();
 		return getRestaurants();
 	}
 
@@ -112,39 +116,41 @@ public class RestaurantService {
 	}
 
 	public ArrayList<Restaurant> searchRestaurants(RestaurantQueryDTO query) {
+		restaurants = getAllRestaurants();
 		HashMap<Integer, Restaurant> restaurantsCopy = (HashMap<Integer, Restaurant>)restaurants.clone();
 		for (Restaurant rest : restaurants.values()) {
-			boolean valid = true;
-			if (!(query.getName().trim().equalsIgnoreCase("")) && !(rest.getName().toLowerCase().contains(query.getName().trim().toLowerCase()))) {
-				valid = false;
-			}
-			if (!(query.getType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getType().trim().toLowerCase()))) {
-				valid = false;
-			}
-			if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(rest.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
-				valid = false;
-			}
-			if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {
-				valid = false;
-			}
-			if (!(query.getLocation().trim().equalsIgnoreCase("")) && !((rest.getAddress().toLowerCase()).contains(query.getLocation().trim().toLowerCase()))) {
-				valid = false;
-			}
-			if (!(query.getRating().trim().equalsIgnoreCase(""))) {
-				try {
-					if (!(Double.parseDouble(query.getRating()) <= rest.getRating())) 
-						valid = false;
-					}
-					catch(Exception e) {
-						e.printStackTrace();
-					}
-				} 
-			if (!valid) {
-				restaurantsCopy.remove(rest.getId());
+			if (!rest.isDeleted()) {
+				boolean valid = true;
+				if (!(query.getName().trim().equalsIgnoreCase("")) && !(rest.getName().toLowerCase().contains(query.getName().trim().toLowerCase()))) {
+					valid = false;
+				}
+				if (!(query.getType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getType().trim().toLowerCase()))) {
+					valid = false;
+				}
+				if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(rest.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
+					valid = false;
+				}
+				if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {
+					valid = false;
+				}
+				if (!(query.getLocation().trim().equalsIgnoreCase("")) && !((rest.getAddress().toLowerCase()).contains(query.getLocation().trim().toLowerCase()))) {
+					valid = false;
+				}
+				if (!(query.getRating().trim().equalsIgnoreCase(""))) {
+					try {
+						if (!(Double.parseDouble(query.getRating()) <= rest.getRating())) 
+							valid = false;
+						}
+						catch(Exception e) {
+							e.printStackTrace();
+						}
+					} 
+				if (!valid) {
+					restaurantsCopy.remove(rest.getId());
+				}
 			}
 		}
 		ArrayList<Restaurant> sortedRestaurants = new ArrayList<>(restaurantsCopy.values());
-		if (!query.getSort().equalsIgnoreCase("")) {
 			if (query.getSort().equalsIgnoreCase("naziv_rastuce"))
 				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getName));
 			else if (query.getSort().equalsIgnoreCase("naziv_opadajuce"))
@@ -159,7 +165,6 @@ public class RestaurantService {
 				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating).reversed());
 			else
 				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
-		}
-		return sortedRestaurants;
+			return sortedRestaurants;
 	}
 }

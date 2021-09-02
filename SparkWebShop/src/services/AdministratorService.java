@@ -24,8 +24,7 @@ public class AdministratorService {
 	ArrayList<Administrator> administrators = new ArrayList<Administrator>();
 
 	public AdministratorService() {
-		super();
-		administrators.add(new Administrator(new User("mihailo47", "lg", "Mihailo", "Majstorovic", LocalDate.of(1999, 3, 19), Role.ADMINISTRATOR, 1)));
+		administrators = getAllAdministrators();
 	}
 
 	public ArrayList<Administrator> getAdministrators() {
@@ -37,6 +36,7 @@ public class AdministratorService {
 	}
 	
 	public Administrator login(LoginUserDTO user) {
+		administrators = getAllAdministrators();
 		for (Administrator admin : administrators) {
 			if (user.getUsernameLogin().equals(admin.getUser().getUsername()) && user.getPasswordLogin().equals(admin.getUser().getPassword()))
 				return admin;
@@ -45,6 +45,7 @@ public class AdministratorService {
 	}
 	
 	public boolean checkUsername(String username) {
+		administrators = getAllAdministrators();
 		for (Administrator admin : administrators) {
 			if (admin.getUser().getUsername().equalsIgnoreCase(username))
 				return false;
@@ -75,7 +76,7 @@ public class AdministratorService {
 		
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/administrators.json"));
-			writer.append(gson.toJson(administrators, Administrator[].class));
+			writer.append(gson.toJson(administrators));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

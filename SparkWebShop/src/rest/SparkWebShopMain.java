@@ -29,6 +29,7 @@ import dto.RestaurantQueryDTO;
 import dto.UserInfoEditDTO;
 import dto.UsersQueryDTO;
 import dto.AdminCommentDTO;
+import dto.CommentDTO;
 import dto.CustomerInfoEditDTO;
 import enums.Role;
 import enums.Type;
@@ -268,6 +269,12 @@ public class SparkWebShopMain {
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
 			return g.toJson(commentService.getRestaurantComments(id));
+		});
+		
+		post("/rest/comments/addComment", (req, res) -> {
+			CommentDTO newComment = g.fromJson(req.body(), CommentDTO.class);
+			commentService.addComment(newComment);
+			return "OK";
 		});
 		
 		get("/rest/orders/getOrders", (req, res) -> {

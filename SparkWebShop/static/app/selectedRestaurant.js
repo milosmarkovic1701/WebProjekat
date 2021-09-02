@@ -13,7 +13,7 @@ Vue.component("selected-restaurant", {
         <div class="card mb-3" style="width: 100%;">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="restaurant logos/gyros master.jpg" class="img-fluid rounded-start" width="400" height="550">
+              <img v-bind:src="restaurant.logo" class="img-fluid rounded-start" width="400" height="550">
             </div>
             <div class="col-md-8">
               <div class="card-body">
@@ -57,7 +57,7 @@ Vue.component("selected-restaurant", {
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div class="col" v-for="fi in foodItems">
             <div class="card" style="width: 21rem;">
-              <img  src="food images/pizza.png" width="300" height="200" class="card-img-top" alt="...">
+              <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{fi.name}}</h5>
               </div>
@@ -77,7 +77,7 @@ Vue.component("selected-restaurant", {
         </div>
       </div>
       <div class="container-fluid" style="margin-top: 15mm; margin-bottom: 15mm;">
-        <h2 style="color: #dc3545;">Gyros Master - Komentari i iskustva mušterija:</h2>
+        <h2 style="color: #dc3545;">{{restaurant.name}} - Komentari i iskustva mušterija:</h2>
       </div>
       <div class="container-fluid">
         <table class="table">

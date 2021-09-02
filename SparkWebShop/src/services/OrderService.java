@@ -57,8 +57,8 @@ public class OrderService {
 	public OrderService() {
 		super();
 		ArrayList<FoodItem> food = new ArrayList<FoodItem>();
-		food.add(new FoodItem("Burgir",300, 2, "250 g", "pljeskavica 250g, pavlaka, kecap", "restaurant logos" + File.separator + "gyros master.jpg", 2));
-		food.add(new FoodItem("Pica",700, 1, "250 g", "pelat, sampinjoni, kecap, sunka, sir", "restaurant logos" + File.separator + "balans.jpg", 2));
+		food.add(new FoodItem(1, "Burgir",300, 2, "250 g", "pljeskavica 250g, pavlaka, kecap", "restaurant logos" + File.separator + "gyros master.jpg", 2));
+		food.add(new FoodItem(2, "Pica",700, 1, "250 g", "pelat, sampinjoni, kecap, sunka, sir", "restaurant logos" + File.separator + "balans.jpg", 2));
 		orders.add(new Order(1, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 100, 2, 10, OrderStatus.PROCESSING));
 		orders.add(new Order(2, food, food.get(1).getRestaurantId(), LocalDateTime.now().minusDays(2), 100, 3, 10, OrderStatus.PROCESSING));
 		orders.add(new Order(3, food, food.get(0).getRestaurantId(), LocalDateTime.now().plusDays(1), 200, 2, 10, OrderStatus.PREPARING));
@@ -162,7 +162,7 @@ public class OrderService {
 		
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/orders.json"));
-			writer.append(gson.toJson(orders, Order[].class));
+			writer.append(gson.toJson(orders));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

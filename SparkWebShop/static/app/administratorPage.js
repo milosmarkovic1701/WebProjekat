@@ -126,6 +126,7 @@ Vue.component("administrator-page", {
 			      <div class="col col-sm-2">
 			        <select class="form-select" v-model="restaurantSearchQuery.filterType" id="inputGroupSelect04">
 			          <option value="" selected>Filter (tip)</option>
+			          <option value="razno">Razno</option>
 			          <option value="roštilj">Roštilj</option>
 			          <option value="palačinke">Palačinke</option>
 			          <option value="krofne">Krofne</option>
@@ -172,7 +173,7 @@ Vue.component("administrator-page", {
 	    <div class="row row-cols-1 row-cols-md-4 g-4">
 	      <div class="col" v-for="restaurant in restaurants">
 	        <div class="card" style="width: 21rem;">
-	          <img v-bind:src="restaurant.logo" width="300" height="220" class="card-img-top" alt="...">
+	          <img v-bind:src="restaurant.logo" width="300" height="300" class="card-img-top" alt="...">
 	          <div class="card-body">
 	            <h5 class="card-title">{{restaurant.name}}</h5>
 	          </div>
@@ -620,12 +621,12 @@ Vue.component("administrator-page", {
 				.then(response => {
 		                if (response.data != "Niste popunili sve potrebne podatke !"){
 							alert("Obaveštenje: " + response.data);
+							this.getRestaurants();
 		                }
 		                else {
 		                    alert("Greška: " + response.data);
 		                }
 		        });
-        	
         },
 	},
     mounted () {

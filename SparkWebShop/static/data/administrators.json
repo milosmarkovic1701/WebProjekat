@@ -1,0 +1,20 @@
+[
+  {
+    "user": {
+      "username": "mihailo47",
+      "password": "lg",
+      "name": "Mihailo",
+      "lastName": "Majstorović",
+      "fullName": "Mihailo Majstorović",
+      "birthDate": {
+        "year": 1999,
+        "month": 3,
+        "day": 19
+      },
+      "dateInfo": "1999-03-19",
+      "role": "ADMINISTRATOR",
+      "deleted": false,
+      "id": 1
+    }
+  }
+]

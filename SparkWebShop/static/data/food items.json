@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "name": "Mali giros",
+    "price": 230.0,
+    "restaurantId": 1,
+    "size": "200g",
+    "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
+    "photo": "food images\\gyros mali.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 2,
+    "name": "Veliki giros",
+    "price": 330.0,
+    "restaurantId": 1,
+    "size": "300g",
+    "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
+    "photo": "food images\\gyros veliki.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 3,
+    "name": "Gyros box",
+    "price": 600.0,
+    "restaurantId": 1,
+    "size": "500g",
+    "description": "Pomfrit, tzatziki, svinjetina, salata",
+    "photo": "food images\\gyros box.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 4,
+    "name": "Slana palačinka",
+    "price": 200.0,
+    "restaurantId": 2,
+    "size": "150g",
+    "description": "Pečenica, pavlaka, majonez, kačkavalj",
+    "photo": "food images\\balans slana.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 5,
+    "name": "Slatka palačinka",
+    "price": 180.0,
+    "restaurantId": 2,
+    "size": "150g",
+    "description": "Nutela, plazma",
+    "photo": "food images\\balans slatka.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 6,
+    "name": "Slatka palačinka",
+    "price": 200.0,
+    "restaurantId": 3,
+    "size": "170g",
+    "description": "Nutela, plazma",
+    "photo": "food images\\milky palacinka.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 7,
+    "name": "Slana palačinka",
+    "price": 230.0,
+    "restaurantId": 3,
+    "size": "200g",
+    "description": "Pečenica, pavlaka, majonez, kačkavalj",
+    "photo": "food images\\milky slana.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 8,
+    "name": "Kofica",
+    "price": 800.0,
+    "restaurantId": 4,
+    "size": "800g",
+    "description": "15 krilaca",
+    "photo": "food images\\kfc kofica.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 9,
+    "name": "Twister",
+    "price": 350.0,
+    "restaurantId": 4,
+    "size": "200g",
+    "description": "Tortilja, piletina, paradajz, salata, majonez",
+    "photo": "food images\\kfc twister.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 10,
+    "name": "Pepsi",
+    "price": 130.0,
+    "restaurantId": 4,
+    "size": "330ml",
+    "description": "pepsi",
+    "photo": "food images\\kfc pepsi.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 11,
+    "name": "Churros",
+    "price": 350.0,
+    "restaurantId": 5,
+    "size": "250g",
+    "description": "Churros",
+    "photo": "food images\\tortilla casa churros.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 12,
+    "name": "Burrito",
+    "price": 320.0,
+    "restaurantId": 5,
+    "size": "300g",
+    "description": "Tortilja, pasulj, pirinač, meso, sos",
+    "photo": "food images\\tortilla casa burrito.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 13,
+    "name": "Tacos",
+    "price": 340.0,
+    "restaurantId": 5,
+    "size": "250g",
+    "description": "Tacos",
+    "photo": "food images\\tortilla casa tacos.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 14,
+    "name": "Royal",
+    "price": 350.0,
+    "restaurantId": 6,
+    "size": "200g",
+    "description": "Royaaaal with cheeeeese",
+    "photo": "food images\\mcdonalds royal.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 15,
+    "name": "Pomfrit",
+    "price": 180.0,
+    "restaurantId": 6,
+    "size": "200g",
+    "description": "Pomfrit",
+    "photo": "food images\\mcdonalds fries.jpg",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 16,
+    "name": "Tost",
+    "price": 200.0,
+    "restaurantId": 6,
+    "size": "150g",
+    "description": "Tortilja, šunka, kačkavalj",
+    "photo": "food images\\mcdonalds toast.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 17,
+    "name": "Coca-Cola",
+    "price": 200.0,
+    "restaurantId": 6,
+    "size": "330ml",
+    "description": "Coca-Cola",
+    "photo": "food images\\mcdonalds kola.png",
+    "amount": 1,
+    "deleted": false
+  },
+  {
+    "id": 18,
+    "name": "Pita jabuka",
+    "price": 240.0,
+    "restaurantId": 6,
+    "size": "140g",
+    "description": "Pita jabuka",
+    "photo": "food images\\mcdonalds pie.jpg",
+    "amount": 1,
+    "deleted": false
+  }
+]

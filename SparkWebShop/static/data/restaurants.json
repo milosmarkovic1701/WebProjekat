@@ -1,110 +1,110 @@
 [
   {
     "name": "Gyros Master",
-    "type": "grčki",
-    "status": "CLOSED",
+    "type": "Grčki",
+    "status": "OPENED",
     "logo": "restaurant logos\\gyros master.jpg",
     "id": 1,
-    "rating": 5.0,
+    "rating": 0.0,
     "deleted": false,
     "location": {
       "street": "Balzakova",
       "number": "3",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 30.0,
-      "width": 30.0
+      "length": 45.0,
+      "width": 19.0
     },
-    "managerId": 20
+    "managerId": 3
   },
   {
     "name": "Balans",
-    "type": "palačinke",
-    "status": "OPENED",
+    "type": "Palačinke",
+    "status": "CLOSED",
     "logo": "restaurant logos\\balans.jpg",
     "id": 2,
-    "rating": 4.7,
+    "rating": 0.0,
     "deleted": false,
     "location": {
-      "street": "Balzakova",
-      "number": "7",
+      "street": "Jevrejska",
+      "number": "42",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 40.0,
-      "width": 40.0
+      "length": 45.2,
+      "width": 19.3
     },
-    "managerId": 20
+    "managerId": 0
   },
   {
-    "name": "Gyros Master",
-    "type": "grčki",
-    "status": "CLOSED",
-    "logo": "restaurant logos\\gyros master.jpg",
+    "name": "Milky",
+    "type": "Palačinke",
+    "status": "OPENED",
+    "logo": "restaurant logos\\milky.png",
     "id": 3,
-    "rating": 5.0,
+    "rating": 0.0,
     "deleted": false,
     "location": {
-      "street": "Balzakova",
-      "number": "3",
+      "street": "Bulevar cara Lazara",
+      "number": "23",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 30.0,
-      "width": 30.0
+      "length": 45.4,
+      "width": 19.1
     },
-    "managerId": 20
+    "managerId": 0
   },
   {
-    "name": "Balans",
-    "type": "palačinke",
+    "name": "KFC",
+    "type": "Razno",
     "status": "OPENED",
-    "logo": "restaurant logos\\balans.jpg",
+    "logo": "restaurant logos\\kfc.png",
     "id": 4,
-    "rating": 4.7,
+    "rating": 0.0,
     "deleted": false,
     "location": {
-      "street": "Balzakova",
-      "number": "7",
+      "street": "Bulevar Oslobođenja",
+      "number": "6",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 40.0,
-      "width": 40.0
+      "length": 45.24,
+      "width": 19.13
     },
-    "managerId": 20
+    "managerId": 4
   },
   {
-    "name": "Gyros Master",
-    "type": "grčki",
-    "status": "CLOSED",
-    "logo": "restaurant logos\\gyros master.jpg",
-    "id": 5,
-    "rating": 5.0,
-    "deleted": false,
-    "location": {
-      "street": "Balzakova",
-      "number": "3",
-      "city": "Novi Sad",
-      "postalCode": "21000",
-      "length": 30.0,
-      "width": 30.0
-    },
-    "managerId": 20
-  },
-  {
-    "name": "Balans",
-    "type": "palačinke",
+    "name": "Tortilla Casa",
+    "type": "Meksički",
     "status": "OPENED",
-    "logo": "restaurant logos\\balans.jpg",
-    "id": 6,
-    "rating": 4.7,
+    "logo": "restaurant logos\\tortilla casa.jpg",
+    "id": 5,
+    "rating": 0.0,
     "deleted": false,
     "location": {
-      "street": "Balzakova",
-      "number": "7",
+      "street": "Bulevar Oslobođenja",
+      "number": "104",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 40.0,
-      "width": 40.0
+      "length": 45.7,
+      "width": 19.3
     },
-    "managerId": 20
+    "managerId": 0
+  },
+  {
+    "name": "Mc Donalds",
+    "type": "Razno",
+    "status": "OPENED",
+    "logo": "restaurant logos\\mcdonalds.png",
+    "id": 6,
+    "rating": 0.0,
+    "deleted": false,
+    "location": {
+      "street": "Puškinova",
+      "number": "27",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 45.6,
+      "width": 19.8
+    },
+    "managerId": 0
   }
 ]

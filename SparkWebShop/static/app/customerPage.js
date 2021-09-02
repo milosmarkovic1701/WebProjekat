@@ -97,20 +97,21 @@ template:`
 			      <div class="col col-sm-2">
 			        <select class="form-select" v-model="restaurantSearchQuery.filterType" id="inputGroupSelect04">
 			          <option value="" selected>Filter (tip)</option>
-			          <option value="rostilj">Roštilj</option>
-			          <option value="palacinke">Palačinke</option>
+			          <option value="razno">Razno</option>
+			          <option value="roštilj">Roštilj</option>
+			          <option value="palačinke">Palačinke</option>
 			          <option value="krofne">Krofne</option>
 			          <option value="pekara">Pekara</option>
-			          <option value="poslasticarnica">Poslastičarnica</option>
+			          <option value="poslastičarnica">Poslastičarnica</option>
 			          <option value="picerija">Picerija</option>
 			          <option value="italijanski">Italijanski</option>
-			          <option value="meksicki">Meksički</option>
+			          <option value="meksički">Meksički</option>
 			          <option value="kineski">Kineski</option>
 			          <option value="francuski">Francuski</option>
 			          <option value="japanski">Japanski</option>
 			          <option value="indijski">Indijski</option>
 			          <option value="turski">Turski</option>
-			          <option value="grcki">Grčki</option>
+			          <option value="grčki">Grčki</option>
 			        </select>
 			      </div>
 			      <div class="col col-sm-2">
@@ -143,7 +144,7 @@ template:`
 	    <div class="row row-cols-1 row-cols-md-4 g-4">
 	      <div class="col" v-for="restaurant in restaurants">
 	        <div class="card" style="width: 21rem;">
-	          <img v-bind:src="restaurant.logo" width="300" height="220" class="card-img-top" alt="...">
+	          <img v-bind:src="restaurant.logo" width="300" height="300" class="card-img-top" alt="...">
 	          <div class="card-body">
 	            <h5 class="card-title">{{restaurant.name}}</h5>
 	          </div>
@@ -236,7 +237,7 @@ template:`
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in orders" class="col">
             <div class="card" style="width: 21rem;">
-              <img v-bind:src="order.restaurantLogo" width="300" height="220" class="card-img-top" alt="...">
+              <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
               </div>
@@ -265,7 +266,7 @@ template:`
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in notDeliveredOrders" class="col">
             <div class="card" style="width: 21rem;">
-              <img v-bind:src="order.restaurantLogo" width="300" height="220" class="card-img-top" alt="...">
+              <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
               </div>
@@ -293,7 +294,7 @@ template:`
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in notRatedOrders" class="col">
             <div class="card" style="width: 21rem;">
-              <img v-bind:src="order.restaurantLogo" width="300" height="220" class="card-img-top" alt="...">
+              <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
               </div>
@@ -309,7 +310,7 @@ template:`
                 <li class="list-group-item">{{order.price}} din.</li>
               </ul>
               <div class="card-body">
-                <button type="button" class="btn btn-danger">Oceni</button>
+                <button type="button" v-on:click="rateOrder(order.id)" class="btn btn-danger">Oceni</button>
             </div>
           </div>
           </div>
@@ -435,6 +436,17 @@ template:`
         	document.getElementById("passwordInput").disabled = true;
         	document.getElementById("addressInput").disabled = true;
         	document.getElementById("birthDateInput").disabled = true;
+        },
+        rateOrder(id) {
+        	for (o in this.notRatedOrders) {
+        		if (this.notRatedOrders[o].id === id) {
+					console.log(this.notRatedOrders[o]);
+					localStorage.setItem("orderToRate", JSON.stringify(this.notRatedOrders[o]));
+					break;
+        		}
+        	}
+        	this.$router.push('/commentPage'); 
+	        this.$router.go();
         },
 	},
     mounted () {

@@ -1,16 +1,14 @@
-
-html
-  {
-    height:auto
-  }
-
-body
-  {
-    height:auto;
-    background-color: white !important;
-    background-image: linear-gradient(white, #eae7dc);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  }
+html{
+  min-height: 100%;
+  height: auto;
+}
+body{
+   min-height: 100%;
+   height: auto;
+   background-color: white !important;
+   background-image: linear-gradient(white, #eae7dc);
+   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
 header
   {

@@ -41,7 +41,7 @@ public class UsersService {
 	}
 	
 	public ArrayList<UserDTO> changeBlockedUser(int id) {
-		for (Customer customer : customerService.getCustomers()) {
+		for (Customer customer : customerService.getAllCustomers()) {
 			if (customer.getUser().getId() == id) {
 				if (customer.isBlocked())
 					customer.setBlocked(false);
@@ -61,7 +61,7 @@ public class UsersService {
 	}
 	
 	public String updateCustomer(CustomerInfoEditDTO customerDTO) {
-		for (Customer c: customerService.getCustomers()) {
+		for (Customer c: customerService.getAllCustomers()) {
 			if (c.getUser().getId() == customerDTO.getId()) {
 				c.getUser().setName(customerDTO.getName());
 				c.getUser().setLastName(customerDTO.getLastname());
@@ -75,78 +75,87 @@ public class UsersService {
 	}
 	
 	public String updateUser(UserInfoEditDTO userDTO) {
-		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
+		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
 			if (deliveryMan.getUser().getId() == userDTO.getId()) {
 				deliveryMan.getUser().setName(userDTO.getName());
 				deliveryMan.getUser().setLastName(userDTO.getLastname());
 				deliveryMan.getUser().setUsername(userDTO.getUsername());
 				deliveryMan.getUser().setPassword(userDTO.getPassword());
 				deliveryMan.getUser().setBirthDate(adjustDate(userDTO.getBirthDate()));
+				deliveryManService.saveAllDeliveryMen();
 			}
 		}
-		for (Manager manager : managerService.getManagers()) {
+		for (Manager manager : managerService.getAllManagers()) {
 			if (manager.getUser().getId() == userDTO.getId()) {
 				manager.getUser().setName(userDTO.getName());
 				manager.getUser().setLastName(userDTO.getLastname());
 				manager.getUser().setUsername(userDTO.getUsername());
 				manager.getUser().setPassword(userDTO.getPassword());
 				manager.getUser().setBirthDate(adjustDate(userDTO.getBirthDate()));
+				managerService.saveAllManagers();
 			}
 		}
-		for (Administrator admin: administratorService.getAdministrators()) {
+		for (Administrator admin: administratorService.getAllAdministrators()) {
 			if (admin.getUser().getId() == userDTO.getId()) {
 				admin.getUser().setName(userDTO.getName());
 				admin.getUser().setLastName(userDTO.getLastname());
 				admin.getUser().setUsername(userDTO.getUsername());
 				admin.getUser().setPassword(userDTO.getPassword());
 				admin.getUser().setBirthDate(adjustDate(userDTO.getBirthDate()));
+				administratorService.saveAllAdministrators();
 			}
 		}
 		return "Vaši podaci su uspešno ažurirani.";
 	}
 	
 	public ArrayList<UserDTO> blockUser(int id) {
-		for (Customer customer : customerService.getCustomers()) {
+		for (Customer customer : customerService.getAllCustomers()) {
 			if (customer.getUser().getId() == id) {
 				if (customer.isBlocked())
 					customer.setBlocked(false);
 				else
 					customer.setBlocked(true);
+				customerService.saveAllCustomers();
 			}
 		}
-		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
+		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
 			if (deliveryMan.getUser().getId() == id) {
 				if (deliveryMan.isBlocked())
 					deliveryMan.setBlocked(false);
 				else
 					deliveryMan.setBlocked(true);
+				deliveryManService.saveAllDeliveryMen();
 			}
 		}
-		for (Manager manager : managerService.getManagers()) {
+		for (Manager manager : managerService.getAllManagers()) {
 			if (manager.getUser().getId() == id) {
 				if (manager.isBlocked())
 					manager.setBlocked(false);
 				else
 					manager.setBlocked(true);
+				managerService.saveAllManagers();
 			}
 		}
 		return getAllUsers();
 	}
 	
 	public ArrayList<UserDTO> deleteUser(int id) {
-		for (Customer customer : customerService.getCustomers()) {
+		for (Customer customer : customerService.getAllCustomers()) {
 			if (customer.getUser().getId() == id) {
 				customer.getUser().setDeleted(true);
+				customerService.saveAllCustomers();
 			}
 		}
-		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
+		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
 			if (deliveryMan.getUser().getId() == id) {
-				deliveryMan.getUser().setDeleted(true);;
+				deliveryMan.getUser().setDeleted(true);
+				deliveryManService.saveAllDeliveryMen();
 			}
 		}
-		for (Manager manager : managerService.getManagers()) {
+		for (Manager manager : managerService.getAllManagers()) {
 			if (manager.getUser().getId() == id) {
 				manager.getUser().setDeleted(true);
+				managerService.saveAllManagers();
 			}
 		}
 		return getAllUsers();
@@ -169,15 +178,15 @@ public class UsersService {
 		}
 		else {
 			LocalDate dayOfBirth = customerService.adjustDate(birthDate);
-			int amountOfUsers = managerService.getManagers().size() +
-					customerService.getCustomers().size() +
-					administratorService.getAdministrators().size() +
-					deliveryManService.getDeliveryMen().size();
+			int amountOfUsers = managerService.getAllManagers().size() +
+					customerService.getAllCustomers().size() +
+					administratorService.getAllAdministrators().size() +
+					deliveryManService.getAllDeliveryMen().size();
 				int id = amountOfUsers + 1;
 				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.MANAGER, id);
 				Manager newManager = new Manager(newUser);
-				managerService.getManagers().add(newManager);
-				System.out.println(managerService.getManagers());
+				managerService.getAllManagers().add(newManager);
+				managerService.saveAllManagers();
 				return "Uspešno ste dodali novog menadžera.";
 		}
 	}
@@ -199,29 +208,29 @@ public class UsersService {
 		}
 		else {
 			LocalDate dayOfBirth = customerService.adjustDate(birthDate);
-			int amountOfUsers = managerService.getManagers().size() +
-					customerService.getCustomers().size() +
-					administratorService.getAdministrators().size() +
-					deliveryManService.getDeliveryMen().size();
+			int amountOfUsers = managerService.getAllManagers().size() +
+					customerService.getAllCustomers().size() +
+					administratorService.getAllAdministrators().size() +
+					deliveryManService.getAllDeliveryMen().size();
 			int id = amountOfUsers + 1;
 			if (role.equalsIgnoreCase("manager")) {
 				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.MANAGER, id);
 				Manager newManager = new Manager(newUser);
-				managerService.getManagers().add(newManager);
-				System.out.println(managerService.getManagers());
+				managerService.getAllManagers().add(newManager);
+				managerService.saveAllManagers();
 			}
 			else if (role.equalsIgnoreCase("deliveryman")) {
 				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.DELIVERYMAN, id);
 				DeliveryMan newDeliveryMan = new DeliveryMan(newUser);
-				deliveryManService.getDeliveryMen().add(newDeliveryMan);
-				System.out.println(deliveryManService.getDeliveryMen());
+				deliveryManService.getAllDeliveryMen().add(newDeliveryMan);
+				deliveryManService.saveAllDeliveryMen();
 			}
 			return "Uspešno ste dodali novog zaposlenog.";
 		}
 	}
 	
 	public void getCustomers() {
-		for (Customer customer : customerService.getCustomers()) {
+		for (Customer customer : customerService.getAllCustomers()) {
 			if (!customer.getUser().isDeleted()) {
 			User c = customer.getUser();
 			String date = String.valueOf(c.getBirthDate().getDayOfMonth()) + "." + String.valueOf(c.getBirthDate().getMonthValue()) + "." + String.valueOf(c.getBirthDate().getYear()) + ".";
@@ -240,7 +249,7 @@ public class UsersService {
 	}
 	
 	public void getAdministrators() {
-		for (Administrator admin : administratorService.getAdministrators()) {
+		for (Administrator admin : administratorService.getAllAdministrators()) {
 			if (!admin.getUser().isDeleted()) {
 			User a = admin.getUser();
 			String date = String.valueOf(a.getBirthDate().getDayOfMonth()) + "." + String.valueOf(a.getBirthDate().getMonthValue()) + "." + String.valueOf(a.getBirthDate().getYear()) + ".";
@@ -259,7 +268,7 @@ public class UsersService {
 	}
 	
 	public void getDeliveryMen() {
-		for (DeliveryMan deliveryMan: deliveryManService.getDeliveryMen()) {
+		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
 			if (!deliveryMan.getUser().isDeleted()) {
 			User dm = deliveryMan.getUser();
 			String date = String.valueOf(dm.getBirthDate().getDayOfMonth()) + "." + String.valueOf(dm.getBirthDate().getMonthValue()) + "." + String.valueOf(dm.getBirthDate().getYear()) + ".";
@@ -278,7 +287,7 @@ public class UsersService {
 	}
 	
 	public void getManagers() {
-		for (Manager manager : managerService.getManagers()) {
+		for (Manager manager : managerService.getAllManagers()) {
 			if (!manager.getUser().isDeleted()) {
 			User m = manager.getUser();
 			String date = String.valueOf(m.getBirthDate().getDayOfMonth()) + "." + String.valueOf(m.getBirthDate().getMonthValue()) + "." + String.valueOf(m.getBirthDate().getYear()) + ".";
@@ -298,7 +307,7 @@ public class UsersService {
 	
 	public ArrayList<UserDTO> getSpam() {
 		spamUsers.clear();
-		for (Customer customer : customerService.getCustomers()) {
+		for (Customer customer : customerService.getAllCustomers()) {
 			if (!customer.getUser().isDeleted()) {
 				if (customer.getCancels() >= 5) {
 					User c = customer.getUser();
@@ -320,6 +329,7 @@ public class UsersService {
 	}
 	
 	public ArrayList<UserDTO> searchUsers(UsersQueryDTO query) {
+		getAllUsers();
 		ArrayList<UserDTO> allUsers = (ArrayList<UserDTO>)users.clone();
 		int indexCounter = -1;
 		for (UserDTO user : users) {

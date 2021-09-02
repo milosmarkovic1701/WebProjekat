@@ -23,12 +23,15 @@ public class ManagerService {
 	ArrayList<Manager> managers = new ArrayList<Manager>();
 
 	public ManagerService() {
-		managers.add(new Manager(new User("misa00", "misa00", "Miloš", "Marković", LocalDate.of(2000, 1, 17), Role.MANAGER, 20)));
+		managers = getAllManagers();
 	}
 	
 	public ArrayList<Manager> getManagers() {
 		ArrayList<Manager> validManagers = new ArrayList<Manager>();
-		return managers;
+		for (Manager m : managers)
+			if (!m.getUser().isDeleted())
+				validManagers.add(m);
+		return validManagers;
 	}
 
 	public void setManagers(ArrayList<Manager> managers) {
@@ -37,9 +40,11 @@ public class ManagerService {
 	
 	public void addManager(Manager manager) {
 		managers.add(manager);
+		saveAllManagers();
 	}
 	
 	public boolean checkUsername(String username) {
+		managers = getAllManagers();
 		for (Manager manager : managers) {
 			if (manager.getUser().getUsername().equalsIgnoreCase(username))
 				return false;
@@ -71,7 +76,7 @@ public class ManagerService {
 		
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/managers.json"));
-			writer.append(gson.toJson(managers, Manager[].class));
+			writer.append(gson.toJson(managers));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

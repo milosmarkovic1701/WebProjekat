@@ -22,7 +22,7 @@ public class DeliveryManService {
 	ArrayList<DeliveryMan> deliveryMen = new ArrayList<DeliveryMan>();
 
 	public DeliveryManService() {
-		deliveryMen.add(new DeliveryMan(new User("pera99", "pera99", "Petar", "Marković", LocalDate.of(1999, 11, 17), Role.DELIVERYMAN, 30)));
+		deliveryMen = getAllDeliveryMen();
 	}
 	
 	public ArrayList<DeliveryMan> getDeliveryMen() {
@@ -68,7 +68,7 @@ public class DeliveryManService {
 		
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/delivery men.json"));
-			writer.append(gson.toJson(deliveryMen, DeliveryMan[].class));
+			writer.append(gson.toJson(deliveryMen));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

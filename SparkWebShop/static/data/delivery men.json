@@ -1,0 +1,62 @@
+[
+  {
+    "user": {
+      "username": "peram",
+      "password": "pera",
+      "name": "Petar",
+      "lastName": "Marković",
+      "fullName": "Petar Marković",
+      "birthDate": {
+        "year": 1999,
+        "month": 11,
+        "day": 17
+      },
+      "dateInfo": "1999-11-17",
+      "role": "DELIVERYMAN",
+      "deleted": false,
+      "id": 11
+    },
+    "blocked": false,
+    "ordersToDeliver": []
+  },
+  {
+    "user": {
+      "username": "stevas",
+      "password": "steva",
+      "name": "Milan",
+      "lastName": "Stevanović",
+      "fullName": "Milan Stevanović",
+      "birthDate": {
+        "year": 1999,
+        "month": 4,
+        "day": 6
+      },
+      "dateInfo": "1999-04-06",
+      "role": "DELIVERYMAN",
+      "deleted": false,
+      "id": 10
+    },
+    "blocked": false,
+    "ordersToDeliver": []
+  },
+  {
+    "user": {
+      "username": "coam",
+      "password": "coa",
+      "name": "Aca",
+      "lastName": "Milešević",
+      "fullName": "Aca Milešević",
+      "birthDate": {
+        "year": 1999,
+        "month": 11,
+        "day": 6
+      },
+      "dateInfo": "1999-11-06",
+      "role": "DELIVERYMAN",
+      "deleted": false,
+      "id": 9
+    },
+    "blocked": false,
+    "ordersToDeliver": []
+  }
+]

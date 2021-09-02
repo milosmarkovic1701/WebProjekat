@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import beans.Administrator;
 import beans.Customer;
 import beans.Manager;
+import beans.Restaurant;
 import beans.User;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
@@ -25,15 +26,7 @@ public class CustomerService {
 	ArrayList<Customer> customers = new ArrayList<Customer>();
 	
 public CustomerService () {
-		customers.add(new Customer(new User("anag", "ana", "Ana", "Gavrilović", LocalDate.of(1999, 9, 23), Role.CUSTOMER, 10), "Andre Jovanovića 6, Šabac"));
-		customers.add(new Customer(new User("micas", "mica99", "Milica", "Samardžija", LocalDate.of(1999, 5, 1), Role.CUSTOMER, 40), "Andre Jovanovića 10, Šabac"));
-		customers.add(new Customer(new User("nenaa", "nena99", "Nevena", "Atić", LocalDate.of(1999, 3, 28), Role.CUSTOMER, 50), "Andre Jovanovića 50, Šabac"));
-		customers.get(1).setCancels(7);
-		customers.get(1).setBlocked(true);
-		customers.get(0).setCancels(5);
-		customers.get(1).setPoints(110);
-		customers.get(2).setPoints(3500);
-		customers.get(2).setType(Type.SILVER);
+		customers = getAllCustomers();
 	}
 	
 	public ArrayList<Customer> getCustomers() {
@@ -45,10 +38,13 @@ public CustomerService () {
 	}
 
 	public void registerCustomer(Customer newCustomer) {
+		customers = getAllCustomers();
 		customers.add(newCustomer);
+		saveAllCustomers();
 	}	
 	
 	public boolean checkUsername(String username) {
+		customers = getAllCustomers();
 		for (Customer customer : customers) {
 			if (customer.getUser().getUsername().equalsIgnoreCase(username))
 				return false;
@@ -57,6 +53,7 @@ public CustomerService () {
 	}
 	
 	public Customer login(LoginUserDTO user) {
+		customers = getAllCustomers();
 		for (Customer customer : customers) {
 			if (user.getUsernameLogin().equals(customer.getUser().getUsername()) && user.getPasswordLogin().equals(customer.getUser().getPassword()))
 				return customer;
@@ -65,9 +62,10 @@ public CustomerService () {
 	}
 	
 	public ArrayList<Customer> spamCustomers() {
+		customers = getAllCustomers();
 		ArrayList<Customer> spam = new ArrayList<Customer>();
 		for (Customer c : customers) {
-			if (c.getCancels() >= 5)
+			if (c.getCancels() >= 5 && !c.getUser().isDeleted())
 				spam.add(c);
 		}
 		return spam;
@@ -109,7 +107,7 @@ public CustomerService () {
 		
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/customers.json"));
-			writer.append(gson.toJson(customers, Customer[].class));
+			writer.append(gson.toJson(customers));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

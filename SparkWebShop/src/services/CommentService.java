@@ -16,6 +16,7 @@ import beans.Customer;
 import beans.Order;
 import beans.Restaurant;
 import dto.AdminCommentDTO;
+import dto.CommentDTO;
 import dto.RestaurantCommentDTO;
 
 public class CommentService {
@@ -50,6 +51,13 @@ public class CommentService {
 
 	public void setComments(ArrayList<AdminCommentDTO> comments) {
 		this.commentsDTO = comments;
+	}
+	
+	public void addComment(CommentDTO comment) {
+		Comment newComment = new Comment(comment.getCustomerId(), comment.getRestaurantId(), comment.getOrderId(), comment.getRating(), comment.getContent());
+		System.out.println(comment);
+		comments.add(newComment);
+		saveAllComments();
 	}
 
 	public CommentService() {
@@ -108,7 +116,7 @@ public class CommentService {
 		
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/comments.json"));
-			writer.append(gson.toJson(comments, Comment[].class));
+			writer.append(gson.toJson(comments));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
