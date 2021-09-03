@@ -521,13 +521,13 @@ Vue.component("administrator-page", {
 			.then(response => {
 	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
+						this.getUsers();
+	        			this.getManagers();
 	                }
 	                else {
 	                    alert("Greška: " + response.data);
 	                }
 	            });
-	        this.getUsers();
-	        this.getManagers();
 		},
 		addManager() {
 			this.newManager.role = "manager";
@@ -536,21 +536,23 @@ Vue.component("administrator-page", {
 			.then(response => {
 	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
+						this.getManagers();
+	        			this.getUsers();
 	                }
 	                else {
 	                    alert("Greška: " + response.data);
 	                }
 	        });
-	        this.getManagers();
-	        this.getUsers();
 		},
 		deleteSelectedUser(id){
             this.userId = id;
             axios
 	            .post('rest/users/deleteSelectedUser', this.userId)
-	          	.then(response => (this.users = response.data))
-	        this.getSpamUsers();   
-	        this.getManagers();
+	          	.then(response => {
+	                this.users = response.data;
+	          		this.getSpamUsers();   
+	        		this.getManagers();
+	                })      	
         },
         deleteRestaurant(id){
             this.restaurantId = id;
@@ -562,15 +564,18 @@ Vue.component("administrator-page", {
             this.userId = id;
             axios
 	            .post('rest/users/blockSelectedUser', this.userId)
-	          	.then(response => (this.users = response.data))
-	        this.getSpamUsers();
+	          	.then(response => {this.users = response.data
+	          	 this.getSpamUsers();
+	          	 })
         },
         changeBlockedCustomer(id){
             this.spamUserId = id;
             axios
 	            .post('rest/users/changeBlockedUser', this.spamUserId)
-	          	.then(response => (this.spamUsers = response.data))
-	       this.getUsers();
+	          	.then(response => {
+	          	this.spamUsers = response.data
+	          	this.getUsers();
+	          	})
         },
         enableInfoEdit(){
         	document.getElementById("nameInput").disabled = false;
