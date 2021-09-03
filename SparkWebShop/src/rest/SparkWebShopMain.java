@@ -268,7 +268,7 @@ public class SparkWebShopMain {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(commentService.getRestaurantComments(id));
+			return g.toJson(commentService.getRestaurantComments(id)); //sredi
 		});
 		
 		post("/rest/comments/addComment", (req, res) -> {

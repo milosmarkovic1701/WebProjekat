@@ -43,7 +43,7 @@ public class FoodItemService {
 	
 	public ArrayList<FoodItem> getAllFoodItems() {
 		Gson gson = new Gson();
-		
+		foodItems.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/food items.json"));
 			FoodItem[] foodItemsList = gson.fromJson(reader, FoodItem[].class);

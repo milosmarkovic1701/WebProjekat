@@ -140,7 +140,7 @@ public class OrderService {
 	
 	public ArrayList<Order> getAllOrders() {
 		Gson gson = new Gson();
-		
+		orders.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/orders.json"));
 			Order[] ordersList = gson.fromJson(reader, Order[].class);

@@ -47,7 +47,7 @@ public class DeliveryManService {
 	
 	public ArrayList<DeliveryMan> getAllDeliveryMen() {
 		Gson gson = new Gson();
-		
+		deliveryMen.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/delivery men.json"));
 			DeliveryMan[] deliveryMenList = gson.fromJson(reader, DeliveryMan[].class);

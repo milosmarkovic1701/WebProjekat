@@ -115,27 +115,27 @@ public class UsersService {
 					customer.setBlocked(false);
 				else
 					customer.setBlocked(true);
-				customerService.saveAllCustomers();
 			}
 		}
+		customerService.saveAllCustomers();
 		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
 			if (deliveryMan.getUser().getId() == id) {
 				if (deliveryMan.isBlocked())
 					deliveryMan.setBlocked(false);
 				else
 					deliveryMan.setBlocked(true);
-				deliveryManService.saveAllDeliveryMen();
 			}
 		}
+		deliveryManService.saveAllDeliveryMen();
 		for (Manager manager : managerService.getAllManagers()) {
 			if (manager.getUser().getId() == id) {
 				if (manager.isBlocked())
 					manager.setBlocked(false);
 				else
 					manager.setBlocked(true);
-				managerService.saveAllManagers();
 			}
 		}
+		managerService.saveAllManagers();
 		return getAllUsers();
 	}
 	
@@ -232,76 +232,76 @@ public class UsersService {
 	public void getCustomers() {
 		for (Customer customer : customerService.getAllCustomers()) {
 			if (!customer.getUser().isDeleted()) {
-			User c = customer.getUser();
-			String date = String.valueOf(c.getBirthDate().getDayOfMonth()) + "." + String.valueOf(c.getBirthDate().getMonthValue()) + "." + String.valueOf(c.getBirthDate().getYear()) + ".";
-			users.add(new UserDTO(String.valueOf(c.getId()), 
-					              c.getUsername(), 
-					              c.getName(), 
-					              c.getLastName(), 
-					              date, 
-					              "Kupac", 
-					              customer.getPoints(), 
-					              customerService.customerTypeStr(customer), 
-					              customer.getCancels(),
-								  customer.isBlocked()));
-			}
+				User c = customer.getUser();
+				String date = String.valueOf(c.getBirthDate().getDayOfMonth()) + "." + String.valueOf(c.getBirthDate().getMonthValue()) + "." + String.valueOf(c.getBirthDate().getYear()) + ".";
+				users.add(new UserDTO(String.valueOf(c.getId()), 
+						              c.getUsername(), 
+						              c.getName(), 
+						              c.getLastName(), 
+						              date, 
+						              "Kupac", 
+						              customer.getPoints(), 
+						              customerService.customerTypeStr(customer), 
+						              customer.getCancels(),
+									  customer.isBlocked()));
+				}
 		}
 	}
 	
 	public void getAdministrators() {
 		for (Administrator admin : administratorService.getAllAdministrators()) {
 			if (!admin.getUser().isDeleted()) {
-			User a = admin.getUser();
-			String date = String.valueOf(a.getBirthDate().getDayOfMonth()) + "." + String.valueOf(a.getBirthDate().getMonthValue()) + "." + String.valueOf(a.getBirthDate().getYear()) + ".";
-			users.add(new UserDTO(String.valueOf(a.getId()), 
-					              a.getUsername(), 
-					              a.getName(), 
-					              a.getLastName(), 
-					              date, 
-					              "Administrator", 
-					              0, 
-					              "/", 
-					              0, 
-					              false));
-			}
+				User a = admin.getUser();
+				String date = String.valueOf(a.getBirthDate().getDayOfMonth()) + "." + String.valueOf(a.getBirthDate().getMonthValue()) + "." + String.valueOf(a.getBirthDate().getYear()) + ".";
+				users.add(new UserDTO(String.valueOf(a.getId()), 
+						              a.getUsername(), 
+						              a.getName(), 
+						              a.getLastName(), 
+						              date, 
+						              "Administrator", 
+						              0, 
+						              "/", 
+						              0, 
+						              false));
+				}
 		}
 	}
 	
 	public void getDeliveryMen() {
 		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
 			if (!deliveryMan.getUser().isDeleted()) {
-			User dm = deliveryMan.getUser();
-			String date = String.valueOf(dm.getBirthDate().getDayOfMonth()) + "." + String.valueOf(dm.getBirthDate().getMonthValue()) + "." + String.valueOf(dm.getBirthDate().getYear()) + ".";
-			users.add(new UserDTO(String.valueOf(dm.getId()), 
-					              dm.getUsername(), 
-					              dm.getName(), 
-					              dm.getLastName(), 
-					              date, 
-					              "Dostavljač", 
-					              0, 
-					              "/", 
-					              0, 
-					              deliveryMan.isBlocked()));
-			}
+				User dm = deliveryMan.getUser();
+				String date = String.valueOf(dm.getBirthDate().getDayOfMonth()) + "." + String.valueOf(dm.getBirthDate().getMonthValue()) + "." + String.valueOf(dm.getBirthDate().getYear()) + ".";
+				users.add(new UserDTO(String.valueOf(dm.getId()), 
+						              dm.getUsername(), 
+						              dm.getName(), 
+						              dm.getLastName(), 
+						              date, 
+						              "Dostavljač", 
+						              0, 
+						              "/", 
+						              0, 
+						              deliveryMan.isBlocked()));
+				}
 		}
 	}
 	
 	public void getManagers() {
 		for (Manager manager : managerService.getAllManagers()) {
 			if (!manager.getUser().isDeleted()) {
-			User m = manager.getUser();
-			String date = String.valueOf(m.getBirthDate().getDayOfMonth()) + "." + String.valueOf(m.getBirthDate().getMonthValue()) + "." + String.valueOf(m.getBirthDate().getYear()) + ".";
-			users.add(new UserDTO(String.valueOf(m.getId()), 
-					              m.getUsername(), 
-					              m.getName(), 
-					              m.getLastName(), 
-					              date, 
-					              "Menadžer", 
-					              0, 
-					              "/", 
-					              0, 
-					              manager.isBlocked()));
-			}
+				User m = manager.getUser();
+				String date = String.valueOf(m.getBirthDate().getDayOfMonth()) + "." + String.valueOf(m.getBirthDate().getMonthValue()) + "." + String.valueOf(m.getBirthDate().getYear()) + ".";
+				users.add(new UserDTO(String.valueOf(m.getId()), 
+						              m.getUsername(), 
+						              m.getName(), 
+						              m.getLastName(), 
+						              date, 
+						              "Menadžer", 
+						              0, 
+						              "/", 
+						              0, 
+						              manager.isBlocked()));
+				}
 		}
 	}
 	

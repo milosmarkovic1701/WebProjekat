@@ -85,7 +85,7 @@ public CustomerService () {
 	
 	public ArrayList<Customer> getAllCustomers() {
 		Gson gson = new Gson();
-		
+		customers.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/customers.json"));
 			Customer[] customersList = gson.fromJson(reader, Customer[].class);

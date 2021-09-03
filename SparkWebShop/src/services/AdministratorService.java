@@ -55,7 +55,7 @@ public class AdministratorService {
 	
 	public ArrayList<Administrator> getAllAdministrators() {
 		Gson gson = new Gson();
-		
+		administrators.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/administrators.json"));
 			Administrator[] administratorsList = gson.fromJson(reader, Administrator[].class);

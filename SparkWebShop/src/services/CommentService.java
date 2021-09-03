@@ -95,7 +95,7 @@ public class CommentService {
 	
 	public ArrayList<Comment> getAllComments() {
 		Gson gson = new Gson();
-		
+		comments.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/comments.json"));
 			Comment[] commentsList = gson.fromJson(reader, Comment[].class);

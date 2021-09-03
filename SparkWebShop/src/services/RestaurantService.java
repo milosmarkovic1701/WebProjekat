@@ -33,7 +33,7 @@ public class RestaurantService {
 	
 	public HashMap<Integer, Restaurant> getAllRestaurants() {
 		Gson gson = new Gson();
-		
+		restaurants.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/restaurants.json"));
 			Restaurant[] restaurantList = gson.fromJson(reader, Restaurant[].class);

@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import beans.Administrator;
 import beans.Customer;
 import beans.Manager;
+import beans.Restaurant;
 import beans.User;
 import enums.Role;
 
@@ -31,6 +34,7 @@ public class ManagerService {
 		for (Manager m : managers)
 			if (!m.getUser().isDeleted())
 				validManagers.add(m);
+		Collections.reverse(validManagers);
 		return validManagers;
 	}
 
@@ -54,13 +58,12 @@ public class ManagerService {
 	
 	public ArrayList<Manager> getAllManagers() {
 		Gson gson = new Gson();
-		
+		managers.clear();
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("./static/data/managers.json"));
 			Manager[] managersList = gson.fromJson(reader, Manager[].class);
 			if(managersList != null) {
 			    for (int i = 0; i < managersList.length; i++) {
-			    	//if(list[i].isObrisana()) continue;
 			        managers.add(managersList[i]);
 			    }
 			}
