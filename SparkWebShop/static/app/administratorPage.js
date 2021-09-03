@@ -564,8 +564,9 @@ Vue.component("administrator-page", {
             this.userId = id;
             axios
 	            .post('rest/users/blockSelectedUser', this.userId)
-	          	.then(response => {this.users = response.data
-	          	 this.getSpamUsers();
+	          	.then(response => {
+	          	this.users = response.data;
+	          	this.getSpamUsers();
 	          	 })
         },
         changeBlockedCustomer(id){
@@ -573,7 +574,7 @@ Vue.component("administrator-page", {
             axios
 	            .post('rest/users/changeBlockedUser', this.spamUserId)
 	          	.then(response => {
-	          	this.spamUsers = response.data
+	          	this.spamUsers = response.data;
 	          	this.getUsers();
 	          	})
         },

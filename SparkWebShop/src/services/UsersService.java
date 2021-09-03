@@ -49,6 +49,7 @@ public class UsersService {
 					customer.setBlocked(true);
 			}
 		}
+		customerService.saveAllCustomers();
 		return getSpam();
 	}
 	
@@ -71,6 +72,7 @@ public class UsersService {
 				c.setAddress(customerDTO.getAddress());
 			}
 		}
+		customerService.saveAllCustomers();
 		return "Vaši podaci su uspešno ažurirani.";
 	}
 	
