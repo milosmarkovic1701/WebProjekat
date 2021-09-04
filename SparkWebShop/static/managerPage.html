@@ -65,96 +65,102 @@
   
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="all-orders-tab">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col col-md-2" style="border-left: #dc3545; border-left-style: groove;">
-              <input type="text" class="form-control" placeholder="Pocetna cena">
-              <input type="text" class="form-control" placeholder="Krajnja cena">
-              <input type="date" class="form-control" placeholder="Pocetni datum">
-              <input type="date" class="form-control" placeholder="Krajnji datum">
-            </div>
-            <div class="col">
-              <button type="button" class="btn btn-danger">Pretraži</button>
-            </div>
-            <div class="col" style="border-left: #dc3545; border-left-style: groove;">
-              <select class="form-select" id="inputGroupSelect04">
-                <option value="" disabled selected>Sortiraj...</option>
-                <option value="1">Naziv</option>
-                <option value="2">Lokacija</option>
-                <option value="3">Prosečna ocena</option>
-              </select>
-            </div>
-            <div class="col">
-              <select class="form-select" id="inputGroupSelect04">
-                <option value="" disabled selected>Vrsta sortiranja</option>
-                <option value="1">Rastuće</option>
-                <option value="2">Opadajuće</option>
-              </select>
-            </div>
-            <div class="col">
-              <button type="button" class="btn btn-danger">Sortiraj</button>
-            </div>
-            <div class="col" style="border-left: #dc3545; border-left-style: groove;">
-              <select class="form-select" id="inputGroupSelect04">
-                <option value="" disabled selected>Filter (radno vreme)</option>
-                <option value="1">Otvoren</option>
-                <option value="2">Zatvoren</option>
-              </select>
-            </div>
-            <div class="col">
-              <select class="form-select" id="inputGroupSelect04">
-                <option value="" disabled selected>Filter (tip)</option>
-                <option value="1">Roštilj</option>
-                <option value="2">Palačinke</option>
-                <option value="3">Krofne</option>
-                <option value="4">Pekara</option>
-                <option value="5">Poslastičarnica</option>
-                <option value="6">Picerija</option>
-                <option value="7">Italijanski</option>
-                <option value="8">Meksički</option>
-                <option value="9">Kineski</option>
-                <option value="10">Francuski</option>
-                <option value="11">Japanski</option>
-                <option value="12">Indijski</option>
-                <option value="13">Turski</option>
-                <option value="14">Grčki</option>
-              </select>
-            </div>
-            <div class="col" style="border-right: #dc3545; border-right-style: groove;">
-              <button type="button" class="btn btn-danger">Filtriraj</button>
+        <div class="surface">
+          <div class="container-fluid">
+              <div class="row">
+                
+                <div class="col col-sm-1" style="border-left: #dc3545; border-left-style: groove">
+                  <input type="number" min="0" max="10000" step="100" v-model="orderSearchQuery.priceDown" class="form-control" placeholder="Cena-od">
+                </div>
+                <div class="col col-sm-1">
+                  <input type="number" min="100" max="10000" step="100"v-model="orderSearchQuery.priceUp" class="form-control" placeholder="Cena-do">
+                </div>
+                <div class="col col-sm-2">
+                  <input type="date" v-model="orderSearchQuery.dateDown" class="form-control" placeholder="Datum-od">
+                  <span class="input-group-text" id="basic-addon1">Datum-od</span>
+                </div>
+                <div class="col col-sm-2">
+                  <input type="date" v-model="orderSearchQuery.dateUp" class="form-control" placeholder="Datum-do">
+                  <span class="input-group-text" id="basic-addon1">Datum-do</span>
+                </div>
+                <div class="col col-sm-1">
+                  <select class="form-select" v-model="orderSearchQuery.filterType" id="inputGroupSelect04">
+                    <option value="" selected>Filter (tip)</option>
+                    <option value="roštilj">Roštilj</option>
+                    <option value="palačinke">Palačinke</option>
+                    <option value="krofne">Krofne</option>
+                    <option value="pekara">Pekara</option>
+                    <option value="poslastičarnica">Poslastičarnica</option>
+                    <option value="picerija">Picerija</option>
+                    <option value="italijanski">Italijanski</option>
+                    <option value="meksički">Meksički</option>
+                    <option value="kineski">Kineski</option>
+                    <option value="francuski">Francuski</option>
+                    <option value="japanski">Japanski</option>
+                    <option value="indijski">Indijski</option>
+                    <option value="turski">Turski</option>
+                    <option value="grčki">Grčki</option>
+                  </select>
+                </div>
+                <div class="col col-sm-1">
+                  <select class="form-select" v-model="orderSearchQuery.filterStatus">
+                    <option value="" selected>Filter (status)</option>
+                    <option value="processing">U obradi</option>
+                    <option value="preparing">Priprema se</option>
+                    <option value="ready_to_deliver">Spremno za dostavu</option>
+                    <option value="in_transport">Dostavlja se</option>
+                    <option value="delivered">Dostavljeno</option>
+                    <option value="cancelled">Otkazano</option>
+                  </select>
+                </div>
+                <div class="col col-sm-2">
+                  <select class="form-select" v-model="orderSearchQuery.sort">
+                    <option value="" selected>Tip sortiranja</option>
+                    <option value="restoran_rastuce">Ime restorana (rastuće)</option>
+                    <option value="restoran_opadajuce">Ime restorana (opadajuće)</option>
+                    <option value="cena_rastuce">Cena (rastuće)</option>
+                    <option value="cena_opadajuce">Cena (opadajuće)</option>
+                    <option value="datum_rastuce">Datum (rastuće)</option>
+                    <option value="datum_opadajuce">Datum (opadajuće)</option>
+                  </select>
+                </div>
+                <div class="col col-sm-1" style="border-right: #dc3545; border-right-style: groove">
+                  <button type="button" v-on:click="searchOrders()" class="btn btn-danger">Pretraži</button>
+                </div>
+              <div class="row"></div>
             </div>
           </div>
-          <div class="row"></div>
-          <div class="row"></div>
         </div>
 
-                <table class="table table-hover table-striped ">
-                 <tbody>
-                 <tr>
-                 <td>Milos Markovic</td>
-                 <td>Bore Tirica 89, Sabac</td>
-                 <td>AKTIVAN</td>
-                 <td>400 din</td>
-                 <td>Pizza</td>
-                 <td><button type="button" class="btn btn-danger ">Kraj pripreme.</button></td>
-                </tr>
-                <tr>
-                <td>Mihailo Majstorovic</td>
-                <td>Duplje</td>
-                <td>AKTIVAN</td>
-                <td>600 din</td>
-                <td>Belo meso</td>
-                <td><button type="button" class="btn btn-danger">Kraj pripreme.</button></td>
-                </tr>
-                <tr>
-                <td>Milica Samardzija</td>
-                <td>Sabac kod gimn</td>
-                <td>DOSTAVLJEN</td>
-                <td>100 din</td>
-                <td colspan= "2">Coko smoki </td>
-                </tr>
-                </tbody>
-                </table>
+        <table class="table table-hover table-striped ">
+          <thead>
+              <th>Ime i prezime mušterije</th>
+              <th>Adresa mušterije</th>
+              <th>Ime artikla</th>
+              <th>Datum i vreme porudžbine</th>
+              <th>Cena</th>
+              <th colspan="2">Status</th>
+          </thead>
+       <tbody>
+       <tr>
+       <td>Milos Markovic</td>
+       <td>Bore Tirica 89, Sabac</td>
+       <td>Pizza</td>
+       <td>20.10.2020.</td>
+       <td>850 din</td>
+       <td colspan="2">Hasl.</td>
+      </tr>
+      <tr>
+      <td>Mihailo Majstorovic</td>
+      <td>Duplje</td>
+      <td>Sendvic</td>
+      <td>20.10.2020.</td>
+      <td>600 din</td>
+      <td>U pripremi.</td>
+      <td><button type="button" class="btn btn-danger">Nadji dostavljača</button></td>
+      </tr>
+      </tbody>
+      </table>
             </div>
     
   
@@ -163,25 +169,38 @@
         <div class="tab-pane fade" id="selectdelivery" role="tabpanel" aria-labelledby="select-deliveryman-tab">
           <div class="container-fluid my-container">
             <div class="row my-row  justify-content-around">
-                <table class="table table-hover table-striped ">
-                    <tbody>
-                    <tr>
-                    <td>Milos Markovic</td>
-                    <td>Bore Tirica 89, Sabac</td>
-                    <td>400 din</td>
-                    <td>Pizza</td>
-                    <td><button type="button" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
-                    
-                   </tr>
-                   </tbody>
-                   </table>
+              <table class="table table-hover table-striped ">
+                <thead>
+                    <th>Ime i prezime dostavljača</th>
+                    <th>Ime artikla</th>
+                    <th>Datum i vreme porudžbine</th>
+                    <th>Cena</th>
+                    <th></th>
+                </thead>
+             <tbody>
+             <tr>
+             <td>David Guetta</td>
+             <td>Pizza</td>
+             <td>20.10.2020.</td>
+             <td>850 din</td>
+             <td><button type="button" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
+            </tr>
+            <tr>
+            <td>Mihailo Majstorovic</td>
+            <td>Sendvic</td>
+            <td>20.10.2020.</td>
+            <td>600 din</td>
+            <td><button type="button" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
+            </tr>
+            </tbody>
+            </table>
               </div>
           </div>
         </div>
-      
+        
         <div class="tab-pane fade" id="aprove-comments" role="tabpanel" aria-labelledby="aprove-comments-tab">
           
-            <table class="table">
+          <table class="table table-hover table-striped ">
               <thead>
                 <tr>
                   <th>Korisničko ime</th>
@@ -215,7 +234,7 @@
         </div>
       <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
         <div class="container-fluid">
-          <table class="table">
+          <table class="table table-hover table-striped ">
             <thead>
               <tr>
                 <th scope="col">Korisničko ime</th>
