@@ -41,18 +41,22 @@ Vue.component("selected-restaurant", {
             </div>
           </div>
         </div>
-      </div>
-      <div class="container-fluid my-container justify-content-between" style="margin-top: 14mm;">
+        </div>
         <div class="row">
-          <div class="col">
-            <h2 style="color: #dc3545; margin-left: 10%">Svi artikli:</h2>
+          <div class="col-sm-4">
+            <h2 style="color: #dc3545; margin-top: 10mm">Svi artikli:</h2>
           </div>
-          <div class="col"></div>
-          <div class="col">
-            <td><button type="button" class="btn btn-lg btn-danger">Sadržaj korpe</button><p style="font-size: 20px; color: #424242; margin-top: 2mm;">Iznos korpe: 800,00 din</p></td>
+          <div class="col-sm-4">
+          	<ul class="list-group list-group-flush rounded" style="border-color: #dc3545; border-style: groove; border-width: thin;">
+                      <li class="list-group-item">Cena: 1000.00 din.</li>
+                      <li class="list-group-item">Popust: 3%</li>
+                      <li class="list-group-item">Cena sa popustom: 970.00 din.</li>
+                    </ul>
+          </div>
+          <div class="col-sm-4">
+            <button type="button" style="margin-top: 10mm" class="btn btn-lg btn-danger">Sadržaj korpe</button>
           </div>
         </div>
-      </div>
       <div class="container-fluid my-container justify-content-between" style="margin-top: 5mm;">
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div class="col" v-for="fi in foodItems">
@@ -68,13 +72,15 @@ Vue.component("selected-restaurant", {
               </ul>
               <div class="card-body">
                 <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" v-model="fi.amount" value="1" name="quantity" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 13mm;" type="button" v-on:click="doit()" class="btn btn-danger">Dodaj u korpu</button>
+                    <input type="number" id="quantity" v-model="fi.amount" name="quantity" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
+                    <button style="margin-left: 13mm;" type="button" v-on:click="addToCart(fi.id)" class="btn btn-danger">Dodaj u korpu</button>
                 </div>
             </div>
           </div>
           </div>
         </div>
+      </div>
+      </div>
       </div>
       <div class="container-fluid" style="margin-top: 15mm; margin-bottom: 15mm;">
         <h2 style="color: #dc3545;">{{restaurant.name}} - Komentari i iskustva mušterija:</h2>
@@ -100,8 +106,7 @@ Vue.component("selected-restaurant", {
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>  
+      </div> 
 `
 	, 
 	methods : {
@@ -120,6 +125,9 @@ Vue.component("selected-restaurant", {
             	.get("/rest/restaurants/getSelectedRestaurant/" + this.$route.query.id)
 	            .then(response => (this.restaurant = response.data))
         },
+        addToCart() {
+        	
+        }
 	},
 	mounted () {
 		this.getRestaurant();
