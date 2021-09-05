@@ -12,10 +12,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
+import beans.Cart;
 import beans.Customer;
+import beans.FoodItem;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dto.CartInfoDTO;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
 import enums.Role;
@@ -24,6 +27,7 @@ import enums.Type;
 public class CustomerService {
 	
 	ArrayList<Customer> customers = new ArrayList<Customer>();
+	FoodItemService foodItemService = new FoodItemService();
 	
 public CustomerService () {
 		customers = getAllCustomers();
@@ -112,6 +116,67 @@ public CustomerService () {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Cart getCustomerCart(int id) {
+		for (Customer c : customers) {
+			if (c.getUser().getId() == id)
+				return c.getCart();
+		}
+		return null;
+	}
+	
+	public Cart getEmptyCart(int id) {
+		for (Customer c : customers) {
+			if (c.getUser().getId() == id)
+				c.setCart(new Cart());
+				return c.getCart();
+		}
+		return null;
+	}
+	
+	public Cart addToCart(CartInfoDTO info) {
+		for (Customer c : customers) {
+			if (c.getUser().getId() == info.getCustomerId()) {
+				for (FoodItem fi : foodItemService.getAllFoodItems())
+					if (fi.getId() == info.getFoodItemId()) {
+						return c.addToCart(new FoodItem(fi.getId(), 
+												 fi.getName(), 
+												 fi.getPrice(), 
+												 fi.getRestaurantId(), 
+												 fi.getSize(), 
+												 fi.getDescription(), 
+												 fi.getPhoto(), 
+												 info.getAmount()));
+					}
+			}
+		}
+		return null;
+	}
+	
+	public Cart updateCart(CartInfoDTO info) {
+		for (Customer c : customers) {
+			if (c.getUser().getId() == info.getCustomerId()) {
+				for (FoodItem fi : foodItemService.getAllFoodItems())
+					if (fi.getId() == info.getFoodItemId()) {
+						return c.updateCart(fi.getId(), info.getAmount());
+					}
+			}
+		}
+		return null;
+	}
+	
+	public Cart removeCartItem(CartInfoDTO info) {
+		for (Customer c : customers) {
+			if (c.getUser().getId() == info.getCustomerId()) {
+				for (FoodItem fi : c.getCart().getItems()) {
+					if (fi.getId() == info.getFoodItemId()) {
+						return c.removeCartItem(fi.getId(), fi.getAmount());
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	public LocalDate adjustDate(String date) {

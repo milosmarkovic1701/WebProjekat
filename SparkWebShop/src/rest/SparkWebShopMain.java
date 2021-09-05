@@ -22,6 +22,7 @@ import beans.Manager;
 import beans.Restaurant;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
+import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
 import dto.RegisterUserDTO;
 import dto.RestaurantDTO;
@@ -31,6 +32,7 @@ import dto.UsersQueryDTO;
 import dto.AdminCommentDTO;
 import dto.CommentDTO;
 import dto.CustomerInfoEditDTO;
+import dto.CartInfoDTO;
 import enums.Role;
 import enums.Type;
 import services.AdministratorService;
@@ -54,6 +56,7 @@ public class SparkWebShopMain {
 	private static CommentService commentService = new CommentService();
 	private static OrderService orderService = new OrderService();
 	private static FoodItemService foodItemService = new FoodItemService();
+	private static ArrayList<Integer> RestaurantIDs = new ArrayList<Integer>(); 
 	
 	private static Gson g = new Gson();
 
@@ -70,6 +73,7 @@ public class SparkWebShopMain {
 		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
+			RestaurantIDs.add(id);
 			res.type("application/json");
 			return g.toJson(restaurantService.getRestaurant(id));
 		});
@@ -257,6 +261,13 @@ public class SparkWebShopMain {
 			return g.toJson(orderService.searchOrders(query));
 		});
 		
+		post("/rest/orders/sendOrder", (req, res) -> {
+			NewOrderDTO order = g.fromJson(req.body(), NewOrderDTO.class);
+			res.type("application/json");		
+			orderService.addOrder(order);
+			return "OK";
+		});
+		
 		get("/rest/comments/getAllComments", (req, res) -> {
 			res.type("application/json");
 			ArrayList<AdminCommentDTO> coms = new ArrayList<AdminCommentDTO>();
@@ -292,6 +303,38 @@ public class SparkWebShopMain {
 			return g.toJson(orderService.getNotRatedOrders());
 		});
 		
+		get("/rest/cart/getCustomerCart/:id", (req, res) -> {
+			String idS = req.params("id");
+			int userId = Integer.parseInt(idS);
+			res.type("application/json");
+			if (RestaurantIDs.size() < 2) {
+				return g.toJson(customerService.getCustomerCart(userId));
+			}
+			else if (RestaurantIDs.get(RestaurantIDs.size() - 1) != RestaurantIDs.get(RestaurantIDs.size() - 2)) {
+				return g.toJson(customerService.getEmptyCart(userId));
+			}
+			else {
+				return g.toJson(customerService.getCustomerCart(userId));
+			}
+		});
+		
+		post("/rest/cart/addToCart", (req, res) -> {
+			CartInfoDTO data = g.fromJson(req.body(), CartInfoDTO.class);
+			res.type("application/json");
+			return g.toJson(customerService.addToCart(data));
+		});
+		
+		post("/rest/cart/updateCart", (req, res) -> {
+			CartInfoDTO data = g.fromJson(req.body(), CartInfoDTO.class);
+			res.type("application/json");
+			return g.toJson(customerService.updateCart(data));
+		});
+		
+		post("/rest/cart/removeCartItem", (req, res) -> {
+			CartInfoDTO data = g.fromJson(req.body(), CartInfoDTO.class);
+			res.type("application/json");
+			return g.toJson(customerService.removeCartItem(data));
+		});
 	}
 
 

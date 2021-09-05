@@ -5,7 +5,12 @@ Vue.component("selected-restaurant", {
 				comments : null,
 				restaurant : {},
 				restaurantId: "",
-				cartItems: null,
+				customer: {},
+			    customerId: "",
+			    foodItemId: "",
+				cart: null,
+				cartInfo: {customerId: "", foodItemId: "", amount: 1},
+				newOrder: {customerId: "", cart: null}
 		    }
 	},
 	template:`
@@ -32,20 +37,22 @@ Vue.component("selected-restaurant", {
                 </div>
                 <div class="col-sm-3" style="font-size: large;">
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Cena: 1000.00 din.</li>
-                      <li class="list-group-item">Popust: 3%</li>
-                      <li class="list-group-item">Cena sa popustom: 970.00 din.</li>
+                      <li class="list-group-item">Cena: {{cart.price.toFixed(2)}} din.</li>
+                      <li v-if="customer.type === 'BRONZE'" class="list-group-item">Popust: 0%</li>
+                      <li v-if="customer.type === 'SILVER'" class="list-group-item">Popust: 3%</li>
+                      <li v-if="customer.type === 'GOLD'" class="list-group-item">Popust: 5%</li>
+                      <li class="list-group-item">Cena sa popustom: {{cart.discountPrice.toFixed(2)}} din.</li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <button type="button" style="margin-top: 10mm;" class="btn btn-lg btn-danger">Poruči hranu</button>
+                    <button type="button" style="margin-top: 10mm;" v-on:click="sendOrder(customer.user.id)" class="btn btn-lg btn-danger">Poruči hranu</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="container-fluid my-container justify-content-between" style="margin-top: 2mm;">
         <div class="row row-cols-1 row-cols-md-4 g-4">
-          <div class="col" v-for="fi in foodItems">
+          <div class="col" v-for="fi in cart.items">
             <div class="card" style="width: 21rem;">
               <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
@@ -58,8 +65,8 @@ Vue.component("selected-restaurant", {
               </ul>
               <div class="card-body">
                 <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" v-model="fi.amount" name="quantity" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                    <button style="margin-left: 28mm;" type="button" class="btn btn-danger">Obriši</button>
+                    <input type="number" id="quantity" v-on:change="updateCart(fi.id, fi.amount)" v-model="fi.amount" name="quantity" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
+                    <button style="margin-left: 28mm;" v-on:click="removeCartItem(fi.id)" type="button" class="btn btn-danger">Obriši</button>
                 </div>
             </div>
           </div>
@@ -110,14 +117,19 @@ Vue.component("selected-restaurant", {
                 </div>
                 <div class="col-sm-4">
                     <ul class="list-group list-group-flush rounded" style="border-color: #dc3545; border-style: groove; border-width: thin;">
-                            <li class="list-group-item">Cena: 1000.00 din.</li>
-                            <li class="list-group-item">Popust: 3%</li>
-                            <li class="list-group-item">Cena sa popustom: 970.00 din.</li>
+                            <li class="list-group-item">Cena: {{cart.price.toFixed(2)}} din.</li>
+                            <li v-if="customer.type === 'BRONZE'" class="list-group-item">Popust: 0%</li>
+                      		<li v-if="customer.type === 'SILVER'" class="list-group-item">Popust: 3%</li>
+                      		<li v-if="customer.type === 'GOLD'" class="list-group-item">Popust: 5%</li>
+                            <li class="list-group-item">Cena sa popustom: {{cart.discountPrice.toFixed(2)}} din.</li>
                           </ul>
                 </div>
                 <div class="col-sm-4">
-                  <button type="button" style="margin-top: 10mm;" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#cart">
+                  <button v-if="restaurant.status === 'OPENED'" type="button" style="margin-top: 10mm;" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#cart">
                     Korpa
+                  </button>
+                  <button v-else type="button" disabled style="margin-top: 10mm;" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#cart">
+                    Restoran je zatvoren.
                   </button>
                 </div>
               </div>
@@ -137,7 +149,8 @@ Vue.component("selected-restaurant", {
                     <div class="card-body">
                       <div class="container-fluid my-container justify-content-around">
                           <input type="number" id="quantity" v-model="fi.amount" name="quantity" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
-                          <button style="margin-left: 13mm;" type="button" v-on:click="addToCart(fi.id)" class="btn btn-danger">Dodaj u korpu</button>
+                          <button v-if="restaurant.status === 'OPENED'" style="margin-left: 13mm;" type="button" v-on:click="addToCart(fi.id, fi.amount)" class="btn btn-danger">Dodaj u korpu</button>
+                          <button v-else style="margin-left: 13mm;" type="button" v-on:click="addToCart(fi.id, fi.amount)" disabled class="btn btn-danger">Dodaj u korpu</button>
                       </div>
                   </div>
                 </div>
@@ -183,18 +196,74 @@ Vue.component("selected-restaurant", {
 	            .get("/rest/comments/getRestaurantComments/" + this.$route.query.id)
 	            .then(response => (this.comments = response.data))
         },
+        getCartItems() {
+        	this.customerId = JSON.parse(localStorage.getItem("customer")).user.id;
+        	console.log(this.customerId);
+        	axios
+            	.get("/rest/cart/getCustomerCart/" + this.customerId)
+	            .then(response => (this.cart = response.data))
+        },
         getRestaurant(){
+        this.customer = JSON.parse(localStorage.getItem("customer"));
 			axios
             	.get("/rest/restaurants/getSelectedRestaurant/" + this.$route.query.id)
 	            .then(response => (this.restaurant = response.data))
+	        this.getCartItems();
         },
-        addToCart() {
-        	
-        }
+        addToCart(id, amount) {
+	         if (amount < 1) {
+		        	alert("Greška: Količina mora biti pozitivan broj!");
+		     } 
+		     else { 
+	        	this.cartInfo.customerId = JSON.parse(localStorage.getItem("customer")).user.id;
+	        	this.cartInfo.foodItemId = id;
+	        	this.cartInfo.amount = amount;
+	        	axios
+	        		.post('rest/cart/addToCart', this.cartInfo)
+		          	.then(response => (this.cart = response.data))   
+	        }
+        },
+        removeCartItem(id) {
+        	this.cartInfo.customerId = JSON.parse(localStorage.getItem("customer")).user.id;
+        	this.cartInfo.foodItemId = id;
+        	axios
+        		.post('rest/cart/removeCartItem', this.cartInfo)
+	          	.then(response => (this.cart = response.data))  
+        },
+        updateCart(id, amount) {
+	        if (amount < 1) {
+	        	alert("Greška: Količina mora biti pozitivan broj!");
+	        } 
+	        else {
+	        	this.cartInfo.customerId = JSON.parse(localStorage.getItem("customer")).user.id;
+	        	this.cartInfo.foodItemId = id;
+	        	this.cartInfo.amount = amount;
+	        	axios
+	        		.post('rest/cart/updateCart', this.cartInfo)
+		          	.then(response => (this.cart = response.data))   
+		    }
+        },
+        sendOrder(id) {
+        	if (this.cart.price < 1) {
+	        	alert("Greška: Korpa je prazna. Dodajte hranu ako želite da poručite.");
+	        } 
+	        else {
+	        	this.newOrder.customerId = id;
+	        	this.newOrder.cart = this.cart;
+	        	axios
+	        		.post('rest/orders/sendOrder', this.newOrder)
+		          	.then(response => {
+		          	alert("Obaveštenje: Vaša porudžbina je poslata.");
+		          	this.$router.push('/customerPage'); 
+	        		this.$router.go();
+		          	})   
+		    }
+        },
 	},
 	mounted () {
 		this.getRestaurant();
         this.getFoodItems();
         this.getRestaurantComments();
     },
+
 });

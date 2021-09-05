@@ -19,6 +19,7 @@ import beans.Administrator;
 import beans.FoodItem;
 import beans.Restaurant;
 import beans.Order;
+import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
 import dto.UserDTO;
 import enums.OrderStatus;
@@ -53,6 +54,9 @@ public class OrderService {
 	public void setOrders(ArrayList<Order> orders) {
 		this.orders = orders;
 	}
+	
+	public void addOrder(NewOrderDTO order) {
+	} 
 
 	public OrderService() {
 		super();
