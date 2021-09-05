@@ -61,17 +61,31 @@ public class SparkWebShopMain {
 		port(8080);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
-		
 		get("/rest/restaurants/getRestaurants", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(restaurantService.getRestaurants());
 		});
+		
 		
 		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
 			return g.toJson(restaurantService.getRestaurant(id));
+		});
+		get("/rest/restaurant/ManagedRestaurant/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(managerService.getManagedRestaurant(id));
+		});
+		get("/rest/orders/allRestaurantOrders/:id",(req,res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			System.out.println(id);
+			res.type("application/json");
+			return g.toJson(orderService.getAllRestaurantOrdersDTO(id));
+		
 		});
 		
 		get("/rest/restaurants/getFoodItems/:id", (req, res) -> {
@@ -212,6 +226,25 @@ public class SparkWebShopMain {
 			else if (customer.getUser().isDeleted() || customer.isBlocked())
 				return "Prijava neuspešna. Vaš nalog je blokiran ili obrisan.";
 			return g.toJson(customer);
+		});
+		post("/rest/users/loginManager", (req, res) -> {
+			LoginUserDTO user = g.fromJson(req.body(), LoginUserDTO.class);
+			Manager manager = managerService.login(user);
+			if (manager == null) 
+				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
+			else if (manager.getUser().isDeleted() || manager.isBlocked())
+				return "Prijava neuspešna. Vaš nalog je blokiran ili obrisan.";
+			return g.toJson(manager);
+		});
+		
+		post("/rest/users/loginDeliveryman", (req, res) -> {
+			LoginUserDTO user = g.fromJson(req.body(), LoginUserDTO.class);
+			DeliveryMan deliveryMen = deliveryManService.login(user);
+			if (deliveryMen == null) 
+				return "Prijava neuspešna. Proverite korisničko ime i lozinku.";
+			else if (deliveryMen.getUser().isDeleted() || deliveryMen.isBlocked())
+				return "Prijava neuspešna. Vaš nalog je blokiran ili obrisan.";
+			return g.toJson(deliveryMen);
 		});
 		
 		post("/rest/users/register", (req, res) -> {

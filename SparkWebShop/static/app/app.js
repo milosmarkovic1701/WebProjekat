@@ -4,6 +4,7 @@ const AdministratorPage = { template: "<administrator-page></administrator-page>
 const CustomerPage = { template: "<customer-page></customer-page>" };
 const SelectedRestaurant = { template: "<selected-restaurant></selected-restaurant>" };
 const CommentPage = { template: "<comment-page></comment-page>" };
+const ManagerPage = {template: "<manager-page></manager-page>"};
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -14,6 +15,7 @@ const router = new VueRouter({
 	    { path: '/customerPage', component: CustomerPage },
 	    { path: '/selectedRestaurant', component: SelectedRestaurant },
 	    { path: '/commentPage', component: CommentPage },
+	    { path: '/managerPage', component: ManagerPage },
 	  ]
 });
 

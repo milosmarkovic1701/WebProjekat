@@ -18,6 +18,7 @@ import beans.Restaurant;
 import beans.User;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
+import dto.UserDTO;
 import enums.Role;
 import enums.Type;
 
@@ -121,6 +122,15 @@ public CustomerService () {
 		int day = Integer.parseInt(Date[2]);
 		return LocalDate.of(year, month, day);
 	}
+public Customer getCustomerById(int id) {
+		
+		for(Customer c:this.getAllCustomers()) {
+			int idU = c.getUser().getId();
+			if(idU==id)
+				return c;
+		}
+		return null;
 	
+	}
 	
 }

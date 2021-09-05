@@ -230,6 +230,36 @@ Vue.component("startup-page", {
 	                }
 	            });
 	        }
+	        else if (this.roleLogin == "manager") {
+			axios
+	            .post("/rest/users/loginManager", this.userLogin)
+	            .then(response => {
+	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Prijava neuspešna. Vaš nalog je blokiran ili obrisan."){
+	                    localStorage.setItem("manager", JSON.stringify(response.data));
+	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
+	                    this.$router.push('/managerPage'); 
+	                    this.$router.go();
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	            });
+	        }
+	        else if (this.roleLogin == "deliveryman") {
+			axios
+	            .post("/rest/users/loginDeliveryman", this.userLogin)
+	            .then(response => {
+	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Prijava neuspešna. Vaš nalog je blokiran ili obrisan."){
+	                    localStorage.setItem("deliveryman", JSON.stringify(response.data));
+	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
+	                    this.$router.push('/deliveymanPage'); 
+	                    this.$router.go();
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	            });
+	        }
 	        else if (this.roleLogin == "") {
 	        	alert("Greška: Morate odabrati ulogu za koju se prijavljujete !")
 	        }

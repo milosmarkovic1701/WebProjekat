@@ -16,10 +16,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
+import beans.Customer;
 import beans.FoodItem;
 import beans.Restaurant;
 import beans.Order;
 import dto.OrderQueryDTO;
+import dto.RestaurantOrderDTO;
 import dto.UserDTO;
 import enums.OrderStatus;
 
@@ -27,6 +29,7 @@ public class OrderService {
 
 	private ArrayList<Order> orders = new ArrayList<Order>();
 	private static RestaurantService restaurantService = new RestaurantService();
+	private CustomerService customerService = new CustomerService();
 
 	public ArrayList<Order> getOrders() {
 		return orders;
@@ -73,6 +76,7 @@ public class OrderService {
 		orders.add(new Order(12, food, food.get(1).getRestaurantId(), LocalDateTime.now(), 400, 2, 40, OrderStatus.IN_TRANSPORT));
 		orders.add(new Order(13, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 500, 2, 40, OrderStatus.DELIVERED));
 		orders.add(new Order(14, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 600, 2, 40, OrderStatus.CANCELLED));
+		
 	}
 	
 	public LocalDateTime adjustDate(String date) {
@@ -167,5 +171,35 @@ public class OrderService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public ArrayList<Order> getRestaurantOrders(int id){
+		ArrayList<Order> allOrders = this.getAllOrders();
+		ArrayList<Order> restaurantOrders = new ArrayList<Order>();
+		for(Order o: allOrders) {
+			if(o.getRestaurantId()==id)
+				restaurantOrders.add(o);
+		}
+		return restaurantOrders;
+	}
+	public RestaurantOrderDTO OrderToOrderDTO(Order o) {
+		String ime = customerService.getCustomerById(o.getCustomerId()).getUser().getName();
+		String prezime = customerService.getCustomerById(o.getCustomerId()).getUser().getLastName();
+		String adresa = customerService.getCustomerById(o.getCustomerId()).getAddress();
+		String artikli = "";
+		for(FoodItem fi:o.getItems()) {
+			artikli = artikli + fi.getName() + ",";
+		}
+			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(ime,prezime,adresa,artikli,o.getOrderDateTime(),o.getPrice(),o.getStatus()); 
+		return newOrderDTO;
+	
+	}
+	public ArrayList<RestaurantOrderDTO> getAllRestaurantOrdersDTO(int id){
+		ArrayList<Order> orders = this.getRestaurantOrders(id);
+		ArrayList<RestaurantOrderDTO> ordersDTO = new ArrayList<RestaurantOrderDTO>();
+		for(Order o:orders) {
+			RestaurantOrderDTO oDTO = this.OrderToOrderDTO(o);
+			ordersDTO.add(oDTO);
+		}
+		return ordersDTO;
 	}
 }

@@ -1,0 +1,105 @@
+[
+  {
+    "id": 1,
+    "restaurantName": "Balans",
+    "restaurantId": 2,
+    "restaurantLogo": "restaurant logos\\balans.jpg",
+    "restaurantType": "PalaÄ�inke",
+    "items": [
+      {
+        "id": 1,
+        "name": "Burgir",
+        "price": 300.0,
+        "restaurantId": 2,
+        "size": "250 g",
+        "description": "pljeskavica 250g, pavlaka, kecap",
+        "photo": "restaurant logos\\gyros master.jpg",
+        "amount": 2,
+        "deleted": false
+      },
+      {
+        "id": 2,
+        "name": "Pica",
+        "price": 700.0,
+        "restaurantId": 1,
+        "size": "250 g",
+        "description": "pelat, sampinjoni, kecap, sunka, sir",
+        "photo": "restaurant logos\\balans.jpg",
+        "amount": 2,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Burgir 250 g 2X, Pica 250 g 2X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 5
+      },
+      "time": {
+        "hour": 15,
+        "minute": 44,
+        "second": 34,
+        "nano": 325734000
+      }
+    },
+    "dateInfo": "5.9.2021.  15:44",
+    "price": 100.0,
+    "deliveryId": 2,
+    "customerId": 5,
+    "status": "PROCESSING",
+    "rating": 0.0
+  },
+  {
+    "id": 2,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "GrÄ�ki",
+    "items": [
+      {
+        "id": 1,
+        "name": "Burgir",
+        "price": 300.0,
+        "restaurantId": 2,
+        "size": "250 g",
+        "description": "pljeskavica 250g, pavlaka, kecap",
+        "photo": "restaurant logos\\gyros master.jpg",
+        "amount": 2,
+        "deleted": false
+      },
+      {
+        "id": 2,
+        "name": "Pica",
+        "price": 700.0,
+        "restaurantId": 1,
+        "size": "250 g",
+        "description": "pelat, sampinjoni, kecap, sunka, sir",
+        "photo": "restaurant logos\\balans.jpg",
+        "amount": 2,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Burgir 250 g 2X, Pica 250 g 2X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 3
+      },
+      "time": {
+        "hour": 15,
+        "minute": 44,
+        "second": 34,
+        "nano": 326730400
+      }
+    },
+    "dateInfo": "3.9.2021.  15:44",
+    "price": 100.0,
+    "deliveryId": 3,
+    "customerId": 6,
+    "status": "PROCESSING",
+    "rating": 0.0
+  }
+  
+]
