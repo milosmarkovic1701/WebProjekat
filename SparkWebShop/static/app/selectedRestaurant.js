@@ -5,10 +5,12 @@ Vue.component("selected-restaurant", {
 				comments : null,
 				restaurant : {},
 				restaurantId: "",
+				cartItems: null,
 		    }
 	},
 	template:`
   <div>
+  
     <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
@@ -56,7 +58,7 @@ Vue.component("selected-restaurant", {
               </ul>
               <div class="card-body">
                 <div class="container-fluid my-container justify-content-around">
-                    <input type="number" id="quantity" v-model="fi.amount" name="quantity" value="1" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
+                    <input type="number" id="quantity" v-model="fi.amount" name="quantity" min="1" max="10" step="1" style="background-color: #eae7dc; border-radius: 10%; border-color: #dc3545;">
                     <button style="margin-left: 28mm;" type="button" class="btn btn-danger">Obriši</button>
                 </div>
             </div>
@@ -68,7 +70,6 @@ Vue.component("selected-restaurant", {
     </div>
   </div>
 </div>
-
 
 <div class="container-fluid my-container justify-content-between" style="margin-top: 1%;">
           <div class="card mb-3" style="width: 100%;">
