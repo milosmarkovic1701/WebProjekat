@@ -49,6 +49,7 @@ public class UsersService {
 					customer.setBlocked(true);
 			}
 		}
+		customerService.saveAllCustomers();
 		return getSpam();
 	}
 	
@@ -71,6 +72,7 @@ public class UsersService {
 				c.setAddress(customerDTO.getAddress());
 			}
 		}
+		customerService.saveAllCustomers();
 		return "Vaši podaci su uspešno ažurirani.";
 	}
 	
@@ -230,7 +232,8 @@ public class UsersService {
 	}
 	
 	public void getCustomers() {
-		for (Customer customer : customerService.getAllCustomers()) {
+		ArrayList <Customer> allCustomers = customerService.getAllCustomers();
+		for (Customer customer : allCustomers) {
 			if (!customer.getUser().isDeleted()) {
 				User c = customer.getUser();
 				String date = String.valueOf(c.getBirthDate().getDayOfMonth()) + "." + String.valueOf(c.getBirthDate().getMonthValue()) + "." + String.valueOf(c.getBirthDate().getYear()) + ".";
@@ -249,7 +252,8 @@ public class UsersService {
 	}
 	
 	public void getAdministrators() {
-		for (Administrator admin : administratorService.getAllAdministrators()) {
+		ArrayList <Administrator> allAdmins = administratorService.getAllAdministrators();
+		for (Administrator admin : allAdmins) {
 			if (!admin.getUser().isDeleted()) {
 				User a = admin.getUser();
 				String date = String.valueOf(a.getBirthDate().getDayOfMonth()) + "." + String.valueOf(a.getBirthDate().getMonthValue()) + "." + String.valueOf(a.getBirthDate().getYear()) + ".";
@@ -268,7 +272,8 @@ public class UsersService {
 	}
 	
 	public void getDeliveryMen() {
-		for (DeliveryMan deliveryMan: deliveryManService.getAllDeliveryMen()) {
+		ArrayList <DeliveryMan> allDeliveryMen = deliveryManService.getAllDeliveryMen();
+		for (DeliveryMan deliveryMan: allDeliveryMen) {
 			if (!deliveryMan.getUser().isDeleted()) {
 				User dm = deliveryMan.getUser();
 				String date = String.valueOf(dm.getBirthDate().getDayOfMonth()) + "." + String.valueOf(dm.getBirthDate().getMonthValue()) + "." + String.valueOf(dm.getBirthDate().getYear()) + ".";
@@ -287,7 +292,8 @@ public class UsersService {
 	}
 	
 	public void getManagers() {
-		for (Manager manager : managerService.getAllManagers()) {
+		ArrayList <Manager> allManagers = managerService.getAllManagers();
+		for (Manager manager : allManagers) {
 			if (!manager.getUser().isDeleted()) {
 				User m = manager.getUser();
 				String date = String.valueOf(m.getBirthDate().getDayOfMonth()) + "." + String.valueOf(m.getBirthDate().getMonthValue()) + "." + String.valueOf(m.getBirthDate().getYear()) + ".";
@@ -306,8 +312,9 @@ public class UsersService {
 	}
 	
 	public ArrayList<UserDTO> getSpam() {
+		ArrayList <Customer> allCustomers = customerService.getAllCustomers();
 		spamUsers.clear();
-		for (Customer customer : customerService.getAllCustomers()) {
+		for (Customer customer : allCustomers) {
 			if (!customer.getUser().isDeleted()) {
 				if (customer.getCancels() >= 5) {
 					User c = customer.getUser();

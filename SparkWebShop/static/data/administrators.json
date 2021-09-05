@@ -16,5 +16,23 @@
       "deleted": false,
       "id": 1
     }
+  },
+  {
+    "user": {
+      "username": "mladenv",
+      "password": "mladen",
+      "name": "Mladen",
+      "lastName": "Vasić",
+      "fullName": "Mladen Vasić",
+      "birthDate": {
+        "year": 1999,
+        "month": 8,
+        "day": 2
+      },
+      "dateInfo": "1999-08-02",
+      "role": "ADMINISTRATOR",
+      "deleted": false,
+      "id": 2
+    }
   }
 ]
