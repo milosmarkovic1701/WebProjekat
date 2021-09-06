@@ -34,6 +34,15 @@ public class ManagerService {
 		for (Manager m : managers)
 			if (!m.getUser().isDeleted())
 				validManagers.add(m);
+		return validManagers;
+	}
+	
+	public ArrayList<Manager> getManagersWithoutRestaurant() {
+		getAllManagers();
+		ArrayList<Manager> validManagers = new ArrayList<Manager>();
+		for (Manager m : managers)
+			if (!m.getUser().isDeleted() && m.getRestaurantId() == 0)
+				validManagers.add(m);
 		Collections.reverse(validManagers);
 		return validManagers;
 	}
@@ -80,6 +89,18 @@ public class ManagerService {
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/managers.json"));
 			writer.append(gson.toJson(managers));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveAllManagersForRestaurant(ArrayList<Manager> managerList) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/managers.json"));
+			writer.append(gson.toJson(managerList));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

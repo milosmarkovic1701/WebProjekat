@@ -22,6 +22,7 @@ import beans.Manager;
 import beans.Restaurant;
 import dto.EmployeeDTO;
 import dto.LoginUserDTO;
+import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
 import dto.RegisterUserDTO;
 import dto.RestaurantDTO;
@@ -31,6 +32,7 @@ import dto.UsersQueryDTO;
 import dto.AdminCommentDTO;
 import dto.CommentDTO;
 import dto.CustomerInfoEditDTO;
+import dto.CartInfoDTO;
 import enums.Role;
 import enums.Type;
 import services.AdministratorService;
@@ -54,6 +56,7 @@ public class SparkWebShopMain {
 	private static CommentService commentService = new CommentService();
 	private static OrderService orderService = new OrderService();
 	private static FoodItemService foodItemService = new FoodItemService();
+	private static ArrayList<Integer> RestaurantIDs = new ArrayList<Integer>(); 
 	
 	private static Gson g = new Gson();
 
@@ -70,6 +73,7 @@ public class SparkWebShopMain {
 		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
+			RestaurantIDs.add(id);
 			res.type("application/json");
 			return g.toJson(restaurantService.getRestaurant(id));
 		});
@@ -124,12 +128,19 @@ public class SparkWebShopMain {
 		
 		get("/rest/users/getManagers", (req, res) -> {
 			res.type("application/json");
-			return g.toJson(managerService.getManagers());
+			return g.toJson(managerService.getManagersWithoutRestaurant());
 		});
 		
 		get("/rest/users/getSpamUsers", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(usersService.getSpam());
+		});
+		
+		get("/rest/users/getCustomer/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(customerService.getCustomer(id));
 		});
 		
 		post("/rest/users/searchUsers", (req, res) -> {
@@ -236,7 +247,6 @@ public class SparkWebShopMain {
 				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.CUSTOMER, id);
 				Customer newCustomer = new Customer(newUser, address);
 				customerService.registerCustomer(newCustomer);
-				System.out.println(customerService.getCustomers());
 				return "Uspešno ste se registrovali.";
 			}	
 		});
@@ -257,18 +267,23 @@ public class SparkWebShopMain {
 			return g.toJson(orderService.searchOrders(query));
 		});
 		
+		post("/rest/orders/sendOrder", (req, res) -> {
+			NewOrderDTO order = g.fromJson(req.body(), NewOrderDTO.class);
+			res.type("application/json");		
+			customerService.addOrder(order);
+			return "OK";
+		});
+		
 		get("/rest/comments/getAllComments", (req, res) -> {
 			res.type("application/json");
-			ArrayList<AdminCommentDTO> coms = new ArrayList<AdminCommentDTO>();
-			coms.add(new AdminCommentDTO("misa00", "Milos", "Markovic", "Balans", "Dobar.", "4.7", "DA"));
-			return g.toJson(coms);
+			return g.toJson(commentService.getCommentsDTO());
 		});
 		
 		get("/rest/comments/getRestaurantComments/:id", (req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(commentService.getRestaurantComments(id)); //sredi
+			return g.toJson(commentService.getRestaurantComments(id)); 
 		});
 		
 		post("/rest/comments/addComment", (req, res) -> {
@@ -277,21 +292,59 @@ public class SparkWebShopMain {
 			return "OK";
 		});
 		
-		get("/rest/orders/getOrders", (req, res) -> {
+		get("/rest/orders/getOrders/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(orderService.getOrders());
+			return g.toJson(orderService.getCustomerOrders(id));
 		});
 		
-		get("/rest/orders/getNotDeliveredOrders", (req, res) -> {
+		get("/rest/orders/getCancellableOrders/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(orderService.getNotDeliveredOrders());
+			return g.toJson(orderService.getCustomerCancellableOrders(id));
 		});
 		
-		get("/rest/orders/getNotRatedOrders", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(orderService.getNotRatedOrders());
+		post("/rest/orders/cancelOrder", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int id = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(orderService.cancelOrder(id));
 		});
 		
+		get("/rest/cart/getCustomerCart/:id", (req, res) -> {
+			String idS = req.params("id");
+			int userId = Integer.parseInt(idS);
+			res.type("application/json");
+			if (RestaurantIDs.size() < 2) {
+				return g.toJson(customerService.getCustomerCart(userId));
+			}
+			else if (RestaurantIDs.get(RestaurantIDs.size() - 1) != RestaurantIDs.get(RestaurantIDs.size() - 2)) {
+				return g.toJson(customerService.getEmptyCart(userId));
+			}
+			else {
+				return g.toJson(customerService.getCustomerCart(userId));
+			}
+		});
+		
+		post("/rest/cart/addToCart", (req, res) -> {
+			CartInfoDTO data = g.fromJson(req.body(), CartInfoDTO.class);
+			res.type("application/json");
+			return g.toJson(customerService.addToCart(data));
+		});
+		
+		post("/rest/cart/updateCart", (req, res) -> {
+			CartInfoDTO data = g.fromJson(req.body(), CartInfoDTO.class);
+			res.type("application/json");
+			return g.toJson(customerService.updateCart(data));
+		});
+		
+		post("/rest/cart/removeCartItem", (req, res) -> {
+			CartInfoDTO data = g.fromJson(req.body(), CartInfoDTO.class);
+			res.type("application/json");
+			return g.toJson(customerService.removeCartItem(data));
+		});
 	}
 
 

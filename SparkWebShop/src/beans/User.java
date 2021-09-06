@@ -16,6 +16,29 @@ public class User {
 	private boolean deleted;
 	private int id;
 	
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getDateInfo() {
+		return dateInfo;
+	}
+	public void setDateInfo(LocalDate birthdate) {
+		String year = String.valueOf(birthdate.getYear());
+		String month;
+		if (birthdate.getMonthValue() < 10)
+			month = "0" + String.valueOf(birthdate.getMonthValue());
+		else
+			month = String.valueOf(birthdate.getMonthValue());
+		String day;
+		if (birthdate.getDayOfMonth() < 10)
+			day = "0" + String.valueOf(birthdate.getDayOfMonth());
+		else
+			day = String.valueOf(birthdate.getDayOfMonth());
+		this.dateInfo = year + "-" + month + "-" + day;
+	}
 	public int getId() {
 		return id;
 	}

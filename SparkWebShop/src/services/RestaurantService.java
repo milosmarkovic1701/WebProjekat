@@ -18,6 +18,7 @@ import com.google.gson.GsonBuilder;
 
 import beans.FoodItem;
 import beans.Location;
+import beans.Manager;
 import beans.Restaurant;
 import dto.RestaurantDTO;
 import dto.RestaurantQueryDTO;
@@ -26,6 +27,7 @@ import enums.RestaurantStatus;
 public class RestaurantService {
 
 	private HashMap<Integer, Restaurant> restaurants = new HashMap<Integer, Restaurant>();
+	private static ManagerService managerService = new ManagerService();
 
 	public RestaurantService() {
 		restaurants = getAllRestaurants();
@@ -60,6 +62,18 @@ public class RestaurantService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void saveAllRestaurants(HashMap<Integer, Restaurant> restaurantss) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/restaurants.json"));
+			writer.append(gson.toJson(restaurantss.values().toArray(), Restaurant[].class));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public ArrayList<Restaurant> getRestaurants() {
 		ArrayList<Restaurant> allRestaurants = new ArrayList<>(getAllRestaurants().values());
@@ -82,12 +96,13 @@ public class RestaurantService {
 		restaurants = getAllRestaurants();
 		String[] logoPath = newRestaurant.getLogo().split("fakepath");
 		String logoName = logoPath[1].substring(1);
-		restaurants.put(generateRestaurantId(), 
+		int id = generateRestaurantId();
+		restaurants.put(id, 
 						new Restaurant(newRestaurant.getName(), 
 							   newRestaurant.getType(), 
 						       RestaurantStatus.CLOSED, 
 						       "restaurant logos" + File.separator + logoName, 
-						       generateRestaurantId(), 
+						       id, 
 						       0, 
 						       new Location(newRestaurant.getStreet(), 
 						    		   newRestaurant.getNumber(), 
@@ -97,6 +112,14 @@ public class RestaurantService {
 						    		   Double.parseDouble(newRestaurant.getLatitude())),
 						       		   Integer.parseInt(newRestaurant.getManagerId())));
 		saveAllRestaurants();
+		ArrayList<Manager> managers = managerService.getAllManagers();
+		for (Manager m : managers) {
+			if (Integer.parseInt(newRestaurant.getManagerId()) == m.getUser().getId()) {
+				m.setRestaurantId(id);
+				break;
+			}
+		}
+		managerService.saveAllManagersForRestaurant(managers);
 		return "Nov restoran uspešno dodat.";
 	}
 	
@@ -108,6 +131,14 @@ public class RestaurantService {
 		restaurants = getAllRestaurants();
 		restaurants.get(id).setDeleted(true);
 		saveAllRestaurants();
+		ArrayList<Manager> managers = managerService.getAllManagers();
+		for (Manager m : managers) {
+			if (id == m.getRestaurantId()) {
+				m.setRestaurantId(0);
+				break;
+			}
+		}
+		managerService.saveAllManagersForRestaurant(managers);
 		return getRestaurants();
 	}
 

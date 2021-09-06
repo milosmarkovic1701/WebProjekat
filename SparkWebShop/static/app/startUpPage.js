@@ -10,19 +10,21 @@ Vue.component("startup-page", {
 	},
 	template:`
 <div>
-	<div id="tabs" class="d-sm-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
-		<a href="#" class="d-sm-flex align-items-center mb-2 mb-sm-0 text-dark text-decoration-none">
-	      <img id="logo" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
-	    </a>
-	    <ul class="nav col-12 col-sm-auto ">
+	<div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
+	      <ul class="nav col-sm-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <img src="images/ponesilogo.png" alt="mdo" width="120" height="42" >
 	      <ul class="nav nav-tabs" id="myTab" role="tablist">
 	        <li>
-	          <button type="button" disabled style="margin-left: 3cm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+	          <button type="button" disabled style="margin-left: 30mm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
 	            Dobrodošli na početnu stranu ponesi.com ! Ako nešto želite da naručite, molimo Vas da se prijavite. Ako ste nov korisnik, molimo Vas da se registrujete. --->
 	          </button>
+	          </li>
+	          <li>
 	          <button type="button" style="margin-left: 20mm; margin-top: 1mm; margin-bottom: 1mm;" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logInModal">
 	            Prijava
 	          </button>
+	          </li>
+	          <li>
 	          <button type="button" style="margin-left: 5mm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">
 	            Registracija
 	          </button>
@@ -240,6 +242,12 @@ Vue.component("startup-page", {
 			.then(response => {
 	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
+						this.userRegister.usernameRegister = "";
+	                	this.userRegister.passwordRegister = "";
+	                	this.userRegister.name = "";
+	                	this.userRegister.lastname = "";
+	                	this.userRegister.birthDate = "";
+	                	this.userRegister.address = "";
 	                }
 	                else {
 	                    alert("Greška: " + response.data);
