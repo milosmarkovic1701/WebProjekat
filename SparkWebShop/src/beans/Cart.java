@@ -12,7 +12,7 @@ public class Cart {
 		return discountPrice;
 	}
 	public void setDiscountPrice(double discountPrice) {
-		this.discountPrice = discountPrice;
+		this.discountPrice = Math.round(discountPrice * 100)/100.0;
 	}
 	public ArrayList<FoodItem> getItems() {
 		return items;
@@ -24,7 +24,7 @@ public class Cart {
 		return price;
 	}
 	public void setPrice(double price) {
-		this.price = price;
+		this.price = Math.round(price * 100)/100.0;
 	}
 	
 	public Cart() {

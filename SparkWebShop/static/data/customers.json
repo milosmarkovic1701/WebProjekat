@@ -16,11 +16,11 @@
       "deleted": false,
       "id": 5
     },
-    "type": "SILVER",
+    "type": "BRONZE",
     "cancels": 5,
     "blocked": false,
     "address": "Andre Jovanovića 6, Novi Sad",
-    "points": 3058.4399999999987,
+    "points": 372.4,
     "cart": {
       "items": [],
       "price": 0.0,
@@ -73,10 +73,10 @@
       "id": 7
     },
     "type": "SILVER",
-    "cancels": 0,
+    "cancels": 1,
     "blocked": false,
     "address": "Tostojeva 23, Novi Sad",
-    "points": 3500.0,
+    "points": 3901.59,
     "cart": {
       "items": [],
       "price": 0.0,

@@ -3,6 +3,8 @@ Vue.component("comment-page", {
 		    return {
 				order: {},
 				comment: {customerId: "", restaurantId: "", orderId: "", rating: "", content: ""},
+				restaurantImage: "",
+				restaurant: {},
 		    }
 	},
 	template:`
@@ -11,7 +13,7 @@ Vue.component("comment-page", {
         <div class="card mb-3" style="width: 100%;">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="restaurant logos/gyros master.jpg" class="img-fluid rounded-start" width="400" height="550">
+              <img v-bind:src="restaurant.logo" class="img-fluid rounded-start" width="400" height="550">
             </div>
             <div class="col-md-8">
               <div class="card-body">
@@ -41,7 +43,7 @@ Vue.component("comment-page", {
         <div class="row">
             <div class="form-group">
                 <span class="input-group-text" id="basic-addon1">Komentar:</span>
-                <textarea class="form-control" v-model="comment.content" id="exampleFormControlTextarea1" rows="10"></textarea>
+                <textarea class="form-control" v-model="comment.content" id="exampleFormControlTextarea1" rows="6"></textarea>
               </div>
         </div>
         <div class="row"></div>
@@ -84,11 +86,20 @@ Vue.component("comment-page", {
 		    	alert("Greška: Morate popuniti polje 'komentar' i odabrati ocenu.");
 		    }
 		},
+		getRestaurant(){
+			axios
+            	.get("/rest/restaurants/getSelectedRestaurant/" + this.comment.restaurantId)
+	            .then(response => {
+	            this.restaurant = response.data;
+	            this.restaurantImage = this.restaurant.logo;
+	            })
+        },
 	},
 	mounted () {
 		this.order = JSON.parse(localStorage.getItem("orderToRate"));
-		this.comment.customerId = (JSON.parse(localStorage.getItem("customer"))).user.id;
-		this.comment.orderId = (JSON.parse(localStorage.getItem("orderToRate"))).id;
 		this.comment.restaurantId = (JSON.parse(localStorage.getItem("orderToRate"))).restaurantId;
+		this.comment.customerId = (JSON.parse(localStorage.getItem("customer"))).user.id;
+		this.getRestaurant();
+		this.comment.orderId = (JSON.parse(localStorage.getItem("orderToRate"))).id;
     },
 });

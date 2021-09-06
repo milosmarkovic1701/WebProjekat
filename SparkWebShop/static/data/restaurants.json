@@ -5,7 +5,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\gyros master.jpg",
     "id": 1,
-    "rating": 0.0,
+    "rating": 5.0,
     "deleted": false,
     "location": {
       "street": "Balzakova",
@@ -41,7 +41,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\milky.png",
     "id": 3,
-    "rating": 0.0,
+    "rating": 5.0,
     "deleted": false,
     "location": {
       "street": "Bulevar cara Lazara",
@@ -59,7 +59,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\kfc.png",
     "id": 4,
-    "rating": 0.0,
+    "rating": 4.0,
     "deleted": false,
     "location": {
       "street": "Bulevar Oslobođenja",
@@ -106,5 +106,23 @@
       "width": 19.8
     },
     "managerId": 0
+  },
+  {
+    "name": "Dva štapića",
+    "type": "kineski",
+    "status": "CLOSED",
+    "logo": "restaurant logos\\dva stapica.png",
+    "id": 7,
+    "rating": 0.0,
+    "deleted": false,
+    "location": {
+      "street": "Branka Bajića",
+      "number": "9n",
+      "city": "Novi Sad",
+      "postalCode": "21000",
+      "length": 19.819196462631226,
+      "width": 45.255917797683395
+    },
+    "managerId": 12
   }
 ]

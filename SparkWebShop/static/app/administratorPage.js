@@ -665,13 +665,13 @@ Vue.component("administrator-page", {
 		        });
         },
 	},
-    mounted () {
+    async mounted () {
+    	await this.getUsers();
 	    this.getRestaurants();
 	  	this.getAllComments();
-	  	this.getUsers();
-  		this.getSpamUsers();
   		this.getManagers();
 	  	this.getLoggedUser();
+	  	this.getSpamUsers();
 	  	
 	      var mapOptions = {
                 center: new google.maps.LatLng(45.2450573,19.8390942),

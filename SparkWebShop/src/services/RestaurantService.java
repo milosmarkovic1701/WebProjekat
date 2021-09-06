@@ -62,6 +62,18 @@ public class RestaurantService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void saveAllRestaurants(HashMap<Integer, Restaurant> restaurantss) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/restaurants.json"));
+			writer.append(gson.toJson(restaurantss.values().toArray(), Restaurant[].class));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public ArrayList<Restaurant> getRestaurants() {
 		ArrayList<Restaurant> allRestaurants = new ArrayList<>(getAllRestaurants().values());

@@ -58,10 +58,29 @@ public class CommentService {
 	
 	
 	public void addComment(CommentDTO comment) {
+		int ratingsAmount = 0;
+		int rating = 0;
+		getAllComments();
 		Comment newComment = new Comment(comment.getCustomerId(), comment.getRestaurantId(), comment.getOrderId(), comment.getRating(), comment.getContent());
-		System.out.println(comment);
 		comments.add(newComment);
+		for (Comment c : comments) {
+			if (c.getRestaurantId() == comment.getRestaurantId()) {
+				ratingsAmount++;
+				rating += c.getRating();
+			}
+		}
+		HashMap<Integer, Restaurant> restaurants = restaurantService.getAllRestaurants();
+		restaurants.get(comment.getRestaurantId()).setRating(rating/ratingsAmount);
+		ArrayList <Order> orders = orderService.getAllOrders();
+		for (Order o : orders) {
+			if (o.getId() == comment.getOrderId()) {
+				o.setRating(comment.getRating());
+				break;
+			}
+		}
 		saveAllComments();
+		restaurantService.saveAllRestaurants(restaurants);
+		orderService.saveAllOrders(orders);
 	}
 
 	public CommentService() {

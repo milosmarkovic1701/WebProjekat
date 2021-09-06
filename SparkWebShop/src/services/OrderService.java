@@ -1,12 +1,10 @@
 package services;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,67 +13,62 @@ import java.util.Comparator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import beans.Administrator;
 import beans.Customer;
-import beans.FoodItem;
-import beans.Restaurant;
 import beans.Order;
-import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
-import dto.UserDTO;
 import enums.OrderStatus;
 import enums.Type;
+
 
 public class OrderService {
 
 	private ArrayList<Order> orders = new ArrayList<Order>();
-	private static RestaurantService restaurantService = new RestaurantService();
 	private static CustomerService customerService = new CustomerService();
+
 
 	public ArrayList<Order> getOrders() {
 		return orders;
-	}
+	}	
 	
-	public ArrayList<Order> getNotRatedOrders() {
-		ArrayList<Order> NROrders = new ArrayList<Order>();
-		for (Order o : orders) {
-			if (o.getRating() == 0 && o.getStatus() == OrderStatus.DELIVERED)
-				NROrders.add(o);
+	public ArrayList<Order> getCustomerOrders(int id) {
+		ArrayList<Order> COrders = new ArrayList<Order>();
+		ArrayList<Order> ordersCopy = getAllOrders();
+		for (Order o : ordersCopy) {
+			if (o.getCustomerId() == id)
+				COrders.add(o);
 		}
-		return NROrders;
+		return COrders;
 	}
 	
-	public ArrayList<Order> getNotDeliveredOrders() { 
-		ArrayList<Order> NDOrders = new ArrayList<Order>();
-		for (Order o : orders) {
-			if (o.getStatus() != OrderStatus.DELIVERED)
-				NDOrders.add(o);
+	public ArrayList<Order> getCustomerCancellableOrders(int id) {
+		ArrayList<Order> CCOrders = new ArrayList<Order>();
+		ArrayList<Order> ordersCopy = getAllOrders();
+		CCOrders.clear();
+		for (Order o : ordersCopy) {
+			if (o.getStatus() == OrderStatus.PROCESSING)
+				if (o.getCustomerId() == id)
+					CCOrders.add(o);
 		}
-		return NDOrders;
-	}
-
-	public void setOrders(ArrayList<Order> orders) {
-		this.orders = orders;
+		return CCOrders;
 	}
 	
-	public void addOrder(NewOrderDTO order) {
+	public ArrayList<Order> cancelOrder(int id) { 
+		int customerId = 0;
+		double price = 0;
 		getAllOrders();
-		int id = orders.size() + 1;
-		orders.add(new Order(
-				   			id,
-				   			order.getCart().getItems(),
-				   			order.getCart().getItems().get(0).getRestaurantId(),
-				   			LocalDateTime.now(),
-				   			order.getCart().getDiscountPrice(),
-				   			0,
-				   			order.getCustomerId(),
-				   			OrderStatus.PROCESSING
-							));
-		saveAllOrders();
+		for (Order o : orders) {
+			if (o.getId() == id) {
+				o.setStatus(OrderStatus.CANCELLED);
+				customerId = o.getCustomerId();
+				price = o.getPrice();
+				break;
+			}
+		}
 		ArrayList <Customer> customers = customerService.getAllCustomers();
-		for (Customer c : customers)
-			if (c.getUser().getId() == order.getCustomerId()) {
-				c.setPoints(c.getPoints() + (order.getCart().getPrice()/1000 * 133));
+		for (Customer c : customers) {
+			if (c.getUser().getId() == customerId) {
+				c.setCancels(c.getCancels() + 1);
+				c.setPoints(c.getPoints() - (price/1000 * 133 * 4));
 				if (c.getPoints() >= 3000)
 					c.setType(Type.SILVER);
 				else if (c.getPoints() >= 4000)
@@ -83,28 +76,19 @@ public class OrderService {
 				else
 					c.setType(Type.BRONZE);
 			}
+		}
 		customerService.saveAllCustomers(customers);
+		saveAllOrders();
+		return orders;
+	}
+
+	public void setOrders(ArrayList<Order> orders) {
+		this.orders = orders;
 	}
 
 	public OrderService() {
 		super();
-		ArrayList<FoodItem> food = new ArrayList<FoodItem>();
-		food.add(new FoodItem(1, "Burgir",300, 2, "250 g", "pljeskavica 250g, pavlaka, kecap", "restaurant logos" + File.separator + "gyros master.jpg", 2));
-		food.add(new FoodItem(2, "Pica",700, 1, "250 g", "pelat, sampinjoni, kecap, sunka, sir", "restaurant logos" + File.separator + "balans.jpg", 2));
-		orders.add(new Order(1, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 100, 2, 10, OrderStatus.PROCESSING));
-		orders.add(new Order(2, food, food.get(1).getRestaurantId(), LocalDateTime.now().minusDays(2), 100, 3, 10, OrderStatus.PROCESSING));
-		orders.add(new Order(3, food, food.get(0).getRestaurantId(), LocalDateTime.now().plusDays(1), 200, 2, 10, OrderStatus.PREPARING));
-		orders.add(new Order(4, food, food.get(1).getRestaurantId(), LocalDateTime.now().minusDays(1), 300, 2, 10, OrderStatus.READY_TO_DELIVER));
-		orders.add(new Order(5, food, food.get(0).getRestaurantId(), LocalDateTime.now().minusMinutes(43), 400, 2, 10, OrderStatus.IN_TRANSPORT));
-		orders.add(new Order(6, food, food.get(1).getRestaurantId(), LocalDateTime.now().minusMonths(3), 500, 2, 10, OrderStatus.DELIVERED));
-		orders.add(new Order(7, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 600, 2, 10, OrderStatus.CANCELLED));
-		orders.add(new Order(8, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 100, 2, 40, OrderStatus.PROCESSING));
-		orders.add(new Order(9, food, food.get(1).getRestaurantId(), LocalDateTime.now(), 100, 3, 40, OrderStatus.PROCESSING));
-		orders.add(new Order(10, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 200, 2, 40, OrderStatus.PREPARING));
-		orders.add(new Order(11, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 300, 2, 40, OrderStatus.READY_TO_DELIVER));
-		orders.add(new Order(12, food, food.get(1).getRestaurantId(), LocalDateTime.now(), 400, 2, 40, OrderStatus.IN_TRANSPORT));
-		orders.add(new Order(13, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 500, 2, 40, OrderStatus.DELIVERED));
-		orders.add(new Order(14, food, food.get(0).getRestaurantId(), LocalDateTime.now(), 600, 2, 40, OrderStatus.CANCELLED));
+		orders = getAllOrders();
 	}
 	
 	public LocalDateTime adjustDate(String date) {
@@ -178,7 +162,6 @@ public class OrderService {
 			Order[] ordersList = gson.fromJson(reader, Order[].class);
 			if(ordersList != null) {
 			    for (int i = 0; i < ordersList.length; i++) {
-			    	//if(list[i].isObrisana()) continue;
 			        orders.add(ordersList[i]);
 			    }
 			}
@@ -195,6 +178,18 @@ public class OrderService {
 		try {
 			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/orders.json"));
 			writer.append(gson.toJson(orders));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveAllOrders(ArrayList<Order> orderss) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/orders.json"));
+			writer.append(gson.toJson(orderss));
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();

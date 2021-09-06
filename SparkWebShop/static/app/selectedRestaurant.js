@@ -37,11 +37,11 @@ Vue.component("selected-restaurant", {
                 </div>
                 <div class="col-sm-3" style="font-size: large;">
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Cena: {{cart.price.toFixed(2)}} din.</li>
+                      <li class="list-group-item">Cena: {{cart.price}} din.</li>
                       <li v-if="customer.type === 'BRONZE'" class="list-group-item">Popust: 0%</li>
                       <li v-if="customer.type === 'SILVER'" class="list-group-item">Popust: 3%</li>
                       <li v-if="customer.type === 'GOLD'" class="list-group-item">Popust: 5%</li>
-                      <li class="list-group-item">Cena sa popustom: {{cart.discountPrice.toFixed(2)}} din.</li>
+                      <li class="list-group-item">Cena sa popustom: {{cart.discountPrice}} din.</li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
@@ -117,11 +117,11 @@ Vue.component("selected-restaurant", {
                 </div>
                 <div class="col-sm-4">
                     <ul class="list-group list-group-flush rounded" style="border-color: #dc3545; border-style: groove; border-width: thin;">
-                            <li class="list-group-item">Cena: {{cart.price.toFixed(2)}} din.</li>
+                            <li class="list-group-item">Cena: {{cart.price}} din.</li>
                             <li v-if="customer.type === 'BRONZE'" class="list-group-item">Popust: 0%</li>
                       		<li v-if="customer.type === 'SILVER'" class="list-group-item">Popust: 3%</li>
                       		<li v-if="customer.type === 'GOLD'" class="list-group-item">Popust: 5%</li>
-                            <li class="list-group-item">Cena sa popustom: {{cart.discountPrice.toFixed(2)}} din.</li>
+                            <li class="list-group-item">Cena sa popustom: {{cart.discountPrice}} din.</li>
                           </ul>
                 </div>
                 <div class="col-sm-4">

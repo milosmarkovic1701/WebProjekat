@@ -18,7 +18,7 @@ public class Customer {
 		return points;
 	}
 	public void setPoints(double points) {
-		this.points = points;
+		this.points = Math.round(points * 100)/100.0;
 	}
 	public User getUser() {
 		return user;

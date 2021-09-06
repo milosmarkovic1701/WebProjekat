@@ -79,7 +79,7 @@ public class Order {
 		return price;
 	}
 	public void setPrice(double price) {
-		this.price = price;
+		this.price = Math.round(price * 100)/100.0;
 	}
 	public int getDeliveryId() {
 		return deliveryId;
@@ -129,7 +129,7 @@ public class Order {
 		this.items = items;
 		this.restaurantId = restaurantId;
 		this.orderDateTime = orderDateTime;
-		this.price = price;
+		this.price = Math.round(price * 100)/100.0;
 		this.deliveryId = deliveryId;
 		this.customerId = customerId;
 		this.status = status;

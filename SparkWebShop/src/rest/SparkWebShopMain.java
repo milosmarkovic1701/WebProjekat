@@ -136,6 +136,13 @@ public class SparkWebShopMain {
 			return g.toJson(usersService.getSpam());
 		});
 		
+		get("/rest/users/getCustomer/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(customerService.getCustomer(id));
+		});
+		
 		post("/rest/users/searchUsers", (req, res) -> {
 			UsersQueryDTO query = g.fromJson(req.body(), UsersQueryDTO.class);
 			res.type("application/json");		
@@ -240,7 +247,6 @@ public class SparkWebShopMain {
 				User newUser = new User(username, password, name, lastname, dayOfBirth, Role.CUSTOMER, id);
 				Customer newCustomer = new Customer(newUser, address);
 				customerService.registerCustomer(newCustomer);
-				System.out.println(customerService.getCustomers());
 				return "Uspešno ste se registrovali.";
 			}	
 		});
@@ -264,7 +270,7 @@ public class SparkWebShopMain {
 		post("/rest/orders/sendOrder", (req, res) -> {
 			NewOrderDTO order = g.fromJson(req.body(), NewOrderDTO.class);
 			res.type("application/json");		
-			orderService.addOrder(order);
+			customerService.addOrder(order);
 			return "OK";
 		});
 		
@@ -277,7 +283,7 @@ public class SparkWebShopMain {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(commentService.getRestaurantComments(id)); //sredi
+			return g.toJson(commentService.getRestaurantComments(id)); 
 		});
 		
 		post("/rest/comments/addComment", (req, res) -> {
@@ -286,19 +292,25 @@ public class SparkWebShopMain {
 			return "OK";
 		});
 		
-		get("/rest/orders/getOrders", (req, res) -> {
+		get("/rest/orders/getOrders/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(orderService.getOrders());
+			return g.toJson(orderService.getCustomerOrders(id));
 		});
 		
-		get("/rest/orders/getNotDeliveredOrders", (req, res) -> {
+		get("/rest/orders/getCancellableOrders/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(orderService.getNotDeliveredOrders());
+			return g.toJson(orderService.getCustomerCancellableOrders(id));
 		});
 		
-		get("/rest/orders/getNotRatedOrders", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(orderService.getNotRatedOrders());
+		post("/rest/orders/cancelOrder", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int id = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(orderService.cancelOrder(id));
 		});
 		
 		get("/rest/cart/getCustomerCart/:id", (req, res) -> {

@@ -10,8 +10,11 @@ Vue.component("customer-page", {
 				customerType: "",
 				customerPoints: "",
 		    	orders: "",
-		    	notDeliveredOrders: "",
-		    	notRatedOrders: "",
+		    	ordersSize: 0,
+		    	notDeliveredOrdersSize: 0,
+		    	notRatedOrdersSize: 0,
+		    	cancellableOrdersSize: 0,
+		    	orderId: "",
 		    	customer: {},
 		    	userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: "", address: ""},
 		    }
@@ -28,20 +31,25 @@ template:`
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false">Sve porudžbine
-          	<span class="badge">{{this.orders.length}}</span>
+          	<span class="badge">{{this.ordersSize}}</span>
           	</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="notdeliveredorders-tab" data-bs-toggle="tab" data-bs-target="#notdeliveredorders" type="button" role="tab" aria-controls="notdeliveredorders" aria-selected="false">Nedostavljene porudžbine
-              <span class="badge">{{this.notDeliveredOrders.length}}</span>
+              <span class="badge">{{this.notDeliveredOrdersSize}}</span>
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="notgradedorders-tab" data-bs-toggle="tab" data-bs-target="#notgradedorders" type="button" role="tab" aria-controls="notgradedorders" aria-selected="false">Neocenjene porudžbine
-              <span class="badge">{{this.notRatedOrders.length}}</span>
+              <span class="badge">{{this.notRatedOrdersSize}}</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation" style="margin-left: 80mm;"> <!--125mm-->
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="cancellableorders-tab" data-bs-toggle="tab" data-bs-target="#cancellableorders" type="button" role="tab" aria-controls="notgradedorders" aria-selected="false">Otkazivanje porudžbina
+              <span class="badge">{{this.cancellableOrdersSize}}</span>
+            </button>
+          </li>
+          <li class="nav-item" role="presentation" style="margin-left: 30mm;">
             <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
               <img src="icons/user.png" alt="mdo" width="24" height="24" class="rounded-circle">
               <img v-bind:src="this.customerType" alt="mdo" width="24" height="24" class="rounded-circle">
@@ -263,7 +271,7 @@ template:`
     <div class="tab-pane fade" id="notdeliveredorders" role="tabpanel" aria-labelledby="notdeliveredorders-tab">
       <div class="container-fluid my-container">
         <div class="row row-cols-1 row-cols-md-4 g-4">
-          <div v-for="order in notDeliveredOrders" class="col">
+          <div v-for="order in orders" v-if="order.status != 'DELIVERED'" class="col">
             <div class="card" style="width: 21rem;">
               <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
@@ -291,7 +299,7 @@ template:`
     <div class="tab-pane fade" id="notgradedorders" role="tabpanel" aria-labelledby="notgradedorders-tab">
       <div class="container-fluid">
         <div class="row row-cols-1 row-cols-md-4 g-4">
-          <div v-for="order in notRatedOrders" class="col">
+          <div v-for="order in orders" v-if="order.rating == 0.0 && order.status == 'DELIVERED'" class="col">
             <div class="card" style="width: 21rem;">
               <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
@@ -310,6 +318,35 @@ template:`
               </ul>
               <div class="card-body">
                 <button type="button" v-on:click="rateOrder(order.id)" class="btn btn-danger">Oceni</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tab-pane fade" id="cancellableorders" role="tabpanel" aria-labelledby="cancellableorders-tab">
+      <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+          <div v-for="order in orders" v-if="order.status == 'PROCESSING'" class="col">
+            <div class="card" style="width: 21rem;">
+              <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{order.restaurantName}}</h5>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{order.orderInfo}}</li>
+                <li class="list-group-item">{{order.dateInfo}}</li>
+                <li v-if="order.status === 'PROCESSING'" class="list-group-item">U OBRADI</li>
+            	<li v-else-if="order.status === 'PREPARING'" class="list-group-item">PRIPREMA SE</li>
+            	<li v-else-if="order.status === 'READY_TO_DELIVER'" class="list-group-item">SPREMNO ZA DOSTAVU</li>
+            	<li v-else-if="order.status === 'IN_TRANSPORT'" class="list-group-item">DOSTAVLJA SE</li>
+            	<li v-else-if="order.status === 'DELIVERED'" class="list-group-item">DOSTAVLJENO</li>
+            	<li v-else-if="order.status === 'CANCELLED'" class="list-group-item">OTKAZANO</li>
+                <li class="list-group-item">{{order.price}} din.</li>
+              </ul>
+              <div class="card-body">
+                <button type="button" v-on:click="cancelOrder(order.id)" class="btn btn-danger">Otkaži</button>
             </div>
           </div>
           </div>
@@ -374,27 +411,7 @@ template:`
 			document.getElementById("birthDateInput").value = this.customer.user.dateInfo;
         	console.log(this.userInfo);
         },
-        getRestaurants() {
-	        axios
-		        .get('rest/restaurants/getRestaurants')
-		        .then(response => (this.restaurants = response.data))
-	    },
-	    getOrders() {
-		    axios
-		        .get('rest/orders/getOrders')
-		        .then(response => (this.orders = response.data))
-        },
-        getNotDeliveredOrders() {
-	        axios
-		        .get('rest/orders/getNotDeliveredOrders')
-		        .then(response => (this.notDeliveredOrders = response.data))
-        },
-        getNotRatedOrders() {
-	        axios
-		        .get('rest/orders/getNotRatedOrders')
-		        .then(response => (this.notRatedOrders = response.data))
-		},
-		getCustomerInfo() {
+        getCustomerInfo() {
 			if (this.customer.type === "BRONZE") {
 				this.customerType = "icons/bronze.png";
 			}
@@ -404,7 +421,36 @@ template:`
 			else {	
 				this.customerType = "icons/gold.png";
 			}
+			console.log(this.customerType);
 		},
+        getRestaurants() {
+	        axios
+		        .get('rest/restaurants/getRestaurants')
+		        .then(response => (this.restaurants = response.data))
+	    },
+	    getOrders() {
+		    axios
+		        .get('rest/orders/getOrders/' + this.customer.user.id)
+		        .then(response => {
+		        this.orders = response.data;
+		        this.getNumberIndicators();
+		        })
+        },
+        getNumberIndicators() {
+        	this.ordersSize = 0;
+        	this.notDeliveredOrdersSize = 0;
+        	this.notRatedOrdersSize = 0;
+        	this.cancellableOrdersSize = 0;
+        	for (o in this.orders) {
+        		this.ordersSize += 1;
+        		if (this.orders[o].status != 'DELIVERED')
+					this.notDeliveredOrdersSize += 1;
+				if (this.orders[o].status === 'DELIVERED' && this.orders[o].rating === 0) 
+					this.notRatedOrdersSize += 1;
+				if (this.orders[o].status === 'PROCESSING')
+					this.cancellableOrdersSize += 1;
+        	}
+        },
 		logOut() {
 			this.$router.push('/'); 
 	        this.$router.go();
@@ -415,8 +461,7 @@ template:`
         	document.getElementById("usernameInput").disabled = false;
         	document.getElementById("passwordInput").disabled = false;
         	document.getElementById("addressInput").disabled = false;
-        	document.getElementById("birthDateInput").disabled = false;
-        	
+        	document.getElementById("birthDateInput").disabled = false;	
         },
         saveInfoEdit(){
         	axios
@@ -437,23 +482,41 @@ template:`
         	document.getElementById("birthDateInput").disabled = true;
         },
         rateOrder(id) {
-        	for (o in this.notRatedOrders) {
-        		if (this.notRatedOrders[o].id === id) {
-					console.log(this.notRatedOrders[o]);
-					localStorage.setItem("orderToRate", JSON.stringify(this.notRatedOrders[o]));
+        	for (o in this.orders) {
+        		if (this.orders[o].id === id) {
+					console.log(this.orders[o]);
+					localStorage.setItem("orderToRate", JSON.stringify(this.orders[o]));
 					break;
         		}
         	}
         	this.$router.push('/commentPage'); 
 	        this.$router.go();
         },
+        cancelOrder(id) {
+        this.orderId = id;
+        	axios
+        		.post('rest/orders/cancelOrder', this.orderId)	
+				.then(response => {
+				this.orders = response.data;
+				this.getCustomer();
+				this.getNumberIndicators();
+				})
+        },
+        getCustomer() {
+        	axios
+		        .get('rest/users/getCustomer/' + this.customer.user.id)
+		        .then(response => {
+		        this.customer = response.data
+		        localStorage.setItem("customer", JSON.stringify(this.customer));
+		        this.getCustomerInfo();
+		        })
+        }
 	},
     mounted () {
-	    this.getRestaurants();
-	    this.getOrders();
-        this.getNotDeliveredOrders();
-        this.getNotRatedOrders();
-	    this.getLoggedUser();
+    	this.getLoggedUser();
+    	this.getCustomer();
+    	this.getOrders();
+		this.getRestaurants();
 	    this.getCustomerInfo();
 		},
 		
