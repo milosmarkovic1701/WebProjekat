@@ -128,7 +128,7 @@ public class SparkWebShopMain {
 		
 		get("/rest/users/getManagers", (req, res) -> {
 			res.type("application/json");
-			return g.toJson(managerService.getManagers());
+			return g.toJson(managerService.getManagersWithoutRestaurant());
 		});
 		
 		get("/rest/users/getSpamUsers", (req, res) -> {
@@ -270,9 +270,7 @@ public class SparkWebShopMain {
 		
 		get("/rest/comments/getAllComments", (req, res) -> {
 			res.type("application/json");
-			ArrayList<AdminCommentDTO> coms = new ArrayList<AdminCommentDTO>();
-			coms.add(new AdminCommentDTO("misa00", "Milos", "Markovic", "Balans", "Dobar.", "4.7", "DA"));
-			return g.toJson(coms);
+			return g.toJson(commentService.getCommentsDTO());
 		});
 		
 		get("/rest/comments/getRestaurantComments/:id", (req, res) -> {

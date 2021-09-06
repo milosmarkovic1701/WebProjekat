@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
+import beans.Customer;
 import beans.FoodItem;
 import beans.Restaurant;
 import beans.Order;
@@ -23,11 +24,13 @@ import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
 import dto.UserDTO;
 import enums.OrderStatus;
+import enums.Type;
 
 public class OrderService {
 
 	private ArrayList<Order> orders = new ArrayList<Order>();
 	private static RestaurantService restaurantService = new RestaurantService();
+	private static CustomerService customerService = new CustomerService();
 
 	public ArrayList<Order> getOrders() {
 		return orders;
@@ -56,7 +59,32 @@ public class OrderService {
 	}
 	
 	public void addOrder(NewOrderDTO order) {
-	} 
+		getAllOrders();
+		int id = orders.size() + 1;
+		orders.add(new Order(
+				   			id,
+				   			order.getCart().getItems(),
+				   			order.getCart().getItems().get(0).getRestaurantId(),
+				   			LocalDateTime.now(),
+				   			order.getCart().getDiscountPrice(),
+				   			0,
+				   			order.getCustomerId(),
+				   			OrderStatus.PROCESSING
+							));
+		saveAllOrders();
+		ArrayList <Customer> customers = customerService.getAllCustomers();
+		for (Customer c : customers)
+			if (c.getUser().getId() == order.getCustomerId()) {
+				c.setPoints(c.getPoints() + (order.getCart().getPrice()/1000 * 133));
+				if (c.getPoints() >= 3000)
+					c.setType(Type.SILVER);
+				else if (c.getPoints() >= 4000)
+					c.setType(Type.GOLD);
+				else
+					c.setType(Type.BRONZE);
+			}
+		customerService.saveAllCustomers(customers);
+	}
 
 	public OrderService() {
 		super();

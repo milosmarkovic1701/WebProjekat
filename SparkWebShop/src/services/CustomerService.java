@@ -118,6 +118,18 @@ public CustomerService () {
 		}
 	}
 	
+	public void saveAllCustomers(ArrayList<Customer> customerss) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		try {
+			Writer writer = Files.newBufferedWriter(Paths.get("./static/data/customers.json"));
+			writer.append(gson.toJson(customerss));
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Cart getCustomerCart(int id) {
 		for (Customer c : customers) {
 			if (c.getUser().getId() == id)

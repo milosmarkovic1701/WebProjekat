@@ -20,9 +20,8 @@ Vue.component("customer-page", {
 template:`
   <div>
   <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
-        <img id="logo2" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
-
-      <ul class="nav col-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <ul class="nav col-sm-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <img src="images/ponesilogo.png" alt="mdo" width="120" height="42" >
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="restaurants-tab" data-bs-toggle="tab" data-bs-target="#restaurants" type="button" role="tab" aria-controls="restaurant" aria-selected="true">Svi restorani</button>
@@ -42,7 +41,7 @@ template:`
               <span class="badge">{{this.notRatedOrders.length}}</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation" style="margin-left: 100mm;"> <!--125mm-->
+          <li class="nav-item" role="presentation" style="margin-left: 80mm;"> <!--125mm-->
             <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
               <img src="icons/user.png" alt="mdo" width="24" height="24" class="rounded-circle">
               <img v-bind:src="this.customerType" alt="mdo" width="24" height="24" class="rounded-circle">

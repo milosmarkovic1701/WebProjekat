@@ -8,9 +8,9 @@ Vue.component("selected-restaurant", {
 				customer: {},
 			    customerId: "",
 			    foodItemId: "",
-				cart: null,
+				cart: {},
 				cartInfo: {customerId: "", foodItemId: "", amount: 1},
-				newOrder: {customerId: "", cart: null}
+				newOrder: {customerId: "", cart: {}}
 		    }
 	},
 	template:`
@@ -204,11 +204,13 @@ Vue.component("selected-restaurant", {
 	            .then(response => (this.cart = response.data))
         },
         getRestaurant(){
-        this.customer = JSON.parse(localStorage.getItem("customer"));
 			axios
             	.get("/rest/restaurants/getSelectedRestaurant/" + this.$route.query.id)
 	            .then(response => (this.restaurant = response.data))
 	        this.getCartItems();
+        },
+        getCustomer() {
+        	this.customer = JSON.parse(localStorage.getItem("customer"));
         },
         addToCart(id, amount) {
 	         if (amount < 1) {
@@ -254,6 +256,20 @@ Vue.component("selected-restaurant", {
 	        		.post('rest/orders/sendOrder', this.newOrder)
 		          	.then(response => {
 		          	alert("Obaveštenje: Vaša porudžbina je poslata.");
+		          	this.customer.points = this.customer.points + (this.newOrder.cart.price * 133/1000);
+		          	if (this.customer.points >= 3000) {
+		          		this.customer.type = 'SILVER';
+		          	}
+		          	else if (this.customer.points >= 4000) {
+		          		this.customer.type = 'GOLD';
+		          	}
+		          	this.cart = {};
+					this.cartInfo.customerId = ""; 
+					this.foodItemId = "";
+					this.amount = 1;
+					this.newOrder.customerId = ""; 
+					this.newOrder.cart = {};
+		          	localStorage.setItem("customer", JSON.stringify(this.customer));
 		          	this.$router.push('/customerPage'); 
 	        		this.$router.go();
 		          	})   
@@ -262,6 +278,7 @@ Vue.component("selected-restaurant", {
 	},
 	mounted () {
 		this.getRestaurant();
+		this.getCustomer();
         this.getFoodItems();
         this.getRestaurantComments();
     },

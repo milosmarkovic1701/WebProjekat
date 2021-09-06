@@ -1,6 +1,6 @@
 [
   {
-    "customerId": 10,
+    "customerId": 5,
     "restaurantId": 2,
     "orderId": 1,
     "rating": 5.0,
@@ -8,7 +8,7 @@
     "approved": false
   },
   {
-    "customerId": 10,
+    "customerId": 7,
     "restaurantId": 4,
     "orderId": 3,
     "rating": 2.0,

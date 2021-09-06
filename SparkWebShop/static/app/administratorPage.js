@@ -12,7 +12,7 @@ Vue.component("administrator-page", {
 				adminComments : null,
 				users : null,
 				spamUsers: null,
-				managers: null,
+				managers: [],
 				restaurantId: "",
 				userId: "",
 				spamUserId: "",
@@ -24,8 +24,8 @@ Vue.component("administrator-page", {
 	template:`
   <div>
   <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
-      <img src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
-      <ul class="nav col-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <ul class="nav col-sm-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <img src="images/ponesilogo.png" alt="mdo" width="120" height="42" >
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="restaurants-tab" data-bs-toggle="tab" data-bs-target="#restaurants" type="button" role="tab" aria-controls="restaurant" aria-selected="true">Svi restorani</button>
@@ -258,7 +258,8 @@ Vue.component("administrator-page", {
               </select>
             </div>
             </div>
-            <button type="button" style="margin-top: 7%;" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#modalmanager">Dodavanje novog menadžera</button>
+            <button type="button" v-if="managers.length == 0" style="margin-top: 7%;" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#modalmanager">Dodavanje novog menadžera</button>
+            <button type="button" v-else style="margin-top: 7%;" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" disabled data-bs-target="#modalmanager">Dodavanje novog menadžera</button>
               <button type="button" v-on:click="addRestaurant()" style="margin-top: 7%; margin-left: 12%;" class="btn btn-danger btn-lg">Dodaj restoran</button>
           </div>
         </div>
@@ -497,7 +498,11 @@ Vue.component("administrator-page", {
   		getManagers() {
   		axios
 	        .get('rest/users/getManagers')
-	        .then(response => (this.managers = response.data))
+	        .then(response => {
+	        this.managers = response.data
+	        
+	        console.log(this.managers);
+	        })
 		},
 		searchRestaurant() {
 		axios
@@ -522,11 +527,18 @@ Vue.component("administrator-page", {
 	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
 						this.getUsers();
-	        			this.getManagers();
+						this.getManagers();
+	        			this.employee.name = "";
+	        			this.employee.role = "";
+	        			this.employee.lastname = ""; 
+	        			this.employee.username = ""; 
+	        			this.employee.password = ""; 
+ 						this.employee.birthDate = "";
 	                }
 	                else {
 	                    alert("Greška: " + response.data);
 	                }
+	                this.getManagers();
 	            });
 		},
 		addManager() {
@@ -536,8 +548,14 @@ Vue.component("administrator-page", {
 			.then(response => {
 	                if (response.data != "Korisničko ime je zauzeto !" && response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
-						this.getManagers();
 	        			this.getUsers();
+	        			this.getManagers();
+	        			this.newManager.name = "";
+	        			this.newManager.lastname = ""; 
+	        			this.newManager.username = ""; 
+	        			this.newManager.password = ""; 
+ 						this.newManager.birthDate = "";
+ 						
 	                }
 	                else {
 	                    alert("Greška: " + response.data);
@@ -552,7 +570,7 @@ Vue.component("administrator-page", {
 	                this.users = response.data;
 	          		this.getSpamUsers();   
 	        		this.getManagers();
-	                })      	
+	                })    	
         },
         deleteRestaurant(id){
             this.restaurantId = id;
@@ -605,7 +623,6 @@ Vue.component("administrator-page", {
         },
         getLoggedUser() {
         	this.admin = JSON.parse(localStorage.getItem("admin"));
-        	console.log(this.admin);
         	this.userInfo.id = this.admin.user.id;
         	this.userInfo.name = this.admin.user.name;
         	this.userInfo.lastname = this.admin.user.lastName;
@@ -613,7 +630,6 @@ Vue.component("administrator-page", {
         	this.userInfo.password = this.admin.user.password;
 			this.userInfo.birthDate = this.admin.user.dateInfo;
 			document.getElementById("birthDateInput").value = this.admin.user.dateInfo;
-        	console.log(this.userInfo);
 		},
 		formatGeoposition() {
 				this.newRestaurant.latitude = document.getElementById("latitude").value;
@@ -628,6 +644,20 @@ Vue.component("administrator-page", {
 		                if (response.data != "Niste popunili sve potrebne podatke !"){
 							alert("Obaveštenje: " + response.data);
 							this.getRestaurants();
+							this.getManagers();
+							this.newRestaurant.name = ""; 
+							this.newRestaurant.type = ""; 
+							this.newRestaurant.logo = ""; 
+							this.newRestaurant.street = ""; 
+							this.newRestaurant.number = ""; 
+							this.newRestaurant.city = ""; 
+							this.newRestaurant.latitude = "";
+							this.newRestaurant.longitude = ""; 
+							this.newRestaurant.postalCode = ""; 
+							this.newRestaurant.managerId = "";
+							document.getElementById("uploadImage").value = "";
+							document.getElementById("latitude").value = "";
+                			document.getElementById("longitude").value = "";
 		                }
 		                else {
 		                    alert("Greška: " + response.data);

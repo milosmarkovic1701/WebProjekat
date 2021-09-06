@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,6 +26,7 @@ public class CommentService {
 	private ArrayList<AdminCommentDTO> commentsDTO = new ArrayList<AdminCommentDTO>();
 	private static OrderService orderService = new OrderService();
 	private static CustomerService customerService = new CustomerService();
+	private static RestaurantService restaurantService = new RestaurantService();
 
 	public ArrayList<AdminCommentDTO> getComments() {
 		return commentsDTO;
@@ -53,6 +55,8 @@ public class CommentService {
 		this.commentsDTO = comments;
 	}
 	
+	
+	
 	public void addComment(CommentDTO comment) {
 		Comment newComment = new Comment(comment.getCustomerId(), comment.getRestaurantId(), comment.getOrderId(), comment.getRating(), comment.getContent());
 		System.out.println(comment);
@@ -61,24 +65,24 @@ public class CommentService {
 	}
 
 	public CommentService() {
-		comments.add(new Comment(10, 2, 1, 5, "Dobar"));
-		comments.add(new Comment(10, 4, 3, 2, "Nije dobar"));
+		comments = getAllComments();
 	}
 
 	public ArrayList<AdminCommentDTO> getCommentsDTO() {
-		ArrayList <Customer> customers = new ArrayList<Customer>(); //ovo ce biti iz baze
-		ArrayList <Restaurant> restaurants = new ArrayList<Restaurant>();
+		commentsDTO.clear();
+		comments = getAllComments();
+		ArrayList <Customer> customers = customerService.getAllCustomers();
+		ArrayList <Restaurant> restaurants = new ArrayList<>(restaurantService.getAllRestaurants().values());
 		String name = "";
 		String lastname = "";
 		String username = "";
 		String restaurantName = "";
 		for (Comment comment : comments) {
 			for (Customer customer : customers) {
-				if (comment.getCustomerId() == customer.getUser().getId()) {
+				if (customer.getUser().getId() == comment.getCustomerId()) {
 					name = customer.getUser().getName();
 					lastname = customer.getUser().getLastName();
 					username = customer.getUser().getUsername();
-					break;
 				}
 			}
 			for (Restaurant restaurant : restaurants) {
