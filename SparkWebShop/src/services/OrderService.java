@@ -201,6 +201,7 @@ public class OrderService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
 	public ArrayList<Order> getRestaurantOrders(int id){
 		ArrayList<Order> allOrders = this.getAllOrders();

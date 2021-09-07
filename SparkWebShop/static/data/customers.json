@@ -17,10 +17,10 @@
       "id": 5
     },
     "type": "BRONZE",
-    "cancels": 5,
+    "cancels": 7,
     "blocked": false,
     "address": "Andre Jovanovića 6, Novi Sad",
-    "points": 372.4,
+    "points": -202.16,
     "cart": {
       "items": [],
       "price": 0.0,
@@ -106,8 +106,9 @@
     "address": "Bore Tirica 89, Sabac",
     "points": 0.0,
     "cart": {
-      "customerId": 0,
-      "price": 0.0
+      "items": [],
+      "price": 0.0,
+      "discountPrice": 0.0
     }
   }
 ]
