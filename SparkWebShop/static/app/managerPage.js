@@ -6,7 +6,7 @@ Vue.component("manager-page", {
 		    comments : null,
 		    unratedComments:null,
 		    orders : null,
-		    articles : null,
+		    foodItems : null,
 		    deliveryMan : {},
 		    manager : {},
 		    userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
@@ -209,20 +209,12 @@ template:`
               </thead>
               <tbody>
                 <tr>
-                  <td>mihhh47</td>
-                  <td>Mihailo</td>
-                  <td>Majstorovic</td> 
-                  <td colspan="3">Top sine a sta ce da se desi ako napisem neki ogroman komentar da li ce se lomiti ili samo rasiriti hajde da probamo da vidimo na sta lici. Moramo jos malo jos nije otislo u nov red. Top, lepo je </td>
-                  <td>5/5</td>
-                  <td><button type="button" class="btn btn-success">DA.</button><button type="button" class="btn btn-danger ">NE.</button></td>
-                </tr>
-                <tr>
-                  <td>misa00</td>
-                  <td>Misa</td>
-                  <td>Markovic</td>
-                  <td colspan="3">Previše slatko.</td>
-                  <td>2/5</td>
-                  <td><button type="button" class="btn btn-success">DA.</button><button type="button" class="btn btn-danger ">NE.</button></td>
+                  <td>a</td>
+                <td>a</td>
+                <td>a</td> 
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
                 </tr>
               </tbody>
             </table>
@@ -242,21 +234,13 @@ template:`
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>mihhh47</td>
-                <td>Mihailo</td>
-                <td>Majstorovic</td> 
-                <td>Top sine a sta ce da se desi ako napisem neki ogroman komentar da li ce se lomiti ili samo rasiriti hajde da probamo da vidimo na sta lici. Moramo jos malo jos nije otislo u nov red. Top, lepo je </td>
-                <td>5/5</td>
-                <td>DA</td>
-              </tr>
-              <tr>
-                <td>misa00</td>
-                <td>Misa</td>
-                <td>Markovic</td>
-                <td>Previše slatko.</td>
-                <td>2/5</td>
-                <td>NE</td>
+              <tr v-for="comment in comments">
+                <td>{{comment.username}}</td>
+                <td>{{comment.name}}</td>
+                <td>{{comment.lastname}}</td> 
+                <td>{{comment.content}}</td>
+                <td>{{comment.rating}}/5</td>
+                <td>{{comment.approved}}</td>
               </tr>
             </tbody>
           </table>
@@ -330,15 +314,18 @@ template:`
     </div>
   </div>
 </div>
-          <div class="card" style="width: 21rem;">
-            <img  src="restaurant logos/gyros master.jpg" width="300" height="220" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Pilеći batak.</h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">200 din</li>
-              <li class="list-group-item">opis malo duzi da vidimo na sta lici svidja mi se ta ideja brate.</li>
-            </ul>
+		   <div class="row row-cols-1 row-cols-md-4 g-4">
+		  <div class="col" v-for="fi in foodItems">
+            <div class="card" style="width: 21rem;">
+              <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{fi.name}}</h5>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{fi.description}}</li>
+                <li class="list-group-item">{{fi.size}}</li>
+                <li class="list-group-item">{{fi.price}} din.</li>
+              </ul>
             <div class="card-body">
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#izmeniModal">
                 <a href="#" class="card-link">Izmeni artikal</a>
@@ -403,31 +390,33 @@ template:`
           </div>
         </div>
       </div>
+      </div>
+      </div>
   
       <div class="tab-pane fade" id="myinfo" role="tabpanel" aria-labelledby="myinfo-tab">
-        <div class="container-fluid my-container">
-          <div class="row my-row  justify-content-around">
-            <div class="col-sm-6 my-col">
-                <span class="input-group-text" id="basic-addon1">Ime:</span>
-                <input type="text" class="form-control" placeholder="Unesite ime...">
-                <span class="input-group-text" id="basic-addon1" style="margin-top: 10%;">Prezime:</span>
-                <input type="text" class="form-control" placeholder="Unesite prezime...">
-                <span class="input-group-text" id="basic-addon1" style="margin-top: 10%;">Korisničko ime:</span>
-                <input type="text" class="form-control" placeholder="Unesite korisničko ime...">
-                <span class="input-group-text" id="basic-addon1" style="margin-top: 10%;">Lozinka:</span>
-                <input type="text" class="form-control" placeholder="Unesite lozinku...">
-                <span class="input-group-text" id="basic-addon1" style="margin-top: 10%;">Datum rođenja:</span>
-                <input id="birthDateInput" type="date" class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
-              </div>
-              <div class="col-sm-6 my-col">
-                <img src="images/myinfo.png" height="450" width="600">
-                <button type="button" style="margin-top: 13%; margin-right: 10%; margin-left: 8%;" class="btn btn-secondary btn-lg">Promeni podatke</button>
-                <button type="button" style="margin-top: 13%; margin-left: 10%;" class="btn btn-danger btn-lg">Sačuvaj izmene</button>
-              </div>
+      <div class="container-fluid my-container">
+        <div class="row my-row  justify-content-around">
+          <div class="col-sm-6 my-col">
+              <span class="input-group-text">Ime:</span>
+              <input type="text" id="nameInput" v-model="userInfo.name" disabled class="form-control" placeholder="Unesite ime...">
+              <span class="input-group-text" style="margin-top: 10%;">Prezime:</span>
+              <input type="text" id="lastnameInput" v-model="userInfo.lastname" disabled class="form-control" placeholder="Unesite prezime...">
+              <span class="input-group-text" style="margin-top: 10%;">Korisničko ime:</span>
+              <input type="text" id="usernameInput"v-model="userInfo.username" disabled class="form-control" placeholder="Unesite korisničko ime...">
+              <span class="input-group-text" style="margin-top: 10%;">Lozinka:</span>
+              <input type="password" id="passwordInput"v-model="userInfo.password" disabled class="form-control" placeholder="Unesite lozinku...">
+              <span class="input-group-text" style="margin-top: 10%;">Datum rođenja: (mesec/dan/godina)</span>
+              <input type="date" id="birthDateInput" v-model="userInfo.birthDate" disabled class="form-control" placeholder="Unesite datum rođenja (DD.MM.YYYY.)">
             </div>
-        </div>
+            <div class="col-sm-6 my-col">
+              <img src="images/myinfo.png" height="450" width="600">
+              <button type="button" style="margin-top: 13%; margin-right: 10%; margin-left: 8%;" v-on:click="enableInfoEdit()" class="btn btn-secondary btn-lg">Promeni podatke</button>
+              <button type="button" style="margin-top: 13%; margin-left: 10%;" v-on:click="saveInfoEdit()" class="btn btn-danger btn-lg">Sačuvaj izmene</button>
+            </div>
+          </div>
       </div>
     </div>
+  </div>
 </div>
 `
 	, 
@@ -465,11 +454,25 @@ template:`
 				.post('rest/orders/searchOrders', this.orderSearchQuery)
 	          	.then(response => (this.orders = response.data))
 		},
+	getAllRatedCommentsForRestaurant() {
+	  	axios
+	  	    .get('rest/comments/getAllCommentsForRestaurant/' + this.manager.restaurantId)
+	  		.then(response => (this.comments = response.data))
+	  		console.log(this.comments)
+	  	},
+	  getAllFoodItems(){
+	  		axios
+	  		 .get('rest/restaurant/getAllFoodItems/' + this.manager.restaurantId)
+	  		 .then(response => (this.foodItems = response.data))
+	  		console.log(this.foodItems)
+	    },
 		},
 		mounted () {
 		this.getLoggedUser();
 		this.getManagedRestaurant();
 		this.getOrders();
+		this.getAllRatedCommentsForRestaurant();
+		this.getAllFoodItems();
 		},
 		
 });

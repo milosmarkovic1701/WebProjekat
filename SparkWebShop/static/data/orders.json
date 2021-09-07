@@ -1,10 +1,10 @@
 [
   {
-    "id": 1,
-    "restaurantName": "Balans",
-    "restaurantId": 2,
-    "restaurantLogo": "restaurant logos\\balans.jpg",
-    "restaurantType": "PalaÄ�inke",
+    "id": 2,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "GrÄ�ki",
     "items": [
       {
         "id": 1,
@@ -44,7 +44,7 @@
       }
     },
     "dateInfo": "5.9.2021.  15:44",
-    "price": 100.0,
+    "price": 1000.0,
     "deliveryId": 2,
     "customerId": 5,
     "status": "PROCESSING",
@@ -95,7 +95,7 @@
       }
     },
     "dateInfo": "3.9.2021.  15:44",
-    "price": 100.0,
+    "price": 1000.0,
     "deliveryId": 3,
     "customerId": 6,
     "status": "PROCESSING",

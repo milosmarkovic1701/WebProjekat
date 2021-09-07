@@ -61,11 +61,28 @@ public class SparkWebShopMain {
 		port(8080);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
+		
+		
+		
+		get("rest/restaurant/getAllFoodItems/:id",(req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(foodItemService.getRestaurantFoodItems(id));
+		});
+		
+		
 		get("/rest/restaurants/getRestaurants", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(restaurantService.getRestaurants());
 		});
 		
+		get("/rest/comments/getAllCommentsForRestaurant/:id",(req,res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(commentService.getRestaurantComments(id));
+		});
 		
 		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
 			String idS = req.params("id");
@@ -82,7 +99,6 @@ public class SparkWebShopMain {
 		get("/rest/orders/allRestaurantOrders/:id",(req,res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
-			System.out.println(id);
 			res.type("application/json");
 			return g.toJson(orderService.getAllRestaurantOrdersDTO(id));
 		
