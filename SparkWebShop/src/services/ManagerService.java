@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,13 +19,16 @@ import beans.Customer;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
+import dto.LoginUserDTO;
 import enums.Role;
 
 
 public class ManagerService {
 	
 	ArrayList<Manager> managers = new ArrayList<Manager>();
-
+	private HashMap<Integer, Restaurant> restaurants = new HashMap<Integer, Restaurant>();
+	RestaurantService restaurantService = new RestaurantService();
+	
 	public ManagerService() {
 		managers = getAllManagers();
 	}
@@ -94,6 +98,25 @@ public class ManagerService {
 			e.printStackTrace();
 		}
 	}
+	public Manager login(LoginUserDTO user) {
+		managers = getAllManagers();
+		for (Manager manager : managers) {
+			if (user.getUsernameLogin().equals(manager.getUser().getUsername()) && user.getPasswordLogin().equals(manager.getUser().getPassword()))
+				return manager;
+		}
+		return null;
+	}
+	public Restaurant getManagedRestaurant(int id) {
+			restaurants = restaurantService.getAllRestaurants();
+			Restaurant ManagedRestaurant = null;
+			for(Restaurant r: restaurants.values()) {
+				if(r.getManagerId()==id) {
+					ManagedRestaurant = r;
+				}
+			}
+		return ManagedRestaurant;
+	}
+	
 	
 	public void saveAllManagersForRestaurant(ArrayList<Manager> managerList) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

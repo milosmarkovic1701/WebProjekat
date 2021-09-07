@@ -1,10 +1,27 @@
 [
   {
-    "customerId": 7,
+
+    "customerId": 5,
+    "restaurantId": 2,
+    "orderId": 1,
+    "rating": 5.0,
+    "content": "Dobar",
+    "approved": false
+  },
+  {
+    "customerId": 5,
     "restaurantId": 1,
     "orderId": 3,
-    "rating": 5.0,
-    "content": "Odlican giros",
+    "rating": 2.0,
+    "content": "Nije dobar",
+    "approved": false
+  },
+  {
+    "customerId":5,
+    "restaurantId": 1,
+    "orderId": 13,
+    "rating": 3.0,
+    "content": "Dobar mali",
     "approved": false
   }
 ]

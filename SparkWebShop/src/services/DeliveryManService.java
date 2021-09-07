@@ -15,6 +15,7 @@ import beans.Administrator;
 import beans.DeliveryMan;
 import beans.Manager;
 import beans.User;
+import dto.LoginUserDTO;
 import enums.Role;
 
 public class DeliveryManService {
@@ -74,4 +75,13 @@ public class DeliveryManService {
 			e.printStackTrace();
 		}
 	}
+	public DeliveryMan login(LoginUserDTO user) {
+		deliveryMen = getAllDeliveryMen();
+		for (DeliveryMan deliveryMen : deliveryMen) {
+			if (user.getUsernameLogin().equals(deliveryMen.getUser().getUsername()) && user.getPasswordLogin().equals(deliveryMen.getUser().getPassword()))
+				return deliveryMen;
+		}
+		return null;
+	}
+	
 }
