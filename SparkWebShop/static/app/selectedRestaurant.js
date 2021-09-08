@@ -3,14 +3,16 @@ Vue.component("selected-restaurant", {
 		    return {
 				foodItems : null,
 				comments : null,
-				restaurant : {},
+				restaurant : "",
 				restaurantId: "",
 				customer: {},
 			    customerId: "",
 			    foodItemId: "",
 				cart: {},
 				cartInfo: {customerId: "", foodItemId: "", amount: 1},
-				newOrder: {customerId: "", cart: {}}
+				newOrder: {customerId: "", cart: {}},
+				restaurantLocation : "",
+				restaurantCoordinates : {lat: 0, lng: 0},
 		    }
 	},
 	template:`
@@ -86,25 +88,20 @@ Vue.component("selected-restaurant", {
               </div>
                 <div class="col-md-8">
                   <div class="card-body">
-                    <h2 class="card-title" style="color: #dc3545;">{{this.restaurant.name}}</h2>
                   </div>
                   <div class="row">
                     <div class="col">
                       <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Tip restorana:</li>
-                        <li class="list-group-item">Adresa:</li>
-                        <li class="list-group-item">Status:</li>
-                        <li class="list-group-item">Prosečna ocena:</li>
+                      <li class="list-group-item"><h4 class="card-title" style="color: #dc3545; margin-bottom: 15mm;">{{this.restaurant.name}}</h4></li>
+                        <li class="list-group-item">Tip restorana: {{this.restaurant.type}}</li>
+                        <li class="list-group-item">Adresa: {{this.restaurantLocation}}</li>
+                        <li v-if="restaurant.status === 'OPENED'" class="list-group-item"> Status: OTVORENO</li>
+                    <li v-else class="list-group-item">Status: ZATVORENO</li>
+                        <li class="list-group-item">Prosečna ocena: {{this.restaurant.rating}}/5</li>
                       </ul>
                     </div>
                     <div class="col">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{this.restaurant.type}}</li>
-                        <li class="list-group-item">{{this.restaurant.location.street}} {{this.restaurant.location.number}}, {{this.restaurant.location.city}}</li>
-                        <li v-if="restaurant.status === 'OPENED'" class="list-group-item">OTVORENO</li>
-                    <li v-else class="list-group-item">ZATVORENO</li>
-                        <li class="list-group-item">{{this.restaurant.rating}}/5</li>
-                      </ul>
+                    <div id="dvMap" style="width: 500px; height: 350px"></div>
                     </div>
                   </div>
                 </div>
@@ -203,10 +200,33 @@ Vue.component("selected-restaurant", {
             	.get("/rest/cart/getCustomerCart/" + this.customerId)
 	            .then(response => (this.cart = response.data))
         },
+        initMap() {
+        var mapOptions = {
+                center: new google.maps.LatLng(45.2481976, 19.8274375),
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.SATELITE
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var latitude = this.restaurantCoordinates;
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            new google.maps.Marker({
+			    position : new google.maps.LatLng(this.restaurantCoordinates),
+			    map,
+			});
+            google.maps.event.addListener(map, 'click', function (e) {
+            });
+        },
         getRestaurant(){
 			axios
             	.get("/rest/restaurants/getSelectedRestaurant/" + this.$route.query.id)
-	            .then(response => (this.restaurant = response.data))
+	            .then(response => {
+	            this.restaurant = response.data;
+	            this.restaurantLocation = this.restaurant.location.street + " " + this.restaurant.location.number + ", " + this.restaurant.location.city;
+	            this.restaurantCoordinates.lat = this.restaurant.location.width;
+	            this.restaurantCoordinates.lng = this.restaurant.location.length;
+        		this.initMap();
+	            })
 	        this.getCartItems();
         },
         getCustomer() {
