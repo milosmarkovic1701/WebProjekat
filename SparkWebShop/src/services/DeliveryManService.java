@@ -14,14 +14,18 @@ import com.google.gson.GsonBuilder;
 import beans.Administrator;
 import beans.DeliveryMan;
 import beans.Manager;
+import beans.Order;
 import beans.User;
+import dto.AdminCommentDTO;
+import dto.DeliveryManTakingOrderDTO;
 import dto.LoginUserDTO;
 import enums.Role;
+import enums.OrderStatus;
 
 public class DeliveryManService {
 	
 	ArrayList<DeliveryMan> deliveryMen = new ArrayList<DeliveryMan>();
-
+	OrderService orderService = new OrderService();
 	public DeliveryManService() {
 		deliveryMen = getAllDeliveryMen();
 	}
@@ -83,5 +87,29 @@ public class DeliveryManService {
 		}
 		return null;
 	}
+	public ArrayList<DeliveryManTakingOrderDTO> getPotentialDeliveyMen(int id){
+		ArrayList<Order> orders = orderService.getAllOrders();
+		deliveryMen = this.getAllDeliveryMen();
+		ArrayList<Order> restaurantOrders = new ArrayList<Order>();
+		for(Order o:orders) {
+			if(o.getRestaurantId()==id && o.getDeliveryId()!=0 && o.getStatus()==OrderStatus.READY_TO_DELIVER) {
+				restaurantOrders.add(o);
+			}
+		}
+		ArrayList<DeliveryManTakingOrderDTO> deliveryMenDTO = new ArrayList<DeliveryManTakingOrderDTO>();
+		
+		for(Order o:restaurantOrders) {
+			DeliveryMan deliveryMan = null;
+			for(DeliveryMan dm:deliveryMen) {
+				if(dm.getUser().getId()==o.getDeliveryId()) {
+					deliveryMan = dm;
+				}
+			}
+			DeliveryManTakingOrderDTO deliveryManDTO = new DeliveryManTakingOrderDTO(deliveryMan.getUser().getName(),deliveryMan.getUser().getLastName(),o.getOrderInfo(),o.getDateInfo(),o.getPrice());
+			deliveryMenDTO.add(deliveryManDTO);
+		}
+		return deliveryMenDTO;
+	}
+	
 	
 }

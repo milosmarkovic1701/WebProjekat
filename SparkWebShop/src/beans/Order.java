@@ -119,6 +119,12 @@ public class Order {
 		String day = String.valueOf(orderDateTime.getDayOfMonth());
 		String hours = String.valueOf(orderDateTime.getHour());
 		String minutes = String.valueOf(orderDateTime.getMinute());
+		if(orderDateTime.getHour()<=9) {
+			hours= "0" + hours; 
+		}
+		if(orderDateTime.getMinute()<=9) {
+			minutes= "0" + minutes; 
+		}
 		return day + "." + month +"." + year + ".  " + hours + ":" + minutes;
 	}
 	

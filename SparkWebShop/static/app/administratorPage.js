@@ -406,7 +406,7 @@ Vue.component("administrator-page", {
               <td>{{comment.restaurantName}}</td>
               <td>{{comment.content}}</td>
               <td>{{comment.rating}}/5</td>
-              <td>{{comment.approved}}</td>
+              <td>{{comment.status}}</td>
             </tr>
           </tbody>
         </table>

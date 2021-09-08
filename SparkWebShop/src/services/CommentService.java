@@ -17,8 +17,10 @@ import beans.Customer;
 import beans.Order;
 import beans.Restaurant;
 import dto.AdminCommentDTO;
+import dto.ApproveDTO;
 import dto.CommentDTO;
 import dto.RestaurantCommentDTO;
+import enums.CommentStatus;
 
 public class CommentService {
 	
@@ -110,12 +112,37 @@ public class CommentService {
 					break;
 				}
 			}
-			AdminCommentDTO commentDTO = new AdminCommentDTO(username, name, lastname, restaurantName, comment.getContent(), String.valueOf(comment.getRating()), comment.isApproved() ? "DA" : "NE");
+			AdminCommentDTO commentDTO = new AdminCommentDTO(username, name, lastname, restaurantName, comment.getContent(), String.valueOf(comment.getRating()), comment.getStatus(),comment.getOrderId());
 			commentsDTO.add(commentDTO);
 		}
 		return commentsDTO;
 	}
-	
+		public ArrayList<AdminCommentDTO> getAllCommentsForRestaurant(int id){
+			commentsDTO.clear();
+			comments = getAllComments();
+			ArrayList <Customer> customers = customerService.getAllCustomers();
+			String name = "";
+			String lastname = "";
+			String username = "";
+			String restaurantName = "";
+			for (Comment comment : comments) {
+				
+				for (Customer customer : customers) {
+					if (customer.getUser().getId() == comment.getCustomerId()) {
+						name = customer.getUser().getName();
+						lastname = customer.getUser().getLastName();
+						username = customer.getUser().getUsername();
+					}
+				}
+				if(comment.getRestaurantId()==id) {
+				AdminCommentDTO commentDTO = new AdminCommentDTO(username, name, lastname, restaurantName, comment.getContent(), String.valueOf(comment.getRating()), comment.getStatus(),comment.getOrderId());
+				commentsDTO.add(commentDTO);
+				}
+			}
+			return commentsDTO;			
+		}
+		
+		
 	public ArrayList<Comment> getAllComments() {
 		Gson gson = new Gson();
 		comments.clear();
@@ -145,7 +172,28 @@ public class CommentService {
 			e.printStackTrace();
 		}
 	}
-
+	public ArrayList<AdminCommentDTO> changeCommentStatusToApproved(ApproveDTO ap){
+		comments = getAllComments();
+		for(Comment komentar:comments) {
+			if(komentar.getOrderId()==ap.getOrderId()) {
+				komentar.setStatus(CommentStatus.DA);
+			}
+			
+		}
+		this.saveAllComments();
+		return this.getAllCommentsForRestaurant(ap.getRestaurantId());
 	
+	}
+	public ArrayList<AdminCommentDTO> changeCommentStatusToUnapproved(ApproveDTO ap){
+		comments = getAllComments();
+		for(Comment komentar:comments) {
+			if(komentar.getOrderId()==ap.getOrderId()) {
+				komentar.setStatus(CommentStatus.NE);
+			}
+			
+		}
+		this.saveAllComments();
+		return this.getAllCommentsForRestaurant(ap.getRestaurantId());
 	
+	}
 }

@@ -9,6 +9,7 @@ public class RestaurantOrderDTO {
 	private String prezime;
 	private String adresa;
 	private String imeArtikla;
+	private String dateInfo;
 	private LocalDateTime datumIVremePorudzbine;
 	private Double cena;
 	private OrderStatus status;
@@ -55,7 +56,7 @@ public class RestaurantOrderDTO {
 		this.status = status;
 	}
 	public RestaurantOrderDTO(String ime, String prezime, String adresa, String imeArtikla,
-			LocalDateTime datumIVremePorudzbine, Double cena, OrderStatus status) {
+			LocalDateTime datumIVremePorudzbine, Double cena, OrderStatus status,String dateInfo) {
 		super();
 		this.ime = ime;
 		this.prezime = prezime;
@@ -64,6 +65,13 @@ public class RestaurantOrderDTO {
 		this.datumIVremePorudzbine = datumIVremePorudzbine;
 		this.cena = cena;
 		this.status = status;
+		this.dateInfo = dateInfo;
+	}
+	public String getDateInfo() {
+		return dateInfo;
+	}
+	public void setDateInfo(String dateInfo) {
+		this.dateInfo = dateInfo;
 	}
 	
 	

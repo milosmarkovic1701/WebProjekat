@@ -24,12 +24,14 @@ import dto.EmployeeDTO;
 import dto.LoginUserDTO;
 import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
+import dto.OrderQueryDTOForRestaurant;
 import dto.RegisterUserDTO;
 import dto.RestaurantDTO;
 import dto.RestaurantQueryDTO;
 import dto.UserInfoEditDTO;
 import dto.UsersQueryDTO;
 import dto.AdminCommentDTO;
+import dto.ApproveDTO;
 import dto.CommentDTO;
 import dto.CustomerInfoEditDTO;
 import dto.CartInfoDTO;
@@ -67,6 +69,12 @@ public class SparkWebShopMain {
 		
 		
 		
+		get("/rest/orders/getDeliveryMen/:id", (req, res) -> {
+			String idS = req.params("id");
+			int id = Integer.parseInt(idS);
+			res.type("application/json");
+			return g.toJson(deliveryManService.getPotentialDeliveyMen(id));
+		});
 		get("rest/restaurant/getAllFoodItems/:id",(req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
@@ -84,7 +92,7 @@ public class SparkWebShopMain {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
-			return g.toJson(commentService.getRestaurantComments(id));
+			return g.toJson(commentService.getAllCommentsForRestaurant(id));
 		});
 		
 		get("/rest/restaurants/getSelectedRestaurant/:id", (req, res) -> {
@@ -113,6 +121,18 @@ public class SparkWebShopMain {
 			int id = Integer.parseInt(idS);
 			res.type("application/json");
 			return g.toJson(foodItemService.getRestaurantFoodItems(id));
+		});
+		
+		post("rest/comments/approveComment", (req, res) -> {
+			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
+			res.type("application/json");		
+			return g.toJson(commentService.changeCommentStatusToApproved(data));
+		});
+		
+		post("rest/comments/unapproveComment", (req, res) -> {
+			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
+			res.type("application/json");		
+			return g.toJson(commentService.changeCommentStatusToUnapproved(data));
 		});
 		
 		post("/rest/restaurants/searchRestaurants", (req, res) -> {
@@ -315,6 +335,12 @@ public class SparkWebShopMain {
 			res.type("application/json");		
 			return g.toJson(orderService.searchOrders(query));
 		});
+		post("/rest/orders/searchOrdersForRestaurant", (req, res) -> {
+			OrderQueryDTOForRestaurant query = g.fromJson(req.body(), OrderQueryDTOForRestaurant.class);
+			res.type("application/json");		
+			return g.toJson(orderService.searchOrdersForRestaurant(query));
+		});
+		
 		
 		post("/rest/orders/sendOrder", (req, res) -> {
 			NewOrderDTO order = g.fromJson(req.body(), NewOrderDTO.class);

@@ -1,5 +1,5 @@
 package beans;
-
+import enums.CommentStatus;
 public class Comment {
 
 	
@@ -8,7 +8,7 @@ public class Comment {
 	private int orderId;
 	private double rating;
 	private String content;
-	private boolean approved;
+	private CommentStatus status;
 	
 	public int getOrderId() {
 		return orderId;
@@ -40,13 +40,14 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public boolean isApproved() {
-		return approved;
-	}
-	public void setApproved(boolean approved) {
-		this.approved = approved;
-	}
 	
+	
+	public CommentStatus getStatus() {
+		return status;
+	}
+	public void setStatus(CommentStatus approved) {
+		this.status = approved;
+	}
 	public Comment(int customerId, int restaurantId, int orderId, double rating, String content) {
 		super();
 		this.customerId = customerId;
@@ -54,6 +55,6 @@ public class Comment {
 		this.orderId = orderId;
 		this.rating = rating;
 		this.content = content;
-		this.approved = false;
+		this.status = CommentStatus.CEKA_ODOBRENJE;
 	}
 }

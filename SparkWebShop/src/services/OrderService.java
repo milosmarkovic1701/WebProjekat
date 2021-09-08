@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 
 import beans.Order;
 import dto.OrderQueryDTO;
+import dto.OrderQueryDTOForRestaurant;
 import beans.Administrator;
 import beans.Customer;
 import beans.FoodItem;
@@ -220,7 +221,8 @@ public class OrderService {
 		for(FoodItem fi:o.getItems()) {
 			artikli = artikli + fi.getName() + ",";
 		}
-			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(ime,prezime,adresa,artikli,o.getOrderDateTime(),o.getPrice(),o.getStatus()); 
+		artikli = artikli.substring(0,artikli.length()-1);
+			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(ime,prezime,adresa,artikli,o.getOrderDateTime(),o.getPrice(),o.getStatus(),o.getDateInfo()); 
 		return newOrderDTO;
 	
 	}
@@ -232,5 +234,66 @@ public class OrderService {
 			ordersDTO.add(oDTO);
 		}
 		return ordersDTO;
+	}
+	public ArrayList<RestaurantOrderDTO> searchOrdersForRestaurant (OrderQueryDTOForRestaurant query) {
+		ArrayList<Order> allOrders = this.getAllOrders();
+		ArrayList<Order> allOrdersForRestaurant = new ArrayList<Order>();
+		ArrayList<Order> toDelete = new ArrayList<Order>();
+		for(Order o:allOrders) {
+			if(o.getRestaurantId()==query.getRestaurantId()) {
+				allOrdersForRestaurant.add(o);
+			}
+		}
+		int indexCounter = -1;
+		for (Order order : allOrdersForRestaurant) {
+			indexCounter++;
+			boolean valid = true;
+			if (!query.getPriceDown().equalsIgnoreCase("")) {
+				if (order.getPrice() < Double.parseDouble(query.getPriceDown()))
+				valid = false;
+			}
+			if (!query.getPriceUp().equalsIgnoreCase("")) {
+				if (order.getPrice() > Double.parseDouble(query.getPriceUp()))
+				valid = false;
+			}
+			if (!(query.getDateDown().trim().equalsIgnoreCase(""))) {
+				LocalDateTime queryDateDown = adjustDate(query.getDateDown());
+				if (order.getOrderDateTime().compareTo(queryDateDown) < 0)
+					valid = false;
+			}
+			if (!(query.getDateUp().trim().equalsIgnoreCase(""))) {
+				LocalDateTime queryDateUp = adjustDate(query.getDateUp());
+				if (order.getOrderDateTime().compareTo(queryDateUp) > 0)
+					valid = false;
+			}
+			if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(order.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!valid) {
+				toDelete.add(order);
+				//allOrders.remove(indexCounter--);
+			}
+		}
+		
+		allOrdersForRestaurant.removeAll(toDelete);
+		
+		ArrayList<Order> sortedOrders = allOrdersForRestaurant;
+		if (!query.getSort().equalsIgnoreCase("")) {
+			 if (query.getSort().equalsIgnoreCase("cena_rastuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getPrice));
+			else if (query.getSort().equalsIgnoreCase("cena_opadajuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getPrice).reversed());
+			else if (query.getSort().equalsIgnoreCase("datum_rastuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getOrderDateTime));
+			else if (query.getSort().equalsIgnoreCase("datum_opadajuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getOrderDateTime).reversed());
+			}
+		
+		ArrayList<RestaurantOrderDTO> newOrders = new ArrayList<RestaurantOrderDTO>();
+		for(Order o:sortedOrders) {
+			RestaurantOrderDTO oDTO = this.OrderToOrderDTO(o);
+			newOrders.add(oDTO);
+		}
+		return newOrders;
 	}
 }

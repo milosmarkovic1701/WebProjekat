@@ -32,9 +32,9 @@
         "nano": 919605300
       }
     },
-    "dateInfo": "7.9.2021.  1:35",
+    "dateInfo": "7.9.2021.  01:35",
     "price": 446.2,
-    "deliveryId": 0,
+    "deliveryId": 11,
     "customerId": 7,
     "status": "CANCELLED",
     "rating": 0.0
@@ -72,9 +72,9 @@
         "nano": 437676900
       }
     },
-    "dateInfo": "7.9.2021.  1:35",
+    "dateInfo": "7.9.2021.  01:35",
     "price": 1319.2,
-    "deliveryId": 0,
+    "deliveryId": 11,
     "customerId": 7,
     "status": "PROCESSING",
     "rating": 0.0
@@ -112,9 +112,9 @@
         "nano": 718122200
       }
     },
-    "dateInfo": "7.9.2021.  1:35",
+    "dateInfo": "7.9.2021.  01:35",
     "price": 1600.5,
-    "deliveryId": 0,
+    "deliveryId": 11,
     "customerId": 7,
     "status": "DELIVERED",
     "rating": 5.0
@@ -152,9 +152,9 @@
         "nano": 757680500
       }
     },
-    "dateInfo": "7.9.2021.  1:38",
+    "dateInfo": "7.9.2021.  01:38",
     "price": 679.0,
-    "deliveryId": 0,
+    "deliveryId": 11,
     "customerId": 7,
     "status": "PROCESSING",
     "rating": 0.0
@@ -203,9 +203,9 @@
         "nano": 919671200
       }
     },
-    "dateInfo": "7.9.2021.  15:3",
+    "dateInfo": "7.9.2021.  15:03",
     "price": 430.0,
-    "deliveryId": 0,
+    "deliveryId": 11,
     "customerId": 5,
     "status": "CANCELLED",
     "rating": 0.0
@@ -265,11 +265,62 @@
         "nano": 3035200
       }
     },
-    "dateInfo": "7.9.2021.  15:4",
+    "dateInfo": "7.9.2021.  15:04",
     "price": 1010.0,
-    "deliveryId": 0,
+    "deliveryId":11,
     "customerId": 5,
-    "status": "CANCELLED",
+    "status": "READY_TO_DELIVER",
     "rating": 0.0
+  },
+  {
+    "id": 7,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 1,
+        "name": "Mali giros",
+        "price": 230.0,
+        "restaurantId": 1,
+        "size": "200g",
+        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros mali.png",
+        "amount": 1,
+        "deleted": false
+      },
+      {
+        "id": 2,
+        "name": "Veliki giros",
+        "price": 330.0,
+        "restaurantId": 1,
+        "size": "300g",
+        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros veliki.png",
+        "amount": 1,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Mali giros 200g 1X, Veliki giros 300g 1X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 7
+      },
+      "time": {
+        "hour": 16,
+        "minute": 45,
+        "second": 29,
+        "nano": 165195300
+      }
+    },
+    "dateInfo": "7.9.2021.  16:45",
+    "price": 560.0,
+    "deliveryId": 11,
+    "customerId": 5,
+    "status": "DELIVERED",
+    "rating": 4.0
   }
 ]

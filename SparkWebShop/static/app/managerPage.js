@@ -1,15 +1,16 @@
 Vue.component("manager-page", {
 	data: function () {
 		    return {
-			orderSearchQuery : { priceDown: "", priceUp: "", dateDown: "", dateUp: "", filterType: "", filterStatus: "", sort: "" },
+			orderSearchQueryForRestaurant : {restaurantId: "", priceDown: "", priceUp: "", dateDown: "", dateUp: "", filterStatus: "", sort: "" },
 		    restaurant : {},
 		    comments : null,
-		    unratedComments:null,
+		    unapprovedComments:null,
 		    orders : null,
 		    foodItems : null,
-		    deliveryMan : {},
+		    deliveryMen : null,
 		    manager : {},
 		    userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
+		    approveDTO :{orderId : "", restaurantId:""},
 		    }
 	},
 	
@@ -62,7 +63,7 @@ template:`
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-          <button type="button" class="btn btn-danger">Potvrdi</button>
+          <button type="button" class="btn btn-danger" v-on:click = "logOut()">Potvrdi</button>
         </div>
       </div>
     </div>
@@ -75,40 +76,21 @@ template:`
               <div class="row">
                 
                 <div class="col col-sm-1" style="border-left: #dc3545; border-left-style: groove">
-                  <input type="number" min="0" max="10000" step="100" v-model="orderSearchQuery.priceDown" class="form-control" placeholder="Cena-od">
+                  <input type="number" min="0" max="10000" step="100" v-model="orderSearchQueryForRestaurant.priceDown" class="form-control" placeholder="Cena-od">
                 </div>
                 <div class="col col-sm-1">
-                  <input type="number" min="100" max="10000" step="100"v-model="orderSearchQuery.priceUp" class="form-control" placeholder="Cena-do">
+                  <input type="number" min="100" max="10000" step="100"v-model="orderSearchQueryForRestaurant.priceUp" class="form-control" placeholder="Cena-do">
                 </div>
                 <div class="col col-sm-2">
-                  <input type="date" v-model="orderSearchQuery.dateDown" class="form-control" placeholder="Datum-od">
+                  <input type="date" v-model="orderSearchQueryForRestaurant.dateDown" class="form-control" placeholder="Datum-od">
                   <span class="input-group-text" id="basic-addon1">Datum-od</span>
                 </div>
                 <div class="col col-sm-2">
-                  <input type="date" v-model="orderSearchQuery.dateUp" class="form-control" placeholder="Datum-do">
+                  <input type="date" v-model="orderSearchQueryForRestaurant.dateUp" class="form-control" placeholder="Datum-do">
                   <span class="input-group-text" id="basic-addon1">Datum-do</span>
                 </div>
                 <div class="col col-sm-1">
-                  <select class="form-select" v-model="orderSearchQuery.filterType" id="inputGroupSelect04">
-                    <option value="" selected>Filter (tip)</option>
-                    <option value="roštilj">Roštilj</option>
-                    <option value="palačinke">Palačinke</option>
-                    <option value="krofne">Krofne</option>
-                    <option value="pekara">Pekara</option>
-                    <option value="poslastičarnica">Poslastičarnica</option>
-                    <option value="picerija">Picerija</option>
-                    <option value="italijanski">Italijanski</option>
-                    <option value="meksički">Meksički</option>
-                    <option value="kineski">Kineski</option>
-                    <option value="francuski">Francuski</option>
-                    <option value="japanski">Japanski</option>
-                    <option value="indijski">Indijski</option>
-                    <option value="turski">Turski</option>
-                    <option value="grčki">Grčki</option>
-                  </select>
-                </div>
-                <div class="col col-sm-1">
-                  <select class="form-select" v-model="orderSearchQuery.filterStatus">
+                  <select class="form-select" v-model="orderSearchQueryForRestaurant.filterStatus">
                     <option value="" selected>Filter (status)</option>
                     <option value="processing">U obradi</option>
                     <option value="preparing">Priprema se</option>
@@ -119,10 +101,8 @@ template:`
                   </select>
                 </div>
                 <div class="col col-sm-2">
-                  <select class="form-select" v-model="orderSearchQuery.sort">
+                  <select class="form-select" v-model="orderSearchQueryForRestaurant.sort">
                     <option value="" selected>Tip sortiranja</option>
-                    <option value="restoran_rastuce">Ime restorana (rastuće)</option>
-                    <option value="restoran_opadajuce">Ime restorana (opadajuće)</option>
                     <option value="cena_rastuce">Cena (rastuće)</option>
                     <option value="cena_opadajuce">Cena (opadajuće)</option>
                     <option value="datum_rastuce">Datum (rastuće)</option>
@@ -130,7 +110,7 @@ template:`
                   </select>
                 </div>
                 <div class="col col-sm-1" style="border-right: #dc3545; border-right-style: groove">
-                  <button type="button" v-on:click="searchOrders()" class="btn btn-danger">Pretraži</button>
+                  <button type="button" v-on:click="searchOrdersForRestaurant()" class="btn btn-danger">Pretraži</button>
                 </div>
               <div class="row"></div>
             </div>
@@ -151,7 +131,7 @@ template:`
        <td>{{order.ime}} {{order.prezime}}</td>
        <td>{{order.adresa}}</td>
        <td>{{order.imeArtikla}}</td>
-       <td>{{order.datumIVremePorudzbine}}</td>
+       <td>{{order.dateInfo}}</td>
        <td>{{order.cena}}</td>
        <td colspan="2">{{order.status}}</td>
       </tr>
@@ -174,19 +154,12 @@ template:`
                     <th></th>
                 </thead>
              <tbody>
-             <tr>
-             <td>David Guetta</td>
-             <td>Pizza</td>
-             <td>20.10.2020.</td>
-             <td>850 din</td>
+             <tr v-for="deliveryMan in deliveryMen">
+             <td>{{deliveryMan.deliveryManName}} {{deliveryMan.deliveryManLastName}} </td>
+             <td>{{deliveryMan.orderInfo}}</td>
+             <td>{{deliveryMan.orderDateTime}}</td>
+             <td>{{deliveryMan.orderPrice}}</td>
              <td><button type="button" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
-            </tr>
-            <tr>
-            <td>Mihailo Majstorovic</td>
-            <td>Sendvic</td>
-            <td>20.10.2020.</td>
-            <td>600 din</td>
-            <td><button type="button" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
             </tr>
             </tbody>
             </table>
@@ -202,21 +175,21 @@ template:`
                   <th>Korisničko ime</th>
                   <th>Ime</th>
                   <th>Prezime</th>
-                  <th colspan="3">Sadržaj komentara</th>
+                  <th>Sadržaj komentara</th>
                   <th>Ocena</th>
                   <th>Odobri</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>a</td>
-                <td>a</td>
-                <td>a</td> 
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                </tr>
-              </tbody>
+             <tr v-for="comment in comments" v-if="comment.status === 'CEKA_ODOBRENJE'" >
+                <td>{{comment.username}}</td>
+                <td>{{comment.name}}</td>
+                <td>{{comment.lastname}}</td> 
+                <td>{{comment.content}}</td>
+                <td>{{comment.rating}}/5</td>
+                <td><button type="button" v-on:click="changeToApproved(comment.orderId)" class="btn btn-success ">DA.</button><button type="button" v-on:click="changeToUnapproved(comment.orderId)" class="btn btn-danger ">NE.</button></td>
+              </tr>
+            </tbody>
             </table>
           
         </div>
@@ -234,13 +207,13 @@ template:`
               </tr>
             </thead>
             <tbody>
-              <tr v-for="comment in comments">
+             <tr v-for="comment in comments" v-if="comment.status != 'CEKA_ODOBRENJE'" >
                 <td>{{comment.username}}</td>
                 <td>{{comment.name}}</td>
                 <td>{{comment.lastname}}</td> 
                 <td>{{comment.content}}</td>
                 <td>{{comment.rating}}/5</td>
-                <td>{{comment.approved}}</td>
+                <td>{{comment.status}}</td>
               </tr>
             </tbody>
           </table>
@@ -315,7 +288,7 @@ template:`
   </div>
 </div>
 		   <div class="row row-cols-1 row-cols-md-4 g-4">
-		  <div class="col" v-for="fi in foodItems">
+		  <div class="col">
             <div class="card" style="width: 21rem;">
               <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
@@ -327,20 +300,23 @@ template:`
                 <li class="list-group-item">{{fi.price}} din.</li>
               </ul>
             <div class="card-body">
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#izmeniModal">
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#izmeniModal">
                 <a href="#" class="card-link">Izmeni artikal</a>
               </button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#izmeniModal">
+                <a href="#" class="card-link">Obriši artikal</a>
+			   </button>
           </div>
         </div>
       </div>
       <div class="modal fade" id="izmeniModal" tabindex="-1" aria-labelledby="izmeniModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" v-for="fi in foodItems">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Izmeni artikal</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" >
               <div class="row">
               <div class="colsm-5">
                 <label class="input-group-text" for="inputGroupFile01">Promeni sliku artikla:</label>  
@@ -421,16 +397,44 @@ template:`
 `
 	, 
 	methods : {
-	searchOrders() {
+	
+	
+	logOut() {
+			this.$router.push('/'); 
+	        this.$router.go();
+		},
+		
+	changeToApproved(id){
+			this.approveDTO.restaurantId = this.manager.restaurantId;
+			this.approveDTO.orderId = id;
 			axios
-				.post('rest/orders/searchOrders', this.orderSearchQuery)
+				.post('rest/comments/approveComment', this.approveDTO)
+	          	.then(response => (this.comments = response.data))
+	},
+	changeToUnapproved(id){
+			this.approveDTO.restaurantId = this.manager.restaurantId;
+			this.approveDTO.orderId = id;
+			axios
+				.post('rest/comments/unapproveComment', this.approveDTO)
+	          	.then(response => (this.comments = response.data))
+	}, 
+	searchOrdersForRestaurant() {
+			this.orderSearchQueryForRestaurant.restaurantId = this.manager.restaurantId;
+			axios
+				.post('rest/orders/searchOrdersForRestaurant', this.orderSearchQueryForRestaurant)
 	          	.then(response => (this.orders = response.data))
+	          	console.log(this.orderSearchQueryForRestaurant);
 		},
 	getManagedRestaurant(){
 			axios
 				.get('rest/restaurant/ManagedRestaurant/' + this.manager.user.id)
 				.then(response => (this.restaurant = response.data))
 				console.log(this.restaurant);
+	},
+	getDeliveryMen(){
+			axios
+				.get('rest/orders/getDeliveryMen/'+ this.manager.restaurantId)
+				.then(response => (this.deliveryMen = response.data))
 	},
 	getLoggedUser() {
         	this.manager = JSON.parse(localStorage.getItem("manager"));
@@ -449,12 +453,7 @@ template:`
     			.get('rest/orders/allRestaurantOrders/' + this.manager.restaurantId)
     		    .then(response => (this.orders = response.data))
     },
-    searchOrders() {
-			axios
-				.post('rest/orders/searchOrders', this.orderSearchQuery)
-	          	.then(response => (this.orders = response.data))
-		},
-	getAllRatedCommentsForRestaurant() {
+	getAllCommentsForRestaurant() {
 	  	axios
 	  	    .get('rest/comments/getAllCommentsForRestaurant/' + this.manager.restaurantId)
 	  		.then(response => (this.comments = response.data))
@@ -471,8 +470,9 @@ template:`
 		this.getLoggedUser();
 		this.getManagedRestaurant();
 		this.getOrders();
-		this.getAllRatedCommentsForRestaurant();
+		this.getAllCommentsForRestaurant();
 		this.getAllFoodItems();
+		this.getDeliveryMen();
 		},
 		
 });

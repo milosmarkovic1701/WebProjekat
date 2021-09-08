@@ -1,5 +1,5 @@
 package dto;
-
+import enums.CommentStatus;
 public class AdminCommentDTO {
 
 	private String username;
@@ -8,8 +8,15 @@ public class AdminCommentDTO {
 	private String restaurantName;
 	private String content;
 	private String rating;
-	private String approved;
+	private CommentStatus status;
+	private int orderId;
 	
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -46,15 +53,14 @@ public class AdminCommentDTO {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	public String getApproved() {
-		return approved;
+	public CommentStatus getStatus() {
+		return status;
 	}
-	public void setApproved(String approved) {
-		this.approved = approved;
+	public void setStatus(CommentStatus approved) {
+		this.status = approved;
 	}
-	
 	public AdminCommentDTO(String username, String name, String lastname, String restaurantName, String content,
-			String rating, String approved) {
+			String rating, CommentStatus status, int orderId) {
 		super();
 		this.username = username;
 		this.name = name;
@@ -62,8 +68,12 @@ public class AdminCommentDTO {
 		this.restaurantName = restaurantName;
 		this.content = content;
 		this.rating = rating;
-		this.approved = approved;
+		this.status = status;
+		this.orderId = orderId;
 	}
+
+	
+
 	
 	
 }
