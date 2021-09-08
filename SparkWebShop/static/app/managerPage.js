@@ -11,6 +11,8 @@ Vue.component("manager-page", {
 		    manager : {},
 		    userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
 		    approveDTO :{orderId : "", restaurantId:""},
+		    newFoodItem:{ id: "",name: "", price: "",restaurantId:"",description:"",photo:"",size: "" }
+		    
 		    }
 	},
 	
@@ -23,8 +25,11 @@ template:`
   
         <ul class="nav col-12 col-lg-auto me-lg-auto justify-content-center mb-md-0">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item"  role="presentation">
+              <button class="nav-link active"  id="all-orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="true">Sve porudžbine</button>
+            </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="all-orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="true">Sve porudžbine</button>
+              <button class="nav-link " id="accept-orders-tab" data-bs-toggle="tab" data-bs-target="#accept-orders" type="button" role="tab" aria-controls="accept-orders" aria-selected="false">Porudžbine u pripremi</button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="select-deliveryman-tab" data-bs-toggle="tab" data-bs-target="#selectdelivery" type="button" role="tab" aria-controls="selectdelivery" aria-selected="false">Odabir dostavljača</button>
@@ -68,6 +73,10 @@ template:`
       </div>
     </div>
   </div>
+  
+
+  
+  
   
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="all-orders-tab">
@@ -139,7 +148,42 @@ template:`
       </table>
             </div>
     
-  
+  		 <div class="tab-pane fade" id="accept-orders" role="tabpanel" aria-labelledby="accept-orders-tab">
+          <div class="container-fluid my-container">
+            <div class="row my-row  justify-content-around">
+       		<table class="table table-hover table-striped ">
+          <thead>
+              <th>Ime i prezime mušterije</th>
+              <th>Adresa mušterije</th>
+              <th>Ime artikla</th>
+              <th>Datum i vreme porudžbine</th>
+              <th>Cena</th>
+              <th colspan="2">Status</th>
+          </thead>
+       <tbody>
+       <tr v-for="order in orders" v-if="order.status === 'PROCESSING'">
+       <td>{{order.ime}} {{order.prezime}}</td>
+       <td>{{order.adresa}}</td>
+       <td>{{order.imeArtikla}}</td>
+       <td>{{order.dateInfo}}</td>
+       <td>{{order.cena}}</td>
+       <td>{{order.status}}</td>
+       <td><button type="button" v-on:click= "changeOrderStatusToPreparing(order.orderId)" class="btn btn-success btn-sm">Pravljenje</td>
+      </tr>
+      <tr v-else-if="order.status === 'PREPARING'">
+       <td>{{order.ime}} {{order.prezime}}</td>
+       <td>{{order.adresa}}</td>
+       <td>{{order.imeArtikla}}</td>
+       <td>{{order.dateInfo}}</td>
+       <td>{{order.cena}}</td>
+       <td>{{order.status}}</td>
+       <td><button type="button"  v-on:click= "changeOrderStatusToWaiting(order.orderId)" class="btn btn-danger btn-sm">Gotova porudžbina</td>
+      </tr>
+      </tbody>
+      </table>
+		</div>
+			</div>
+				</div>
      
   
         <div class="tab-pane fade" id="selectdelivery" role="tabpanel" aria-labelledby="select-deliveryman-tab">
@@ -159,7 +203,7 @@ template:`
              <td>{{deliveryMan.orderInfo}}</td>
              <td>{{deliveryMan.orderDateTime}}</td>
              <td>{{deliveryMan.orderPrice}}</td>
-             <td><button type="button" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
+             <td><button type="button" v-on:click="acceptDeliveryMan(deliveryMan.orderId)" class="btn btn-success btn-sm">Prosledi porudžbinu.</button> <button type="button" v-on:click="declineDeliveryMan(deliveryMan.orderId)" class="btn btn-danger btn-sm">Odbij dostavljača.</button></td>
             </tr>
             </tbody>
             </table>
@@ -243,7 +287,7 @@ template:`
           <label class="input-group-text" for="inputGroupFile01">Izbor slike artikla:</label>  
       </div>
       <div class="col">
-        <input type="file" class="form-control" id="inputGroupFile01">
+        <input id="uploadImage" name="myPhoto"  type="file" accept="image/png, image/jpeg" class="form-control">
       </div>
     </div>
     <div class="row">
@@ -251,7 +295,7 @@ template:`
         <label class="input-group-text">Ime artikla:</label>  
       </div>
       <div class="col">
-      <input type="text" class="form-control">
+      <input type="text" class="form-control" v-model="newFoodItem.name" placeholder="Unesite ime...">
       </div>
     </div>
     <div class="row">
@@ -259,36 +303,36 @@ template:`
         <label class="input-group-text">Cena artikla:</label>  
       </div>
       <div class="col">
-      <input type="text" class="form-control" >
+      <input type="text" class="form-control" v-model="newFoodItem.price" placeholder="Unesite cenu..." >
       </div>
     </div>
     <div class="row">
       <div class="col-sm-5 ">
-        <label class="input-group-text">Količina artikla:</label>  
+        <label class="input-group-text">Veličina artikla:</label>  
       </div>
       <div class="col">
-      <input type="text" class="form-control">
+      <input type="text" class="form-control" v-model="newFoodItem.size" placeholder="Unesite veličinu...">
       </div>
       </div>
       <div class="row">
         <div class="col-sm-5 ">
-          <label class="input-group-text">Opis artikla:</label>  
+          <label class="input-group-text" >Opis artikla:</label>  
         </div>
         <div class="col">
-        <textarea type="text" class="form-control"></textarea>
+        <textarea type="text" class="form-control" v-model="newFoodItem.description" placeholder="Unesite opis..."></textarea>
         </div>
     </div>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
-        <button type="button" class="btn btn-primary">Sačuvaj</button>
+        <button type="button" v-on:click = "addFoodItem()" class="btn btn-primary" data-bs-dismiss="modal">Sačuvaj</button>
       </div>
     </div>
   </div>
 </div>
 		   <div class="row row-cols-1 row-cols-md-4 g-4">
-		  <div class="col">
+		  <div class="col" v-for="fi in foodItems">
             <div class="card" style="width: 21rem;">
               <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
@@ -310,7 +354,7 @@ template:`
         </div>
       </div>
       <div class="modal fade" id="izmeniModal" tabindex="-1" aria-labelledby="izmeniModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl" v-for="fi in foodItems">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" >
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Izmeni artikal</h5>
@@ -397,13 +441,46 @@ template:`
 `
 	, 
 	methods : {
+	acceptDeliveryMan(id){
+		this.approveDTO.restaurantId = this.manager.restaurantId;
+			this.approveDTO.orderId = id;
+		axios
+				.post('rest/order/acceptDeliveryMan', this.approveDTO)
+	          	.then(response => {
+	          	this.deliveryMen = response.data;
+	          	this.getOrders();
+	          	})
+	          	
+	},
+	declineDeliveryMan(id){
+			this.approveDTO.restaurantId = this.manager.restaurantId;
+			this.approveDTO.orderId = id;
+		axios
+				.post('rest/order/declineDeliveryMan', this.approveDTO)
+	          	.then(response => {
+	          	this.deliveryMen = response.data;
+	          	this.getOrders();
+	          	})
 	
-	
+	},
 	logOut() {
 			this.$router.push('/'); 
 	        this.$router.go();
 		},
-		
+	changeOrderStatusToPreparing(id){
+	this.approveDTO.restaurantId = this.manager.restaurantId;
+			this.approveDTO.orderId = id;
+			axios
+				.post('rest/order/changeToPreparing', this.approveDTO)
+	          	.then(response => (this.orders = response.data))
+	},
+	changeOrderStatusToWaiting(id){
+	this.approveDTO.restaurantId = this.manager.restaurantId;
+			this.approveDTO.orderId = id;
+			axios
+				.post('rest/order/changeToWaiting', this.approveDTO)
+	          	.then(response => (this.orders = response.data))
+	},
 	changeToApproved(id){
 			this.approveDTO.restaurantId = this.manager.restaurantId;
 			this.approveDTO.orderId = id;
@@ -453,12 +530,62 @@ template:`
     			.get('rest/orders/allRestaurantOrders/' + this.manager.restaurantId)
     		    .then(response => (this.orders = response.data))
     },
+    
 	getAllCommentsForRestaurant() {
 	  	axios
 	  	    .get('rest/comments/getAllCommentsForRestaurant/' + this.manager.restaurantId)
 	  		.then(response => (this.comments = response.data))
 	  		console.log(this.comments)
 	  	},
+	  	enableInfoEdit(){
+        	document.getElementById("nameInput").disabled = false;
+        	document.getElementById("lastnameInput").disabled = false;
+        	document.getElementById("usernameInput").disabled = false;
+        	document.getElementById("passwordInput").disabled = false;
+        	document.getElementById("birthDateInput").disabled = false;
+        	
+        },
+        saveInfoEdit(){
+        	axios
+				.post('rest/users/saveInfoEdit', this.userInfo)	
+				.then(response => {
+	                if (response.data != "Niste popunili sve potrebne podatke !"){
+						alert("Obaveštenje: " + response.data);
+	                }
+	                else {
+	                    alert("Greška: " + response.data);
+	                }
+	        });	
+        	document.getElementById("nameInput").disabled = true;
+        	document.getElementById("lastnameInput").disabled = true;
+        	document.getElementById("usernameInput").disabled = true;
+        	document.getElementById("passwordInput").disabled = true;
+        	document.getElementById("birthDateInput").disabled = true;
+        },	
+        addFoodItem() {
+        	this.newFoodItem.photo = document.getElementById("uploadImage").value
+        	this.newFoodItem.restaurantId = this.manager.restaurantId
+        	axios
+				.post('rest/restaurant/addFoodItem', this.newFoodItem)	
+				.then(response => {
+						console.log(this.newFoodItem)
+		                if (response.data != "Niste popunili sve potrebne podatke !"){
+							alert("Obaveštenje: Uspešno ste dodali novi artikal!");
+							this.getAllFoodItems();
+							this.newRestaurant.name = ""; 
+							this.newRestaurant.price = ""; 
+							this.newRestaurant.photo = ""; 
+							this.newRestaurant.size = ""; 
+							this.newRestaurant.description = ""; 
+							 
+		                }
+		                else {
+		                    alert("Greška: " + response.data);
+		                }
+		               
+		        });
+		        },
+	  	
 	  getAllFoodItems(){
 	  		axios
 	  		 .get('rest/restaurant/getAllFoodItems/' + this.manager.restaurantId)

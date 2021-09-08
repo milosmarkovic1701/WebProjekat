@@ -5,13 +5,13 @@
     "orderId": 1,
     "rating": 5.0,
     "content": "Dobar",
-    "status": "CEKA_ODOBRENJE"
+    "status": "DA"
   },
   {
     "customerId": 6,
     "restaurantId": 1,
     "orderId": 3,
-    "rating": 2.0,
+    "rating": 4.0,
     "content": "Nije dobar",
     "status": "NE"
   },
@@ -19,7 +19,7 @@
     "customerId": 6,
     "restaurantId": 1,
     "orderId": 13,
-    "rating": 3.0,
+    "rating": 4.0,
     "content": "Dobar mali",
     "status": "DA"
   },
@@ -30,5 +30,13 @@
     "rating": 4.0,
     "content": "Ide gas vozim novi bmw",
     "status": "NE"
+  },
+  {
+    "customerId": 6,
+    "restaurantId": 1,
+    "orderId": 8,
+    "rating": 4.0,
+    "content": "a sta da ti kazem baki",
+    "status": "DA"
   }
 ]

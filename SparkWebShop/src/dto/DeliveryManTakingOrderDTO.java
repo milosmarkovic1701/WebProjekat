@@ -3,7 +3,9 @@ package dto;
 import java.time.LocalDateTime;
 
 public class DeliveryManTakingOrderDTO {
-
+	
+	private int orderId;
+	private int restaurantId;
 	private String deliveryManName;
 	private String deliveryManLastName;
 	private String orderInfo;
@@ -40,12 +42,26 @@ public class DeliveryManTakingOrderDTO {
 		this.orderPrice = orderPrice;
 	}
 	public DeliveryManTakingOrderDTO(String deliveryManName, String deliveryManLastName, String orderInfo,
-			String orderDateTime, double orderPrice) {
+			String orderDateTime, double orderPrice,int orderId,int restaurantId) {
 		super();
 		this.deliveryManName = deliveryManName;
 		this.deliveryManLastName = deliveryManLastName;
 		this.orderInfo = orderInfo;
 		this.orderDateTime = orderDateTime;
 		this.orderPrice = orderPrice;
+		this.orderId = orderId;
+		this.restaurantId = restaurantId;
+	}
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+	public int getRestaurantId() {
+		return restaurantId;
+	}
+	public void setRestaurantId(int restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 }

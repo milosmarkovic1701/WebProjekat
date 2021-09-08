@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import enums.OrderStatus;
 
 public class RestaurantOrderDTO {
+	private int orderId;
 	private String ime;
 	private String prezime;
 	private String adresa;
@@ -55,9 +56,10 @@ public class RestaurantOrderDTO {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
-	public RestaurantOrderDTO(String ime, String prezime, String adresa, String imeArtikla,
+	public RestaurantOrderDTO(int orderId, String ime, String prezime, String adresa, String imeArtikla,
 			LocalDateTime datumIVremePorudzbine, Double cena, OrderStatus status,String dateInfo) {
 		super();
+		this.orderId = orderId;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.adresa = adresa;
@@ -72,6 +74,12 @@ public class RestaurantOrderDTO {
 	}
 	public void setDateInfo(String dateInfo) {
 		this.dateInfo = dateInfo;
+	}
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 	
 	

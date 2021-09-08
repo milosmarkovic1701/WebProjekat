@@ -21,6 +21,7 @@ import beans.FoodItem;
 import beans.Manager;
 import beans.Restaurant;
 import dto.EmployeeDTO;
+import dto.FoodItemDTO;
 import dto.LoginUserDTO;
 import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
@@ -115,6 +116,7 @@ public class SparkWebShopMain {
 			return g.toJson(orderService.getAllRestaurantOrdersDTO(id));
 		
 		});
+
 		
 		get("/rest/restaurants/getFoodItems/:id", (req, res) -> {
 			String idS = req.params("id");
@@ -122,6 +124,21 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			return g.toJson(foodItemService.getRestaurantFoodItems(id));
 		});
+		
+		
+		
+		post("rest/order/changeToPreparing", (req, res) -> {
+			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
+			res.type("application/json");		
+			return g.toJson(orderService.changeDeliveryStatusToPreparing(data));
+		});
+		
+		post("rest/order/changeToWaiting", (req, res) -> {
+			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
+			res.type("application/json");		
+			return g.toJson(orderService.changeDeliveryStatusToWaiting(data));
+		});
+		
 		
 		post("rest/comments/approveComment", (req, res) -> {
 			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
@@ -139,6 +156,26 @@ public class SparkWebShopMain {
 			RestaurantQueryDTO query = g.fromJson(req.body(), RestaurantQueryDTO.class);
 			res.type("application/json");		
 			return g.toJson(restaurantService.searchRestaurants(query));
+		});
+
+		post("/rest/restaurant/addFoodItem", (req, res) -> {
+			FoodItemDTO newFoodItem = g.fromJson(req.body(), FoodItemDTO.class);
+			String name = newFoodItem.getName().trim();
+			String id = "";
+			String price = newFoodItem.getPrice().trim();
+			String photo = newFoodItem.getPhoto().trim();
+			String size = newFoodItem.getSize().trim();
+			String restaurantId = newFoodItem.getRestaurantId().trim();
+			String description = newFoodItem.getDescription().trim();
+			if (name.equals("") || price.equals("") || photo.equals("") || size.equals("") ||
+					description.equals("")) {
+				return "Niste popunili sve potrebne podatke !";
+			}
+				else
+				{
+					FoodItemDTO foodItem = new FoodItemDTO(name, price,restaurantId, description, photo, size, id);
+					return foodItemService.addFoodItem(foodItem);
+				}
 		});
 		
 		post("/rest/restaurants/addRestaurant", (req, res) -> {
@@ -234,6 +271,19 @@ public class SparkWebShopMain {
 					CustomerInfoEditDTO trimmedQuery = new CustomerInfoEditDTO(query.getId(), username, password, name, lastname, birthDate, address);	
 					return usersService.updateCustomer(trimmedQuery);
 				}
+		});
+		
+		
+		post("rest/order/acceptDeliveryMan", (req, res) -> {
+			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
+			res.type("application/json");		
+			return g.toJson(deliveryManService.acceptDeliveryMan(data));
+		});
+		
+		post("rest/order/declineDeliveryMan", (req, res) -> {
+			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
+			res.type("application/json");		
+			return g.toJson(deliveryManService.declineDeliveryMan(data));
 		});
 		
 		post("/rest/users/deleteSelectedUser", (req, res) -> {

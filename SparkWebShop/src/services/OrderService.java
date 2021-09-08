@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 
 
 import beans.Order;
+import dto.ApproveDTO;
 import dto.OrderQueryDTO;
 import dto.OrderQueryDTOForRestaurant;
 import beans.Administrator;
@@ -222,7 +223,7 @@ public class OrderService {
 			artikli = artikli + fi.getName() + ",";
 		}
 		artikli = artikli.substring(0,artikli.length()-1);
-			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(ime,prezime,adresa,artikli,o.getOrderDateTime(),o.getPrice(),o.getStatus(),o.getDateInfo()); 
+			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(o.getId(),ime,prezime,adresa,artikli,o.getOrderDateTime(),o.getPrice(),o.getStatus(),o.getDateInfo()); 
 		return newOrderDTO;
 	
 	}
@@ -235,6 +236,8 @@ public class OrderService {
 		}
 		return ordersDTO;
 	}
+
+	
 	public ArrayList<RestaurantOrderDTO> searchOrdersForRestaurant (OrderQueryDTOForRestaurant query) {
 		ArrayList<Order> allOrders = this.getAllOrders();
 		ArrayList<Order> allOrdersForRestaurant = new ArrayList<Order>();
@@ -296,4 +299,27 @@ public class OrderService {
 		}
 		return newOrders;
 	}
+	public ArrayList<RestaurantOrderDTO> changeDeliveryStatusToPreparing(ApproveDTO ap){
+		ArrayList<Order> orders = this.getAllOrders();
+		
+		for(Order o:orders) {
+			if(o.getId()==ap.getOrderId()) {
+				o.setStatus(OrderStatus.PREPARING);
+			}
+		}
+		this.saveAllOrders();
+		return this.getAllRestaurantOrdersDTO(ap.getRestaurantId());
+	}
+	public ArrayList<RestaurantOrderDTO> changeDeliveryStatusToWaiting(ApproveDTO ap){
+		ArrayList<Order> orders = this.getAllOrders();
+		
+		for(Order o:orders) {
+			if(o.getId()==ap.getOrderId()) {
+				o.setStatus(OrderStatus.READY_TO_DELIVER);
+			}
+		}
+		this.saveAllOrders();
+		return this.getAllRestaurantOrdersDTO(ap.getRestaurantId());
+	}
+	
 }

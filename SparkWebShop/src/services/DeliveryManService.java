@@ -17,6 +17,7 @@ import beans.Manager;
 import beans.Order;
 import beans.User;
 import dto.AdminCommentDTO;
+import dto.ApproveDTO;
 import dto.DeliveryManTakingOrderDTO;
 import dto.LoginUserDTO;
 import enums.Role;
@@ -105,10 +106,34 @@ public class DeliveryManService {
 					deliveryMan = dm;
 				}
 			}
-			DeliveryManTakingOrderDTO deliveryManDTO = new DeliveryManTakingOrderDTO(deliveryMan.getUser().getName(),deliveryMan.getUser().getLastName(),o.getOrderInfo(),o.getDateInfo(),o.getPrice());
+			DeliveryManTakingOrderDTO deliveryManDTO = new DeliveryManTakingOrderDTO(deliveryMan.getUser().getName(),deliveryMan.getUser().getLastName(),o.getOrderInfo(),o.getDateInfo(),o.getPrice(),o.getId(),o.getRestaurantId());
 			deliveryMenDTO.add(deliveryManDTO);
 		}
 		return deliveryMenDTO;
+	}
+	public ArrayList<DeliveryManTakingOrderDTO> acceptDeliveryMan(ApproveDTO ap){
+		ArrayList<Order> orders = orderService.getAllOrders();
+		for(Order o: orders) {
+			if(o.getId() == ap.getOrderId()) {
+				o.setStatus(OrderStatus.IN_TRANSPORT);
+			}
+			orderService.saveAllOrders();
+			
+		}
+		return this.getPotentialDeliveyMen(ap.getRestaurantId());
+		 
+	}
+	public ArrayList<DeliveryManTakingOrderDTO> declineDeliveryMan(ApproveDTO ap){
+		ArrayList<Order> orders = orderService.getAllOrders();
+		for(Order o: orders) {
+			if(o.getId() == ap.getOrderId()) {
+				o.setDeliveryId(0);
+			}
+			orderService.saveAllOrders();
+			
+		}
+		return this.getPotentialDeliveyMen(ap.getRestaurantId());
+		 
 	}
 	
 	

@@ -36,7 +36,7 @@
     "price": 446.2,
     "deliveryId": 11,
     "customerId": 7,
-    "status": "CANCELLED",
+    "status": "READY_TO_DELIVER",
     "rating": 0.0
   },
   {
@@ -76,7 +76,7 @@
     "price": 1319.2,
     "deliveryId": 11,
     "customerId": 7,
-    "status": "PROCESSING",
+    "status": "READY_TO_DELIVER",
     "rating": 0.0
   },
   {
@@ -116,7 +116,7 @@
     "price": 1600.5,
     "deliveryId": 11,
     "customerId": 7,
-    "status": "DELIVERED",
+    "status": "IN_TRANSPORT",
     "rating": 5.0
   },
   {
@@ -156,7 +156,7 @@
     "price": 679.0,
     "deliveryId": 11,
     "customerId": 7,
-    "status": "PROCESSING",
+    "status": "IN_TRANSPORT",
     "rating": 0.0
   },
   {
@@ -207,7 +207,7 @@
     "price": 430.0,
     "deliveryId": 11,
     "customerId": 5,
-    "status": "CANCELLED",
+    "status": "READY_TO_DELIVER",
     "rating": 0.0
   },
   {
@@ -267,9 +267,9 @@
     },
     "dateInfo": "7.9.2021.  15:04",
     "price": 1010.0,
-    "deliveryId":11,
+    "deliveryId": 11,
     "customerId": 5,
-    "status": "READY_TO_DELIVER",
+    "status": "IN_TRANSPORT",
     "rating": 0.0
   },
   {
@@ -320,7 +320,47 @@
     "price": 560.0,
     "deliveryId": 11,
     "customerId": 5,
-    "status": "DELIVERED",
+    "status": "IN_TRANSPORT",
     "rating": 4.0
+  },
+  {
+    "id": 8,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 21,
+        "name": "TK",
+        "price": 1020.0,
+        "restaurantId": 1,
+        "size": "60 nt",
+        "description": "v",
+        "photo": "food images\\tortilla casa churros.jpg",
+        "amount": 1,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "TK 60 nt 1X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 0,
+        "minute": 52,
+        "second": 5,
+        "nano": 341886100
+      }
+    },
+    "dateInfo": "9.9.2021.  00:52",
+    "price": 969.0,
+    "deliveryId": 11,
+    "customerId": 6,
+    "status": "DELIVERED",
+    "rating": 3.0
   }
 ]

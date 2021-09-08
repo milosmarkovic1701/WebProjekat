@@ -13,6 +13,11 @@ import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
 import beans.FoodItem;
+import beans.Location;
+import beans.Manager;
+import beans.Restaurant;
+import dto.FoodItemDTO;
+import enums.RestaurantStatus;
 
 public class FoodItemService {
 
@@ -69,5 +74,27 @@ public class FoodItemService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public ArrayList<FoodItem> addFoodItem(FoodItemDTO fi){
+		ArrayList<FoodItem> foodItems = getAllFoodItems();
+		String[] logoPath = fi.getPhoto().split("fakepath");
+		String photo = logoPath[1].substring(1);
+		int id = generateFoodItemId();
+		foodItems.add( 
+						new FoodItem(id,fi.getName(),
+								Double.parseDouble(fi.getPrice()),
+								Integer.parseInt(fi.getRestaurantId()),
+										fi.getSize(),
+										fi.getDescription(),
+										 "food images" + File.separator + photo,
+										1));
+		 this.saveAllFoodItems();
+		 
+		return getRestaurantFoodItems(Integer.parseInt(fi.getRestaurantId()));
+	}
+	
+	public int generateFoodItemId() {
+		ArrayList<FoodItem> foodItems = getAllFoodItems();
+		return foodItems.size() + 1;
 	}
 }
