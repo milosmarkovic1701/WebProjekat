@@ -11,8 +11,10 @@ Vue.component("manager-page", {
 		    manager : {},
 		    userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
 		    approveDTO :{orderId : "", restaurantId:""},
-		    newFoodItem:{ id: "",name: "", price: "",restaurantId:"",description:"",photo:"",size: "" }
-		    
+		    newFoodItem:{ id: "",name: "", price: "",restaurantId:"",description:"",photo:"",size: "" },
+		    changedFoodItem:{ id: "",name: "", price: "",restaurantId:"",description:"",photo:"",size: "" },
+		    var : {boolflag: ""},
+		    varChanged : {boolFlag:""}
 		    }
 	},
 	
@@ -344,11 +346,9 @@ template:`
                 <li class="list-group-item">{{fi.price}} din.</li>
               </ul>
             <div class="card-body">
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#izmeniModal">
-                <a href="#" class="card-link">Izmeni artikal</a>
+              <button type="button" v-on:click = "fillData(fi.id)" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#izmeniModal">Izmeni artikal
               </button>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#izmeniModal">
-                <a href="#" class="card-link">Obriši artikal</a>
+              <button type="button" class="btn btn-danger" v-on:click = "deleteFoodItem(fi.id)">Obriši artikal
 			   </button>
           </div>
         </div>
@@ -366,7 +366,7 @@ template:`
                 <label class="input-group-text" for="inputGroupFile01">Promeni sliku artikla:</label>  
             </div>
             <div class="col">
-              <input type="file" class="form-control" id="inputGroupFile01">
+              <input type="file" v-model = "changedFoodItem.photo" class="form-control" id="uploadImageEdit">
             </div>
           </div>
           <div class="row">
@@ -374,7 +374,7 @@ template:`
               <label class="input-group-text">Ime artikla:</label>  
             </div>
             <div class="col">
-            <input type="text" class="form-control">
+            <input type="text" v-model = "changedFoodItem.name" class="form-control">
             </div>
           </div>
           <div class="row">
@@ -382,7 +382,7 @@ template:`
               <label class="input-group-text">Cena artikla:</label>  
             </div>
             <div class="col">
-            <input type="text" class="form-control" >
+            <input type="text" v-model = "changedFoodItem.price" class="form-control" >
             </div>
           </div>
           <div class="row">
@@ -390,7 +390,7 @@ template:`
               <label class="input-group-text">Količina artikla:</label>  
             </div>
             <div class="col">
-            <input type="text" class="form-control">
+            <input type="text" v-model = "changedFoodItem.size" class="form-control">
             </div>
             </div>
             <div class="row">
@@ -398,14 +398,14 @@ template:`
                 <label class="input-group-text">Opis artikla:</label>  
               </div>
               <div class="col">
-              <textarea type="text" class="form-control"></textarea>
+              <textarea type="text" v-model = "changedFoodItem.description" class="form-control"></textarea>
               </div>
           </div>
       
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
-              <button type="button" class="btn btn-primary">Sačuvaj</button>
+              <button type="button" v-on:click="changeFoodItem()" class="btn btn-primary">Sačuvaj</button>
             </div>
           </div>
         </div>
@@ -479,7 +479,9 @@ template:`
 			this.approveDTO.orderId = id;
 			axios
 				.post('rest/order/changeToWaiting', this.approveDTO)
-	          	.then(response => (this.orders = response.data))
+	          	.then(response => {this.orders = response.data
+	          						this.getDeliveryMen();
+	          						})
 	},
 	changeToApproved(id){
 			this.approveDTO.restaurantId = this.manager.restaurantId;
@@ -514,6 +516,8 @@ template:`
 				.then(response => (this.deliveryMen = response.data))
 	},
 	getLoggedUser() {
+			this.var.boolFlag = true;
+			this.varChanged.boolFlag = true;
         	this.manager = JSON.parse(localStorage.getItem("manager"));
         	console.log(this.manager);
         	this.userInfo.id = this.manager.user.id;
@@ -563,8 +567,19 @@ template:`
         	document.getElementById("birthDateInput").disabled = true;
         },	
         addFoodItem() {
+        
         	this.newFoodItem.photo = document.getElementById("uploadImage").value
         	this.newFoodItem.restaurantId = this.manager.restaurantId
+        	
+        	for (fi in this.foodItems){
+        		if(this.foodItems[fi].name === this.newFoodItem.name){
+        			alert(" Ime aritkla se već koristi, unesite novo ime!");
+        			this.var.boolFlag = false;
+        		}
+        	
+        	}
+        	
+        	if(this.var.boolFlag){
         	axios
 				.post('rest/restaurant/addFoodItem', this.newFoodItem)	
 				.then(response => {
@@ -572,11 +587,12 @@ template:`
 		                if (response.data != "Niste popunili sve potrebne podatke !"){
 							alert("Obaveštenje: Uspešno ste dodali novi artikal!");
 							this.getAllFoodItems();
-							this.newRestaurant.name = ""; 
-							this.newRestaurant.price = ""; 
-							this.newRestaurant.photo = ""; 
-							this.newRestaurant.size = ""; 
-							this.newRestaurant.description = ""; 
+							this.newFoodItem.name = ""; 
+							this.newFoodItem.price = ""; 
+							this.newFoodItem.photo = ""; 
+							this.newFoodItem.size = ""; 
+							this.newFoodItem.description = ""; 
+							document.getElementById("uploadImage").value = "";
 							 
 		                }
 		                else {
@@ -584,7 +600,45 @@ template:`
 		                }
 		               
 		        });
+		        }
 		        },
+		        changeFoodItem(){
+
+		        this.changedFoodItem.restaurantId = this.manager.restaurantId
+		        for (fi in this.foodItems){
+        		if(this.foodItems[fi].name === this.changedFoodItem.name && this.foodItems[fi].id != this.changedFoodItem.id){
+        			alert(" Ime aritkla se već koristi, unesite novo ime!");
+        			this.varChanged.boolFlag = false;
+        			break;
+        		}
+        	
+        	}
+        	
+        	if(this.varChanged.boolFlag){
+        	console.log(this.changedFoodItem)
+        	axios
+				.post('rest/restaurant/changeFoodItem', this.changedFoodItem)	
+				.then(response => {
+		                if (response.data != "Niste popunili sve potrebne podatke !"){
+							alert("Obaveštenje: Uspešno ste izmenili artikal!");
+							this.getAllFoodItems();
+							 
+		                }
+		                else {
+		                    alert("Greška: " + response.data);
+		                }
+		               
+		        });
+		        }
+		        
+		        },
+		deleteFoodItem(id){
+			axios
+				.post('rest/foodItem/deleteFoodItems', id)
+	          	.then(response => {this.foodItems = response.data
+	          						this.getAllFoodItems()
+	          						})
+		},
 	  	
 	  getAllFoodItems(){
 	  		axios
@@ -592,6 +646,20 @@ template:`
 	  		 .then(response => (this.foodItems = response.data))
 	  		console.log(this.foodItems)
 	    },
+	    fillData(id){
+	    	for( fi in this.foodItems){
+	    		if(this.foodItems[fi].id === id){
+	    			this.changedFoodItem.name = this.foodItems[fi].name;
+	    			this.changedFoodItem.price = this.foodItems[fi].price;
+	    			this.changedFoodItem.size = this.foodItems[fi].size;
+	    			this.changedFoodItem.description = this.foodItems[fi].description;
+	    			this.changedFoodItem.id = this.foodItems[fi].id;
+	    			this.changedFoodItem.restaurantId = this.manager.restaurantId;
+	    			this.changedFoodItem.photo = "";
+	    			console.log(this.changedFoodItem);
+	    		}
+	    	}
+	    }
 		},
 		mounted () {
 		this.getLoggedUser();

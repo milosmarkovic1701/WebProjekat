@@ -93,8 +93,42 @@ public class FoodItemService {
 		return getRestaurantFoodItems(Integer.parseInt(fi.getRestaurantId()));
 	}
 	
+	public ArrayList<FoodItem> changeFoodItem(FoodItemDTO fi){
+		ArrayList<FoodItem> foodItems = getAllFoodItems();	
+		int id = Integer.parseInt(fi.getId());
+		for(FoodItem newFi : foodItems) {
+			if(newFi.getId() == id) {
+				if(!fi.getPhoto().equals("")) {
+					String[] logoPath = fi.getPhoto().split("fakepath");
+					String photo = logoPath[1].substring(1);
+					newFi.setPhoto( "food images" + File.separator + photo);
+					}
+				newFi.setSize(fi.getSize());
+				newFi.setName(fi.getName());
+				newFi.setPrice(Double.parseDouble(fi.getPrice()));
+				newFi.setDescription(fi.getDescription());
+				newFi.setSize(fi.getSize());
+				
+			}
+		}
+		 this.saveAllFoodItems();
+		 
+		return getRestaurantFoodItems(Integer.parseInt(fi.getRestaurantId()));
+	}
+	
 	public int generateFoodItemId() {
 		ArrayList<FoodItem> foodItems = getAllFoodItems();
 		return foodItems.size() + 1;
 	}
+	public ArrayList<FoodItem> deleteFoodItem(int id) {
+		ArrayList<FoodItem> foodItems = this.getAllFoodItems();
+		for(FoodItem fi:foodItems) {
+			if(fi.getId()==id) {
+				fi.setDeleted(true);
+			}
+		}
+		this.saveAllFoodItems();
+		return this.getRestaurantFoodItems(id);
+	}
+	
 }

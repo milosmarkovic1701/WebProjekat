@@ -178,6 +178,25 @@ public class SparkWebShopMain {
 				}
 		});
 		
+		post("/rest/restaurant/changeFoodItem", (req, res) -> {
+			FoodItemDTO newFoodItem = g.fromJson(req.body(), FoodItemDTO.class);
+			String name = newFoodItem.getName().trim();
+			String id = newFoodItem.getId().trim();
+			String price = newFoodItem.getPrice().trim();
+			String photo = newFoodItem.getPhoto().trim();
+			String size = newFoodItem.getSize().trim();
+			String restaurantId = newFoodItem.getRestaurantId().trim();
+			String description = newFoodItem.getDescription().trim();
+			if (name.equals("") || price.equals("") ||  size.equals("") ||
+					description.equals("")) {
+				return "Niste popunili sve potrebne podatke !";
+			}
+				else
+				{
+					FoodItemDTO foodItem = new FoodItemDTO(name, price,restaurantId, description, photo, size, id);
+					return foodItemService.changeFoodItem(foodItem);
+				}
+		});
 		post("/rest/restaurants/addRestaurant", (req, res) -> {
 			RestaurantDTO newRestaurant = g.fromJson(req.body(), RestaurantDTO.class);
 			String name = newRestaurant.getName().trim();
@@ -206,6 +225,13 @@ public class SparkWebShopMain {
 			int restaurantId = Integer.parseInt(data);
 			res.type("application/json");		
 			return g.toJson(restaurantService.deleteRestaurant(restaurantId));
+		});
+		
+		post("rest/foodItem/deleteFoodItems", (req, res) -> {
+			String data = g.fromJson(req.body(), String.class);
+			int foodItemId = Integer.parseInt(data);
+			res.type("application/json");		
+			return g.toJson(foodItemService.deleteFoodItem(foodItemId));
 		});
 		
 		get("/rest/users/getUsers", (req, res) -> {

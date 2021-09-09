@@ -41,7 +41,7 @@
     "description": "Pečenica, pavlaka, majonez, kačkavalj",
     "photo": "food images\\balans slana.jpg",
     "amount": 1,
-    "deleted": false
+    "deleted": true
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@
     "description": "Nutela, plazma",
     "photo": "food images\\balans slatka.jpg",
     "amount": 1,
-    "deleted": false
+    "deleted": true
   },
   {
     "id": 6,
@@ -85,7 +85,7 @@
     "description": "15 krilaca",
     "photo": "food images\\kfc kofica.png",
     "amount": 1,
-    "deleted": false
+    "deleted": true
   },
   {
     "id": 9,
@@ -205,61 +205,6 @@
     "size": "250 gr",
     "description": "Jako je dobra",
     "photo": "food images\\SUVLAKI.jpg",
-    "amount": 1,
-    "deleted": false
-  },
-  {
-    "id": 20,
-    "name": "Milki Dzem",
-    "price": 1086.0,
-    "restaurantId": 1,
-    "size": "100 t",
-    "description": "Jako je dobra ovo je prva palacinka u girosmasteuru",
-    "photo": "food images\\milky dzem.jpg",
-    "amount": 1,
-    "deleted": false
-  },
-  {
-    "id": 21,
-    "name": "TK",
-    "price": 1020.0,
-    "restaurantId": 1,
-    "size": "60 nt",
-    "description": "v",
-    "photo": "food images\\tortilla casa churros.jpg",
-    "amount": 1,
-    "deleted": false
-  },
-  {
-    "id": 22,
-    "name": "Slana cinka",
-    "price": 213123.0,
-    "restaurantId": 1,
-    "size": "malo",
-    "description": "da",
-    "photo": "food images\\balans slana.jpg",
-    "amount": 1,
-    "deleted": false
-  },
-  {
-    "id": 23,
-    "name": "s",
-    "price": 123.0,
-    "restaurantId": 1,
-    "size": "sad",
-    "description": "ff",
-    "photo": "food images\\kfc twister.jpg",
-    "amount": 1,
-    "deleted": false
-  },
-  {
-    "id": 24,
-    "name": "pizza",
-    "price": 2.3123132E7,
-    "restaurantId": 1,
-    "size": "dsa",
-    "description": "asd",
-    "photo": "food images\\pizza.png",
     "amount": 1,
     "deleted": false
   }

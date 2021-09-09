@@ -267,9 +267,9 @@
     },
     "dateInfo": "7.9.2021.  15:04",
     "price": 1010.0,
-    "deliveryId": 11,
+    "deliveryId": 0,
     "customerId": 5,
-    "status": "IN_TRANSPORT",
+    "status": "READY_TO_DELIVER",
     "rating": 0.0
   },
   {
@@ -360,7 +360,7 @@
     "price": 969.0,
     "deliveryId": 11,
     "customerId": 6,
-    "status": "DELIVERED",
+    "status": "IN_TRANSPORT",
     "rating": 3.0
   }
 ]
