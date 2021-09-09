@@ -41,7 +41,7 @@
     "description": "Pečenica, pavlaka, majonez, kačkavalj",
     "photo": "food images\\balans slana.jpg",
     "amount": 1,
-    "deleted": true
+    "deleted": false
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@
     "description": "Nutela, plazma",
     "photo": "food images\\balans slatka.jpg",
     "amount": 1,
-    "deleted": true
+    "deleted": false
   },
   {
     "id": 6,
@@ -85,7 +85,7 @@
     "description": "15 krilaca",
     "photo": "food images\\kfc kofica.png",
     "amount": 1,
-    "deleted": true
+    "deleted": false
   },
   {
     "id": 9,

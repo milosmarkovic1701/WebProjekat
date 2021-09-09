@@ -45,7 +45,7 @@ Vue.component("administrator-page", {
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="spam-tab" data-bs-toggle="tab" data-bs-target="#spam" type="button" role="tab" aria-controls="spam" aria-selected="false">Spam</button>
           </li>
-          <li class="nav-item" role="presentation" style="margin-left: 125mm;">
+          <li class="nav-item" role="presentation" style="margin-left: 159mm;">
             <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
               <img src="icons/administrator.png" alt="mdo" width="24" height="24" class="rounded-circle">
             </button>

@@ -108,7 +108,7 @@ public class DeliveryManService {
 					deliveryMan = dm;
 				}
 			}
-			DeliveryManTakingOrderDTO deliveryManDTO = new DeliveryManTakingOrderDTO(deliveryMan.getUser().getName(),deliveryMan.getUser().getLastName(),o.getOrderInfo(),o.getDateInfo(),o.getPrice(),o.getId(),o.getRestaurantId());
+			DeliveryManTakingOrderDTO deliveryManDTO = new DeliveryManTakingOrderDTO(deliveryMan.getUser().getName(),deliveryMan.getUser().getLastName(),o.getOrderInfo(),o.getDateInfo(),o.getPrice(),o.getId(),o.getRestaurantId(), o.getDeliveryId());
 			deliveryMenDTO.add(deliveryManDTO);
 		}
 		return deliveryMenDTO;

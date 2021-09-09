@@ -4,7 +4,6 @@ Vue.component("manager-page", {
 			orderSearchQueryForRestaurant : {restaurantId: "", priceDown: "", priceUp: "", dateDown: "", dateUp: "", filterStatus: "", sort: "" },
 		    restaurant : {},
 		    comments : null,
-		    unapprovedComments:null,
 		    orders : null,
 		    foodItems : null,
 		    deliveryMen : null,
@@ -14,38 +13,50 @@ Vue.component("manager-page", {
 		    newFoodItem:{ id: "",name: "", price: "",restaurantId:"",description:"",photo:"",size: "" },
 		    changedFoodItem:{ id: "",name: "", price: "",restaurantId:"",description:"",photo:"",size: "" },
 		    var : {boolflag: ""},
-		    varChanged : {boolFlag:""}
+		    varChanged : {boolFlag:""},
+		    ordersSize: 0,
+		    ordersPreparingSize: 0,
+		    ordersToDeliverSize: 0,
+		    commentsSize: 0,
+		    unapprovedCommentsSize: 0,
 		    }
 	},
 	
 template:`
   <div>
-  <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-          <img id="logo2" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
-        </a>
-  
-        <ul class="nav col-12 col-lg-auto me-lg-auto justify-content-center mb-md-0">
+<div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
+      <ul class="nav col-sm-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <img src="images/ponesilogo.png" alt="mdo" width="120" height="42" >
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item"  role="presentation">
-              <button class="nav-link active"  id="all-orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="true">Sve porudžbine</button>
+              <button class="nav-link active"  id="all-orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="true">Sve porudžbine
+              <span class="badge">{{this.ordersSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link " id="accept-orders-tab" data-bs-toggle="tab" data-bs-target="#accept-orders" type="button" role="tab" aria-controls="accept-orders" aria-selected="false">Porudžbine u pripremi</button>
+              <button class="nav-link " id="accept-orders-tab" data-bs-toggle="tab" data-bs-target="#accept-orders" type="button" role="tab" aria-controls="accept-orders" aria-selected="false">Porudžbine u pripremi
+              <span class="badge">{{this.ordersPreparingSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="select-deliveryman-tab" data-bs-toggle="tab" data-bs-target="#selectdelivery" type="button" role="tab" aria-controls="selectdelivery" aria-selected="false">Odabir dostavljača</button>
+              <button class="nav-link" id="select-deliveryman-tab" data-bs-toggle="tab" data-bs-target="#selectdelivery" type="button" role="tab" aria-controls="selectdelivery" aria-selected="false">Odabir dostavljača
+              <span class="badge">{{this.ordersToDeliverSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab" aria-controls="comments" aria-selected="false">Komentari</button>
+              <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab" aria-controls="comments" aria-selected="false">Komentari
+              <span class="badge">{{this.commentsSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="aprove-comments-tab" data-bs-toggle="tab" data-bs-target="#aprove-comments" type="button" role="tab" aria-controls="aprove-comments" aria-selected="false">Odobri Komentare</button>
+              <button class="nav-link" id="aprove-comments-tab" data-bs-toggle="tab" data-bs-target="#aprove-comments" type="button" role="tab" aria-controls="aprove-comments" aria-selected="false">Odobri Komentare
+              <span class="badge">{{this.unapprovedCommentsSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="restaurant-tab" data-bs-toggle="tab" data-bs-target="#restaurant" type="button" role="tab" aria-controls="restaurant" aria-selected="false">Izmena restorana i artikala</button>
             </li>
-            <li class="nav-item" role="presentation" style="margin-left: 50mm;">
+            <li class="nav-item" role="presentation" style="margin-left: 35mm;">
               <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
                 <img src="icons/manager.png" alt="mdo" width="24" height="24" class="rounded-circle">
               </button>
@@ -181,7 +192,7 @@ template:`
             	<td v-else-if="order.status === 'IN_TRANSPORT'">DOSTAVLJA SE</td>
             	<td v-else-if="order.status === 'DELIVERED'">DOSTAVLJENO</td>
             	<td v-else-if="order.status === 'CANCELLED'">OTKAZANO</td>
-       <td><button type="button" v-on:click= "changeOrderStatusToPreparing(order.orderId)" class="btn btn-success btn-sm">Pravljenje</td>
+       <td><button type="button" v-on:click= "changeOrderStatusToPreparing(order.orderId)" class="btn btn-success btn-sm">Pravljenje</button></td>
       </tr>
       <tr v-else-if="order.status === 'PREPARING'">
        <td>{{order.ime}} {{order.prezime}}</td>
@@ -195,7 +206,7 @@ template:`
             	<td v-else-if="order.status === 'IN_TRANSPORT'">DOSTAVLJA SE</td>
             	<td v-else-if="order.status === 'DELIVERED'" >DOSTAVLJENO</td>
             	<td v-else-if="order.status === 'CANCELLED'" >OTKAZANO</td>
-       <td><button type="button"  v-on:click= "changeOrderStatusToWaiting(order.orderId)" class="btn btn-danger btn-sm">Gotova porudžbina</td>
+       <td><button type="button"  v-on:click= "changeOrderStatusToWaiting(order.orderId)" class="btn btn-danger btn-sm">Gotova porudžbina</button></td>
       </tr>
       </tbody>
       </table>
@@ -351,7 +362,7 @@ template:`
 </div>
 		   <div class="row row-cols-1 row-cols-md-4 g-4">
 		  <div class="col" v-for="fi in foodItems">
-            <div class="card" style="width: 21rem;">
+            <div class="card" style="width: 93%">
               <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{fi.name}}</h5>
@@ -382,7 +393,7 @@ template:`
                 <label class="input-group-text" for="inputGroupFile01">Promeni sliku artikla:</label>  
             </div>
             <div class="col">
-              <input type="file" v-model = "changedFoodItem.photo" class="form-control" id="uploadImageEdit">
+              <input type="file" class="form-control" id="uploadImageEdit">
             </div>
           </div>
           <div class="row">
@@ -465,6 +476,7 @@ template:`
 	          	.then(response => {
 	          	this.deliveryMen = response.data;
 	          	this.getOrders();
+	          	this.getNumberIndicatorDeliveryMen();
 	          	})
 	          	
 	},
@@ -476,6 +488,7 @@ template:`
 	          	.then(response => {
 	          	this.deliveryMen = response.data;
 	          	this.getOrders();
+	          	this.getNumberIndicatorDeliveryMen();
 	          	})
 	
 	},
@@ -483,12 +496,30 @@ template:`
 			this.$router.push('/'); 
 	        this.$router.go();
 		},
+	getNumberIndicatorsOrders() {
+		this.ordersSize = 0;
+	    this.ordersPreparingSize = 0;
+	    for (o in this.orders) {
+        		this.ordersSize += 1;
+        		if (this.orders[o].status === 'PROCESSING' || this.orders[o].status === 'PREPARING')
+					this.ordersPreparingSize += 1;
+        }
+	},
+	getNumberIndicatorDeliveryMen() {
+	this.ordersToDeliverSize = 0;
+		for (dm in this.deliveryMen){
+        	this.ordersToDeliverSize += 1;
+        }
+	},
 	changeOrderStatusToPreparing(id){
 	this.approveDTO.restaurantId = this.manager.restaurantId;
 			this.approveDTO.orderId = id;
 			axios
 				.post('rest/order/changeToPreparing', this.approveDTO)
-	          	.then(response => (this.orders = response.data))
+	          	.then(response => {
+	          	this.orders = response.data;
+	          	this.getNumberIndicatorsOrders();
+	          	})
 	},
 	changeOrderStatusToWaiting(id){
 	this.approveDTO.restaurantId = this.manager.restaurantId;
@@ -497,45 +528,67 @@ template:`
 				.post('rest/order/changeToWaiting', this.approveDTO)
 	          	.then(response => {this.orders = response.data
 	          						this.getDeliveryMen();
+	          						this.getNumberIndicatorsOrders();
 	          						})
+	},
+	getNumberIndicatorsComments() {
+		this.commentsSize = 0;
+		this.unapprovedCommentsSize = 0;
+		for (c in this.comments) {
+			if (this.comments[c].status != 'CEKA_ODOBRENJE'){
+        		this.commentsSize += 1;
+        		}
+        	if (this.comments[c].status === 'CEKA_ODOBRENJE'){
+				this.unapprovedCommentsSize += 1;
+        	}
+        	}
 	},
 	changeToApproved(id){
 			this.approveDTO.restaurantId = this.manager.restaurantId;
 			this.approveDTO.orderId = id;
 			axios
 				.post('rest/comments/approveComment', this.approveDTO)
-	          	.then(response => (this.comments = response.data))
+	          	.then(response => {
+	          	this.comments = response.data;
+	          	this.getNumberIndicatorsComments();
+	          	})
 	},
 	changeToUnapproved(id){
 			this.approveDTO.restaurantId = this.manager.restaurantId;
 			this.approveDTO.orderId = id;
 			axios
 				.post('rest/comments/unapproveComment', this.approveDTO)
-	          	.then(response => (this.comments = response.data))
+	          	.then(response => {
+	          	this.comments = response.data;
+	          	this.getNumberIndicatorsComments();
+	          	})
 	}, 
 	searchOrdersForRestaurant() {
 			this.orderSearchQueryForRestaurant.restaurantId = this.manager.restaurantId;
 			axios
 				.post('rest/orders/searchOrdersForRestaurant', this.orderSearchQueryForRestaurant)
-	          	.then(response => (this.orders = response.data))
-	          	console.log(this.orderSearchQueryForRestaurant);
+	          	.then(response => {
+	          	this.orders = response.data
+	          	this.getNumberIndicatorsOrders();
+	          	})
 		},
 	getManagedRestaurant(){
 			axios
 				.get('rest/restaurant/ManagedRestaurant/' + this.manager.user.id)
 				.then(response => (this.restaurant = response.data))
-				console.log(this.restaurant);
 	},
 	getDeliveryMen(){
 			axios
 				.get('rest/orders/getDeliveryMen/'+ this.manager.restaurantId)
-				.then(response => (this.deliveryMen = response.data))
+				.then(response => {
+				this.deliveryMen = response.data;
+				this.getNumberIndicatorDeliveryMen();
+				})
 	},
 	getLoggedUser() {
 			this.var.boolFlag = true;
 			this.varChanged.boolFlag = true;
         	this.manager = JSON.parse(localStorage.getItem("manager"));
-        	console.log(this.manager);
         	this.userInfo.id = this.manager.user.id;
         	this.userInfo.name = this.manager.user.name;
         	this.userInfo.lastname = this.manager.user.lastName;
@@ -543,19 +596,22 @@ template:`
         	this.userInfo.password = this.manager.user.password;
 			this.userInfo.birthDate = this.manager.user.dateInfo;
 			document.getElementById("birthDateInput").value = this.manager.user.dateInfo;
-        	console.log(this.userInfo);
         },
     getOrders(){
     		axios
     			.get('rest/orders/allRestaurantOrders/' + this.manager.restaurantId)
-    		    .then(response => (this.orders = response.data))
+    		    .then(response => {this.orders = response.data
+    		    this.getNumberIndicatorsOrders();
+    		    })
     },
     
 	getAllCommentsForRestaurant() {
 	  	axios
 	  	    .get('rest/comments/getAllCommentsForRestaurant/' + this.manager.restaurantId)
-	  		.then(response => (this.comments = response.data))
-	  		console.log(this.comments)
+	  		.then(response => {
+	  		this.comments = response.data;
+	  		this.getNumberIndicatorsComments();
+	  		})
 	  	},
 	  	enableInfoEdit(){
         	document.getElementById("nameInput").disabled = false;
@@ -606,7 +662,6 @@ template:`
         	axios
 				.post('rest/restaurant/addFoodItem', this.newFoodItem)	
 				.then(response => {
-						console.log(this.newFoodItem)
 		                if (response.data != "Niste popunili sve potrebne podatke !"){
 							alert("Obaveštenje: Uspešno ste dodali novi artikal!");
 							this.getAllFoodItems();
@@ -638,7 +693,6 @@ template:`
         	}
         	
         	if(this.varChanged.boolFlag){
-        	console.log(this.changedFoodItem)
         	axios
 				.post('rest/restaurant/changeFoodItem', this.changedFoodItem)	
 				.then(response => {
@@ -667,7 +721,6 @@ template:`
 	  		axios
 	  		 .get('rest/restaurant/getAllFoodItems/' + this.manager.restaurantId)
 	  		 .then(response => (this.foodItems = response.data))
-	  		console.log(this.foodItems)
 	    },
 	    fillData(id){
 	    	for( fi in this.foodItems){
@@ -679,7 +732,6 @@ template:`
 	    			this.changedFoodItem.id = this.foodItems[fi].id;
 	    			this.changedFoodItem.restaurantId = this.manager.restaurantId;
 	    			this.changedFoodItem.photo = "";
-	    			console.log(this.changedFoodItem);
 	    		}
 	    	}
 	    }

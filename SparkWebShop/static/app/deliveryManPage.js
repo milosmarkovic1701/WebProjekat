@@ -5,29 +5,35 @@ Vue.component("deliveryMan-page", {
 		    	userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
 		    	orders: null,
 		    	deliveryman: {},
-		    	newDTO : {orderId:"",deliverymanId:""}
+		    	newDTO : {orderId:"",deliverymanId:""},
+		    	ordersSize: 0,
+			    ordersInTransportSize: 0,
+			    ordersToDeliverSize: 0,
 		    }
 	},
 	
 template:`
   <div>
-  <div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-          <img id="logo2" src="images/ponesilogo.png" alt="mdo" width="120" height="38" >
-        </a>
-  
-        <ul class="nav col-12 col-lg-auto me-lg-auto justify-content-center mb-md-0">
+<div id="tabs" class="d-flex flex-wrap align-items-center justify-content-center justify-content-sm-start">
+      <ul class="nav col-sm-12 col-sm-auto me-sm-auto justify-content-center mb-md-0">
+      <img src="images/ponesilogo.png" alt="mdo" width="120" height="42" >
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="all-deliveries-tab" data-bs-toggle="tab" data-bs-target="#all-deliveries" type="button" role="tab" aria-controls="all-deliveries" aria-selected="true">Sve porudžbine</button>
+              <button class="nav-link active" id="all-deliveries-tab" data-bs-toggle="tab" data-bs-target="#all-deliveries" type="button" role="tab" aria-controls="all-deliveries" aria-selected="true">Sve porudžbine
+              <span class="badge">{{this.ordersSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="waiting-for-delivery-tab" data-bs-toggle="tab" data-bs-target="#waiting-for-delivery" type="button" role="tab" aria-controls="waiting-for-delivery" aria-selected="false">Pripremljenje porudžbine</button>
+              <button class="nav-link" id="waiting-for-delivery-tab" data-bs-toggle="tab" data-bs-target="#waiting-for-delivery" type="button" role="tab" aria-controls="waiting-for-delivery" aria-selected="false">Pripremljenje porudžbine
+              <span class="badge">{{this.ordersToDeliverSize}}</span>
+              </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="transport-delivery-tab" data-bs-toggle="tab" data-bs-target="#transport-delivery" type="button" role="tab" aria-controls="transport-delivery" aria-selected="false">Porudžbine u transportu</button>
+              <button class="nav-link" id="transport-delivery-tab" data-bs-toggle="tab" data-bs-target="#transport-delivery" type="button" role="tab" aria-controls="transport-delivery" aria-selected="false">Porudžbine u transportu
+              <span class="badge">{{this.ordersInTransportSize}}</span>
+              </button>
             </li>
-            <li class="nav-item" role="presentation" style="margin-left: 180mm;">
+            <li class="nav-item" role="presentation" style="margin-left: 171mm;">
               <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
                 <img src="icons/delivery-man.png" alt="mdo" width="24" height="24" class="rounded-circle">
               </button>
@@ -155,7 +161,8 @@ template:`
             	<td v-else-if="order.status === 'DELIVERED'" class="list-group-item">DOSTAVLJENO</td>
             	<td v-else-if="order.status === 'CANCELLED'" class="list-group-item">OTKAZANO</td>
                 </tr>
-                <tr>
+              </tbody>
+              </table>
             </div>
     
   
@@ -213,10 +220,8 @@ template:`
                  <td>{{order.cena}}</td>
                  <td><button  type="button" v-on:click = "FinishDelivery(order.orderId)" class="btn btn-success">Završi</button></td>
                 </tr>
-            <tr>
             </tbody>
             </table>
-          
         </div>
      
   
@@ -252,7 +257,10 @@ template:`
 			this.orderSearchQuery.deliverymanId = this.deliveryman.user.id
 			axios
 				.post('rest/orders/searchOrdersDeliveryman', this.orderSearchQuery)
-	          	.then(response => (this.orders = response.data))
+	          	.then(response => {
+	          	this.orders = response.data;
+	          	this.getNumberIndicatorsOrders();
+	          	})
 		},
         getLoggedUser() {
         	this.deliveryman = JSON.parse(localStorage.getItem("deliveryman"));
@@ -262,16 +270,28 @@ template:`
         	this.userInfo.username = this.deliveryman.user.username;
         	this.userInfo.password = this.deliveryman.user.password;
 			this.userInfo.birthDate = this.deliveryman.user.dateInfo;
-			console.log(this.userInfo);
 			document.getElementById("birthDateInput").value = this.deliveryman.user.dateInfo;
-        	console.log(this.userInfo);
         },
-
+		getNumberIndicatorsOrders() {
+		this.ordersSize = 0;
+	    this.ordersInTransportSize = 0;
+	    this.ordersToDeliverSize = 0;	
+	    for (o in this.orders) {
+        		if (this.orders[o].deliveryId === this.deliveryman.user.id)
+        			this.ordersSize += 1;
+        		if (this.orders[o].deliveryId === this.deliveryman.user.id && this.orders[o].status === 'IN_TRANSPORT')
+					this.ordersInTransportSize += 1;
+				if (this.orders[o].deliveryId === 0 && this.orders[o].status === 'READY_TO_DELIVER') 
+					this.ordersToDeliverSize += 1;
+        	}
+		},
 	    getAllOrders() {
 		    axios
 		        .get('rest/orders/getAllOrders')
-		        .then(response => {this.orders = response.data
-		        		console.log(this.orders)})
+		        .then(response => {
+		        this.orders = response.data;
+		        this.getNumberIndicatorsOrders();
+		        })
 		        
         },
 		logOut() {
@@ -311,20 +331,23 @@ template:`
         },
         GiveOrderToDeliveryMan(id){
         	this.newDTO.deliveryId = this.deliveryman.user.id
-        	console.log(this.deliveryman.user.id)
-			this.newDTO.orderId = id
+			this.newDTO.orderId = id;
 		axios
 				.post('rest/order/giveOrderToDeliveryMan', this.newDTO)
-	          	.then(response => {this.orders = response.data
-	          			console.log(this.orders)})    	
+	          	.then(response => {
+	          	this.orders = response.data;
+	          	this.getNumberIndicatorsOrders();
+	          	})    	
         },
         FinishDelivery(id){
         	this.newDTO.deliveryId = this.deliveryman.user.id
 			this.newDTO.orderId = id
 		axios
 				.post('rest/order/FinishDelivery', this.newDTO)
-	          	.then(response => {this.orders = response.data
-	          			console.log(this.orders)})    	
+	          	.then(response => {
+	          	this.orders = response.data;
+	          	this.getNumberIndicatorsOrders();		
+	          	})    	
         },
         
         

@@ -11,6 +11,14 @@ public class DeliveryManTakingOrderDTO {
 	private String orderInfo;
 	private String orderDateTime;
 	private double orderPrice;
+	private int deliveryId;
+	
+	public int getDeliveryId() {
+		return deliveryId;
+	}
+	public void setDeliveryId(int deliveryId) {
+		this.deliveryId = deliveryId;
+	}
 	public String getDeliveryManName() {
 		return deliveryManName;
 	}
@@ -42,7 +50,7 @@ public class DeliveryManTakingOrderDTO {
 		this.orderPrice = orderPrice;
 	}
 	public DeliveryManTakingOrderDTO(String deliveryManName, String deliveryManLastName, String orderInfo,
-			String orderDateTime, double orderPrice,int orderId,int restaurantId) {
+			String orderDateTime, double orderPrice,int orderId,int restaurantId, int deliveryId) {
 		super();
 		this.deliveryManName = deliveryManName;
 		this.deliveryManLastName = deliveryManLastName;
@@ -51,6 +59,7 @@ public class DeliveryManTakingOrderDTO {
 		this.orderPrice = orderPrice;
 		this.orderId = orderId;
 		this.restaurantId = restaurantId;
+		this.deliveryId = deliveryId;
 	}
 	public int getOrderId() {
 		return orderId;

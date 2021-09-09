@@ -281,7 +281,6 @@ public class OrderService {
 			}
 			if (!valid) {
 				toDelete.add(order);
-				//allOrders.remove(indexCounter--);
 			}
 		}
 		

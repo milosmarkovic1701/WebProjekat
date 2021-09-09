@@ -5,7 +5,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\gyros master.jpg",
     "id": 1,
-    "rating": 4.0,
+    "rating": 4.5,
     "deleted": false,
     "location": {
       "street": "Dimitrija Tucovića",
@@ -59,7 +59,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\kfc.png",
     "id": 4,
-    "rating": 0.0,
+    "rating": 4.0,
     "deleted": false,
     "location": {
       "street": "Bulevar Oslobođenja",

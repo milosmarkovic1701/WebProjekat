@@ -6,5 +6,29 @@
     "rating": 4.0,
     "content": "Dobro je",
     "status": "DA"
+  },
+  {
+    "customerId": 5,
+    "restaurantId": 4,
+    "orderId": 5,
+    "rating": 4.0,
+    "content": "Dobar twister, pepsi nije hladan",
+    "status": "DA"
+  },
+  {
+    "customerId": 5,
+    "restaurantId": 4,
+    "orderId": 4,
+    "rating": 1.0,
+    "content": "Kofici falila 3 krilca. 0 bodova",
+    "status": "NE"
+  },
+  {
+    "customerId": 5,
+    "restaurantId": 1,
+    "orderId": 3,
+    "rating": 5.0,
+    "content": "Odlican box",
+    "status": "DA"
   }
 ]

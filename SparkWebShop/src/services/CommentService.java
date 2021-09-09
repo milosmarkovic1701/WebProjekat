@@ -51,7 +51,6 @@ public class CommentService {
 				}
 			}
 		}
-		System.out.println(restaurantComments);
 		return restaurantComments;
 	}
 

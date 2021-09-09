@@ -15,12 +15,12 @@ Vue.component("startup-page", {
       <img src="images/ponesilogo.png" alt="mdo" width="120" height="42" >
 	      <ul class="nav nav-tabs" id="myTab" role="tablist">
 	        <li>
-	          <button type="button" disabled style="margin-left: 30mm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+	          <button type="button" disabled style="margin-left: 32mm; margin-bottom: 1mm; margin-top: 1mm;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
 	            Dobrodošli na početnu stranu ponesi.com ! Ako nešto želite da naručite, molimo Vas da se prijavite. Ako ste nov korisnik, molimo Vas da se registrujete. --->
 	          </button>
 	          </li>
 	          <li>
-	          <button type="button" style="margin-left: 20mm; margin-top: 1mm; margin-bottom: 1mm;" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logInModal">
+	          <button type="button" style="margin-left: 32mm; margin-top: 1mm; margin-bottom: 1mm;" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logInModal">
 	            Prijava
 	          </button>
 	          </li>
@@ -50,9 +50,9 @@ Vue.component("startup-page", {
 	        <select class="form-select" v-model="roleLogin" style="margin-top: 5%;">
 		          <option value="" selected>Uloga</option>
 		          <option value="customer">Kupac</option>
-		          <option value="deliveryman">Dostavljac</option>
+		          <option value="deliveryman">Dostavljač</option>
 		          <option value="administrator">Administrator</option>
-		          <option value="manager">Menadzer</option>
+		          <option value="manager">Menadžer</option>
 		        </select>
 	      </div>
 	      <div class="modal-footer">

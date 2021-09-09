@@ -89,5 +89,347 @@
     "customerId": 7,
     "status": "DELIVERED",
     "rating": 4.0
+  },
+  {
+    "id": 3,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 3,
+        "name": "Gyros box",
+        "price": 450.0,
+        "restaurantId": 1,
+        "size": "500g",
+        "description": "Pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros box.png",
+        "amount": 2,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Gyros box 500g 2X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 22,
+        "minute": 25,
+        "second": 32,
+        "nano": 547811200
+      }
+    },
+    "dateInfo": "9.9.2021.  22:25",
+    "price": 900.0,
+    "deliveryId": 10,
+    "customerId": 5,
+    "status": "DELIVERED",
+    "rating": 5.0
+  },
+  {
+    "id": 4,
+    "restaurantName": "KFC",
+    "restaurantId": 4,
+    "restaurantLogo": "restaurant logos\\kfc.png",
+    "restaurantType": "Razno",
+    "items": [
+      {
+        "id": 8,
+        "name": "Kofica",
+        "price": 800.0,
+        "restaurantId": 4,
+        "size": "800g",
+        "description": "15 krilaca",
+        "photo": "food images\\kfc kofica.png",
+        "amount": 2,
+        "deleted": false
+      },
+      {
+        "id": 9,
+        "name": "Twister",
+        "price": 350.0,
+        "restaurantId": 4,
+        "size": "200g",
+        "description": "Tortilja, piletina, paradajz, salata, majonez",
+        "photo": "food images\\kfc twister.jpg",
+        "amount": 1,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Kofica 800g 2X, Twister 200g 1X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 22,
+        "minute": 29,
+        "second": 10,
+        "nano": 436963200
+      }
+    },
+    "dateInfo": "9.9.2021.  22:29",
+    "price": 1950.0,
+    "deliveryId": 11,
+    "customerId": 5,
+    "status": "DELIVERED",
+    "rating": 1.0
+  },
+  {
+    "id": 5,
+    "restaurantName": "KFC",
+    "restaurantId": 4,
+    "restaurantLogo": "restaurant logos\\kfc.png",
+    "restaurantType": "Razno",
+    "items": [
+      {
+        "id": 9,
+        "name": "Twister",
+        "price": 350.0,
+        "restaurantId": 4,
+        "size": "200g",
+        "description": "Tortilja, piletina, paradajz, salata, majonez",
+        "photo": "food images\\kfc twister.jpg",
+        "amount": 4,
+        "deleted": false
+      },
+      {
+        "id": 10,
+        "name": "Pepsi",
+        "price": 130.0,
+        "restaurantId": 4,
+        "size": "330ml",
+        "description": "pepsi",
+        "photo": "food images\\kfc pepsi.png",
+        "amount": 1,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Twister 200g 4X, Pepsi 330ml 1X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 22,
+        "minute": 30,
+        "second": 29,
+        "nano": 235794000
+      }
+    },
+    "dateInfo": "9.9.2021.  22:30",
+    "price": 1530.0,
+    "deliveryId": 11,
+    "customerId": 5,
+    "status": "DELIVERED",
+    "rating": 4.0
+  },
+  {
+    "id": 6,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 3,
+        "name": "Gyros box",
+        "price": 450.0,
+        "restaurantId": 1,
+        "size": "500g",
+        "description": "Pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros box.png",
+        "amount": 2,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Gyros box 500g 2X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 22,
+        "minute": 44,
+        "second": 47,
+        "nano": 45368800
+      }
+    },
+    "dateInfo": "9.9.2021.  22:44",
+    "price": 873.0,
+    "deliveryId": 0,
+    "customerId": 7,
+    "status": "READY_TO_DELIVER",
+    "rating": 0.0
+  },
+  {
+    "id": 7,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 19,
+        "name": "Suvlaki",
+        "price": 400.0,
+        "restaurantId": 1,
+        "size": "250 g",
+        "description": "Isto ko giros",
+        "photo": "food images\\SUVLAKI.jpg",
+        "amount": 3,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Suvlaki 250 g 3X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 22,
+        "minute": 44,
+        "second": 54,
+        "nano": 93128200
+      }
+    },
+    "dateInfo": "9.9.2021.  22:44",
+    "price": 1164.0,
+    "deliveryId": 10,
+    "customerId": 7,
+    "status": "IN_TRANSPORT",
+    "rating": 0.0
+  },
+  {
+    "id": 8,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 3,
+        "name": "Gyros box",
+        "price": 450.0,
+        "restaurantId": 1,
+        "size": "500g",
+        "description": "Pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros box.png",
+        "amount": 4,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Gyros box 500g 4X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 23,
+        "minute": 16,
+        "second": 17,
+        "nano": 159849100
+      }
+    },
+    "dateInfo": "9.9.2021.  23:16",
+    "price": 1800.0,
+    "deliveryId": 0,
+    "customerId": 5,
+    "status": "READY_TO_DELIVER",
+    "rating": 0.0
+  },
+  {
+    "id": 9,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 2,
+        "name": "Veliki giros",
+        "price": 330.0,
+        "restaurantId": 1,
+        "size": "300g",
+        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros veliki.png",
+        "amount": 3,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Veliki giros 300g 3X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 23,
+        "minute": 16,
+        "second": 24,
+        "nano": 860861300
+      }
+    },
+    "dateInfo": "9.9.2021.  23:16",
+    "price": 990.0,
+    "deliveryId": 0,
+    "customerId": 5,
+    "status": "READY_TO_DELIVER",
+    "rating": 0.0
+  },
+  {
+    "id": 10,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 3,
+        "name": "Gyros box",
+        "price": 450.0,
+        "restaurantId": 1,
+        "size": "500g",
+        "description": "Pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros box.png",
+        "amount": 2,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Gyros box 500g 2X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 23,
+        "minute": 16,
+        "second": 35,
+        "nano": 156946700
+      }
+    },
+    "dateInfo": "9.9.2021.  23:16",
+    "price": 900.0,
+    "deliveryId": 0,
+    "customerId": 5,
+    "status": "READY_TO_DELIVER",
+    "rating": 0.0
   }
 ]
