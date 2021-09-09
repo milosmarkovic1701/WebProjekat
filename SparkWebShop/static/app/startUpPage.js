@@ -87,7 +87,7 @@ Vue.component("startup-page", {
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-	        <button type="button" v-on:click="register(userRegister)" class="btn btn-danger">Registruj se</button>
+	        <button type="button" v-on:click="register(userRegister)" data-bs-dismiss="modal" class="btn btn-danger">Registruj se</button>
 	      </div>
 	    </div>
 	  </div>

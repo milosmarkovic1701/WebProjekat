@@ -18,6 +18,8 @@ Vue.component("administrator-page", {
 				spamUserId: "",
 				admin: {},
 				userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
+				addressInfo : {street: "", number: "", city: "", postal: ""},
+				flag: "true",
 		    }
 	},
 	
@@ -100,7 +102,7 @@ Vue.component("administrator-page", {
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-	        <button type="button" v-on:click="addManager()" class="btn btn-danger">Dodaj menadžera</button>
+	        <button type="button" v-on:click="addManager()" data-bs-dismiss="modal" class="btn btn-danger">Dodaj menadžera</button>
 	      </div>
 	    </div>
 	  </div>
@@ -218,23 +220,24 @@ Vue.component("administrator-page", {
         </div>
         <div class="row my-row  justify-content-around">
           <div class="col-sm-4 my-col" style="margin-top: 2mm;">
-          <div id="dvMap" style="width: 600px; height: 370px"></div>
-            </div>
+          	<div><input id="searchInput" class="controls" type="text" style="width: 250px;" placeholder="Ukucajte ime restorana..." /></div>
+          	<div id="dvMap" style="width: 600px; height: 350px"></div>
+          </div>
           <div class="col-sm-2 my-col"></div>
           <div class="col-sm-6 my-col">
             <div container>
              <div class="row my-row justify-content-around">
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Ulica:</span>
-                  <input type="text" v-model="newRestaurant.street" class="form-control" placeholder="Unesite ulicu..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="text" id="street" class="form-control" placeholder="Unesite ulicu..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Broj:</span>
-                  <input type="text" v-model="newRestaurant.number" class="form-control" placeholder="Unesite broj..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="text" id="number" class="form-control" placeholder="Unesite broj..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Mesto:</span>
-                  <input type="text" v-model="newRestaurant.city" class="form-control" placeholder="Unesite mesto..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="text" id="city" class="form-control" placeholder="Unesite mesto..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
               </div>
               <div class="row my-row justify-content-around">
@@ -248,7 +251,7 @@ Vue.component("administrator-page", {
                 </div>
                 <div class="col-sm-4 my-col">
                   <span class="input-group-text" id="basic-addon1">Poštanski broj:</span>
-                  <input type="number" min="10000" max="99999" v-model="newRestaurant.postalCode" class="form-control" placeholder="Unesite poštanski broj..." aria-label="type" aria-describedby="basic-addon1">
+                  <input type="number" id="postalCode" min="10000" max="99999" class="form-control" placeholder="Unesite poštanski broj..." aria-label="type" aria-describedby="basic-addon1">
                 </div>
               </div>
             <div class="container" style="margin-top: 5%;">
@@ -634,6 +637,10 @@ Vue.component("administrator-page", {
 		formatGeoposition() {
 				this.newRestaurant.latitude = document.getElementById("latitude").value;
                 this.newRestaurant.longitude = document.getElementById("longitude").value;
+                this.newRestaurant.street = document.getElementById("street").value;
+		        this.newRestaurant.city = document.getElementById("city").value;
+		        this.newRestaurant.number = document.getElementById("number").value;
+		        this.newRestaurant.postalCode = document.getElementById('postalCode').value;
 		},
 		addRestaurant() {
         	this.newRestaurant.logo = document.getElementById("uploadImage").value
@@ -654,26 +661,25 @@ Vue.component("administrator-page", {
 							this.newRestaurant.latitude = "";
 							this.newRestaurant.longitude = ""; 
 							this.newRestaurant.postalCode = ""; 
+							this.newRestaurant.latitude = "";
+							this.newRestaurant.longitude = ""; 
+							this.newRestaurant.postalCode = ""; 
 							this.newRestaurant.managerId = "";
 							document.getElementById("uploadImage").value = "";
 							document.getElementById("latitude").value = "";
                 			document.getElementById("longitude").value = "";
+                			document.getElementById("postalCode").value = "";
+                			document.getElementById("street").value = "";
+                			document.getElementById("city").value = "";
+                			document.getElementById("number").value = "";
 		                }
 		                else {
 		                    alert("Greška: " + response.data);
 		                }
 		        });
         },
-	},
-    async mounted () {
-    	await this.getUsers();
-	    this.getRestaurants();
-	  	this.getAllComments();
-  		this.getManagers();
-	  	this.getLoggedUser();
-	  	this.getSpamUsers();
-	  	
-	      var mapOptions = {
+        initMap() {
+        	var mapOptions = {
                 center: new google.maps.LatLng(45.2450573,19.8390942),
                 zoom: 13,
                 mapTypeId: google.maps.MapTypeId.SATELITE
@@ -685,5 +691,82 @@ Vue.component("administrator-page", {
                 document.getElementById("latitude").value = e.latLng.lat();
                 document.getElementById("longitude").value = e.latLng.lng();
             });
+            
+            var input = document.getElementById('searchInput');
+		    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+		
+		    var autocomplete = new google.maps.places.Autocomplete(input);
+		    autocomplete.bindTo('bounds', map);
+		
+		    var infowindow = new google.maps.InfoWindow();
+		    var marker = new google.maps.Marker({
+		        map: map,
+		        anchorPoint: new google.maps.Point(0, -29)
+		    });
+		
+		    autocomplete.addListener('place_changed', function() {
+	        infowindow.close();
+	        marker.setVisible(false);
+	        var place = autocomplete.getPlace();
+	        if (!place.geometry) {
+	            window.alert("Autocomplete's returned place contains no geometry");
+	            return;
+	        }
+	  
+	        // If the place has a geometry, then present it on a map.
+	        if (place.geometry.viewport) {
+	            map.fitBounds(place.geometry.viewport);
+	        } else {
+	            map.setCenter(place.geometry.location);
+	            map.setZoom(17);
+	        }
+	        marker.setIcon(({
+	            url: place.icon,
+	            size: new google.maps.Size(20, 20),
+	            origin: new google.maps.Point(5, 5),
+	            anchor: new google.maps.Point(17, 34),
+	            scaledSize: new google.maps.Size(20, 20)
+	        }));
+	        marker.setPosition(place.geometry.location);
+	        marker.setVisible(true);
+	    
+	        var address = '';
+	        if (place.address_components) {
+	        document.getElementById("city").value = place.address_components[2].long_name;
+	        document.getElementById("street").value = place.address_components[1].short_name;
+	        document.getElementById("number").value = place.address_components[0].short_name;
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+        }
+    
+        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+        infowindow.open(map, marker);
+      
+        // Location details
+        for (var i = 0; i < place.address_components.length; i++) {
+            if(place.address_components[i].types[0] == 'postal_code'){
+                document.getElementById('postalCode').value = place.address_components[i].long_name;
+                
+            }
+        }
+        this.info = place.formatted_address;
+        document.getElementById("latitude").value = place.geometry.location.lat();
+        document.getElementById("longitude").value = place.geometry.location.lng();
+        document.getElementById('lat').innerHTML = place.geometry.location.lat();
+        document.getElementById('lon').innerHTML = place.geometry.location.lng();
+    });
+        },
+	},
+    async mounted () {
+    	await this.getUsers();
+	    this.getRestaurants();
+	  	this.getAllComments();
+  		this.getManagers();
+	  	this.getLoggedUser();
+	  	this.getSpamUsers();
+	  	this.initMap();
 		},
 });

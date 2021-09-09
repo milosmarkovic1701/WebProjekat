@@ -8,12 +8,12 @@
     "rating": 3.0,
     "deleted": false,
     "location": {
-      "street": "Balzakova",
+      "street": "Dimitrija Tucovića",
       "number": "3",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 45.0,
-      "width": 19.0
+      "length": 19.8422552,
+      "width": 45.2478049
     },
     "managerId": 3
   },
@@ -30,8 +30,8 @@
       "number": "42",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 45.2,
-      "width": 19.3
+      "length": 19.8373769,
+      "width": 45.2523413
     },
     "managerId": 8
   },
@@ -44,12 +44,12 @@
     "rating": 5.0,
     "deleted": false,
     "location": {
-      "street": "Bulevar cara Lazara",
-      "number": "23",
+      "street": "Pavla Papa",
+      "number": "5a",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 45.4,
-      "width": 19.1
+      "length": 19.8401807,
+      "width": 45.2547234
     },
     "managerId": 0
   },
@@ -63,11 +63,11 @@
     "deleted": false,
     "location": {
       "street": "Bulevar Oslobođenja",
-      "number": "6",
+      "number": "119",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 45.24,
-      "width": 19.13
+      "length": 19.8429388,
+      "width": 45.2460023
     },
     "managerId": 4
   },
@@ -81,11 +81,11 @@
     "deleted": false,
     "location": {
       "street": "Bulevar Oslobođenja",
-      "number": "104",
+      "number": "91",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 45.7,
-      "width": 19.3
+      "length": 19.8378823,
+      "width": 45.2511215
     },
     "managerId": 0
   },
@@ -98,17 +98,17 @@
     "rating": 0.0,
     "deleted": false,
     "location": {
-      "street": "Puškinova",
-      "number": "27",
+      "street": "Bulevar Jaše Tomića",
+      "number": "bb",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 45.6,
-      "width": 19.8
+      "length": 19.8315591,
+      "width": 45.2649973
     },
     "managerId": 0
   },
   {
-    "name": "Dva štapića",
+    "name": "Dva Štapića",
     "type": "kineski",
     "status": "CLOSED",
     "logo": "restaurant logos\\dva stapica.png",
@@ -120,9 +120,9 @@
       "number": "9n",
       "city": "Novi Sad",
       "postalCode": "21000",
-      "length": 19.819196462631226,
-      "width": 45.255917797683395
+      "length": 19.8192022,
+      "width": 45.2559147
     },
-    "managerId": 12
+    "managerId": 14
   }
 ]
