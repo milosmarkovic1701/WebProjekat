@@ -1,244 +1,11 @@
 [
   {
     "id": 1,
-    "restaurantName": "Milky",
-    "restaurantId": 3,
-    "restaurantLogo": "restaurant logos\\milky.png",
-    "restaurantType": "Palačinke",
-    "items": [
-      {
-        "id": 7,
-        "name": "Slana palačinka",
-        "price": 230.0,
-        "restaurantId": 3,
-        "size": "200g",
-        "description": "Pečenica, pavlaka, majonez, kačkavalj",
-        "photo": "food images\\milky slana.jpg",
-        "amount": 2,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "Slana palačinka 200g 2X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "time": {
-        "hour": 1,
-        "minute": 35,
-        "second": 4,
-        "nano": 919605300
-      }
-    },
-    "dateInfo": "7.9.2021.  01:35",
-    "price": 446.2,
-    "deliveryId": 11,
-    "customerId": 7,
-    "status": "READY_TO_DELIVER",
-    "rating": 0.0
-  },
-  {
-    "id": 2,
-    "restaurantName": "Tortilla Casa",
-    "restaurantId": 5,
-    "restaurantLogo": "restaurant logos\\tortilla casa.jpg",
-    "restaurantType": "Meksički",
-    "items": [
-      {
-        "id": 13,
-        "name": "Tacos",
-        "price": 340.0,
-        "restaurantId": 5,
-        "size": "250g",
-        "description": "Tacos",
-        "photo": "food images\\tortilla casa tacos.jpg",
-        "amount": 4,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "Tacos 250g 4X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "time": {
-        "hour": 1,
-        "minute": 35,
-        "second": 19,
-        "nano": 437676900
-      }
-    },
-    "dateInfo": "7.9.2021.  01:35",
-    "price": 1319.2,
-    "deliveryId": 11,
-    "customerId": 7,
-    "status": "READY_TO_DELIVER",
-    "rating": 0.0
-  },
-  {
-    "id": 3,
     "restaurantName": "Gyros Master",
     "restaurantId": 1,
     "restaurantLogo": "restaurant logos\\gyros master.jpg",
     "restaurantType": "Grčki",
     "items": [
-      {
-        "id": 2,
-        "name": "Veliki giros",
-        "price": 330.0,
-        "restaurantId": 1,
-        "size": "300g",
-        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
-        "photo": "food images\\gyros veliki.png",
-        "amount": 5,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "Veliki giros 300g 5X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "time": {
-        "hour": 1,
-        "minute": 35,
-        "second": 30,
-        "nano": 718122200
-      }
-    },
-    "dateInfo": "7.9.2021.  01:35",
-    "price": 1600.5,
-    "deliveryId": 11,
-    "customerId": 7,
-    "status": "IN_TRANSPORT",
-    "rating": 5.0
-  },
-  {
-    "id": 4,
-    "restaurantName": "KFC",
-    "restaurantId": 4,
-    "restaurantLogo": "restaurant logos\\kfc.png",
-    "restaurantType": "Razno",
-    "items": [
-      {
-        "id": 9,
-        "name": "Twister",
-        "price": 350.0,
-        "restaurantId": 4,
-        "size": "200g",
-        "description": "Tortilja, piletina, paradajz, salata, majonez",
-        "photo": "food images\\kfc twister.jpg",
-        "amount": 2,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "Twister 200g 2X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "time": {
-        "hour": 1,
-        "minute": 38,
-        "second": 20,
-        "nano": 757680500
-      }
-    },
-    "dateInfo": "7.9.2021.  01:38",
-    "price": 679.0,
-    "deliveryId": 11,
-    "customerId": 7,
-    "status": "IN_TRANSPORT",
-    "rating": 0.0
-  },
-  {
-    "id": 5,
-    "restaurantName": "Milky",
-    "restaurantId": 3,
-    "restaurantLogo": "restaurant logos\\milky.png",
-    "restaurantType": "Palačinke",
-    "items": [
-      {
-        "id": 6,
-        "name": "Slatka palačinka",
-        "price": 200.0,
-        "restaurantId": 3,
-        "size": "170g",
-        "description": "Nutela, plazma",
-        "photo": "food images\\milky palacinka.png",
-        "amount": 1,
-        "deleted": false
-      },
-      {
-        "id": 7,
-        "name": "Slana palačinka",
-        "price": 230.0,
-        "restaurantId": 3,
-        "size": "200g",
-        "description": "Pečenica, pavlaka, majonez, kačkavalj",
-        "photo": "food images\\milky slana.jpg",
-        "amount": 1,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "Slatka palačinka 170g 1X, Slana palačinka 200g 1X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "time": {
-        "hour": 15,
-        "minute": 3,
-        "second": 57,
-        "nano": 919671200
-      }
-    },
-    "dateInfo": "7.9.2021.  15:03",
-    "price": 430.0,
-    "deliveryId": 11,
-    "customerId": 5,
-    "status": "READY_TO_DELIVER",
-    "rating": 0.0
-  },
-  {
-    "id": 6,
-    "restaurantName": "Gyros Master",
-    "restaurantId": 1,
-    "restaurantLogo": "restaurant logos\\gyros master.jpg",
-    "restaurantType": "Grčki",
-    "items": [
-      {
-        "id": 2,
-        "name": "Veliki giros",
-        "price": 330.0,
-        "restaurantId": 1,
-        "size": "300g",
-        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
-        "photo": "food images\\gyros veliki.png",
-        "amount": 1,
-        "deleted": false
-      },
-      {
-        "id": 1,
-        "name": "Mali giros",
-        "price": 230.0,
-        "restaurantId": 1,
-        "size": "200g",
-        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
-        "photo": "food images\\gyros mali.png",
-        "amount": 1,
-        "deleted": false
-      },
       {
         "id": 3,
         "name": "Gyros box",
@@ -247,182 +14,62 @@
         "size": "500g",
         "description": "Pomfrit, tzatziki, svinjetina, salata",
         "photo": "food images\\gyros box.png",
-        "amount": 1,
+        "amount": 5,
         "deleted": false
       }
     ],
-    "orderInfo": "Veliki giros 300g 1X, Mali giros 200g 1X, Gyros box 500g 1X, ",
+    "orderInfo": "Gyros box 500g 5X, ",
     "orderDateTime": {
       "date": {
         "year": 2021,
         "month": 9,
-        "day": 7
+        "day": 9
       },
       "time": {
-        "hour": 15,
-        "minute": 4,
-        "second": 36,
-        "nano": 3035200
+        "hour": 20,
+        "minute": 39,
+        "second": 19,
+        "nano": 790213400
       }
     },
-    "dateInfo": "7.9.2021.  15:04",
-    "price": 1010.0,
+    "dateInfo": "9.9.2021.  20:39",
+    "price": 2182.5,
     "deliveryId": 0,
-    "customerId": 5,
-    "status": "READY_TO_DELIVER",
+    "customerId": 7,
+    "status": "CANCELLED",
     "rating": 0.0
   },
   {
-    "id": 7,
+    "id": 2,
     "restaurantName": "Gyros Master",
     "restaurantId": 1,
     "restaurantLogo": "restaurant logos\\gyros master.jpg",
     "restaurantType": "Grčki",
     "items": [
       {
-        "id": 1,
-        "name": "Mali giros",
-        "price": 230.0,
+        "id": 3,
+        "name": "Gyros box",
+        "price": 450.0,
         "restaurantId": 1,
-        "size": "200g",
-        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
-        "photo": "food images\\gyros mali.png",
-        "amount": 1,
-        "deleted": false
-      },
-      {
-        "id": 2,
-        "name": "Veliki giros",
-        "price": 330.0,
-        "restaurantId": 1,
-        "size": "300g",
-        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
-        "photo": "food images\\gyros veliki.png",
-        "amount": 1,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "Mali giros 200g 1X, Veliki giros 300g 1X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "time": {
-        "hour": 16,
-        "minute": 45,
-        "second": 29,
-        "nano": 165195300
-      }
-    },
-    "dateInfo": "7.9.2021.  16:45",
-    "price": 560.0,
-    "deliveryId": 11,
-    "customerId": 5,
-    "status": "IN_TRANSPORT",
-    "rating": 4.0
-  },
-  {
-    "id": 8,
-    "restaurantName": "Gyros Master",
-    "restaurantId": 1,
-    "restaurantLogo": "restaurant logos\\gyros master.jpg",
-    "restaurantType": "Grčki",
-    "items": [
-      {
-        "id": 21,
-        "name": "TK",
-        "price": 1020.0,
-        "restaurantId": 1,
-        "size": "60 nt",
-        "description": "v",
-        "photo": "food images\\tortilla casa churros.jpg",
-        "amount": 1,
-        "deleted": false
-      }
-    ],
-    "orderInfo": "TK 60 nt 1X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 9
-      },
-      "time": {
-        "hour": 0,
-        "minute": 52,
-        "second": 5,
-        "nano": 341886100
-      }
-    },
-    "dateInfo": "9.9.2021.  00:52",
-    "price": 969.0,
-    "deliveryId": 11,
-    "customerId": 6,
-    "status": "IN_TRANSPORT",
-    "rating": 3.0
-  },
-  {
-    "id": 9,
-    "restaurantName": "Gyros Master",
-    "restaurantId": 1,
-    "restaurantLogo": "restaurant logos\\gyros master.jpg",
-    "restaurantType": "Grčki",
-    "items": [
-      {
-        "id": 2,
-        "name": "Veliki giros",
-        "price": 330.0,
-        "restaurantId": 1,
-        "size": "300g",
-        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
-        "photo": "food images\\gyros veliki.png",
+        "size": "500g",
+        "description": "Pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros box.png",
         "amount": 2,
         "deleted": false
-      }
-    ],
-    "orderInfo": "Veliki giros 300g 2X, ",
-    "orderDateTime": {
-      "date": {
-        "year": 2021,
-        "month": 9,
-        "day": 9
       },
-      "time": {
-        "hour": 16,
-        "minute": 25,
-        "second": 23,
-        "nano": 302338400
-      }
-    },
-    "dateInfo": "9.9.2021.  16:25",
-    "price": 627.0,
-    "deliveryId": 0,
-    "customerId": 6,
-    "status": "DELIVERED",
-    "rating": 5.0
-  },
-  {
-    "id": 10,
-    "restaurantName": "Gyros Master",
-    "restaurantId": 1,
-    "restaurantLogo": "restaurant logos\\gyros master.jpg",
-    "restaurantType": "Grčki",
-    "items": [
       {
         "id": 19,
         "name": "Suvlaki",
         "price": 400.0,
         "restaurantId": 1,
         "size": "250 gr",
-        "description": "Jako je dobra",
+        "description": "Isto ko giros",
         "photo": "food images\\SUVLAKI.jpg",
         "amount": 2,
         "deleted": false
       }
     ],
-    "orderInfo": "Suvlaki 250 gr 2X, ",
+    "orderInfo": "Gyros box 500g 2X, Suvlaki 250 gr 2X, ",
     "orderDateTime": {
       "date": {
         "year": 2021,
@@ -430,17 +77,17 @@
         "day": 9
       },
       "time": {
-        "hour": 16,
-        "minute": 30,
-        "second": 18,
-        "nano": 583450500
+        "hour": 20,
+        "minute": 40,
+        "second": 1,
+        "nano": 489729500
       }
     },
-    "dateInfo": "9.9.2021.  16:30",
-    "price": 760.0,
-    "deliveryId": 0,
-    "customerId": 6,
+    "dateInfo": "9.9.2021.  20:40",
+    "price": 1649.0,
+    "deliveryId": 11,
+    "customerId": 7,
     "status": "DELIVERED",
-    "rating": 5.0
+    "rating": 4.0
   }
 ]

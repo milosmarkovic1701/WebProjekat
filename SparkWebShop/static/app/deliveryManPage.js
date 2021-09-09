@@ -287,10 +287,17 @@ template:`
         },
         saveInfoEdit(){
         	axios
-				.post('rest/users/saveInfoEditAdministrator', this.userInfo)	
+				.post('rest/users/saveInfoEdit', this.userInfo)	
 				.then(response => {
 	                if (response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
+						this.deliveryman.user.id = this.userInfo.id
+        				this.deliveryman.user.name = this.userInfo.name; 
+        				this.deliveryman.user.lastName = this.userInfo.lastname;
+        				this.deliveryman.user.username = this.userInfo.username;
+        				this.deliveryman.user.password = this.userInfo.password;
+			 			this.deliveryman.user.dateInfo = this.userInfo.birthDate;
+			 			localStorage.setItem("deliveryman", JSON.stringify(this.deliveryman));
 	                }
 	                else {
 	                    alert("Greška: " + response.data);

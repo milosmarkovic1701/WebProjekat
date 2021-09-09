@@ -609,6 +609,13 @@ Vue.component("administrator-page", {
 				.then(response => {
 	                if (response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
+						this.admin.user.id = this.userInfo.id
+        				this.admin.user.name = this.userInfo.name; 
+        				this.admin.user.lastName = this.userInfo.lastname;
+        				this.admin.user.username = this.userInfo.username;
+        				this.admin.user.password = this.userInfo.password;
+			 			this.admin.user.dateInfo = this.userInfo.birthDate;
+			 			localStorage.setItem("admin", JSON.stringify(this.admin));
 	                }
 	                else {
 	                    alert("Greška: " + response.data);

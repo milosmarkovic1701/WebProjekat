@@ -1,50 +1,10 @@
 [
   {
-    "customerId": 6,
-    "restaurantId": 2,
-    "orderId": 1,
-    "rating": 5.0,
-    "content": "Dobar",
-    "status": "DA"
-  },
-  {
-    "customerId": 6,
+    "customerId": 7,
     "restaurantId": 1,
-    "orderId": 3,
+    "orderId": 2,
     "rating": 4.0,
-    "content": "Nije dobar",
-    "status": "NE"
-  },
-  {
-    "customerId": 5,
-    "restaurantId": 1,
-    "orderId": 7,
-    "rating": 4.0,
-    "content": "Ide gas vozim novi bmw",
-    "status": "NE"
-  },
-  {
-    "customerId": 6,
-    "restaurantId": 1,
-    "orderId": 8,
-    "rating": 4.0,
-    "content": "a sta da ti kazem baki",
-    "status": "DA"
-  },
-  {
-    "customerId": 6,
-    "restaurantId": 1,
-    "orderId": 9,
-    "rating": 5.0,
-    "content": "Odlican 5",
-    "status": "DA"
-  },
-  {
-    "customerId": 6,
-    "restaurantId": 1,
-    "orderId": 10,
-    "rating": 5.0,
-    "content": "Dobarrrrrr",
+    "content": "Dobro je",
     "status": "DA"
   }
 ]

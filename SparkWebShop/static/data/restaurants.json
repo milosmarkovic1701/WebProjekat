@@ -5,7 +5,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\gyros master.jpg",
     "id": 1,
-    "rating": 4.5,
+    "rating": 4.0,
     "deleted": false,
     "location": {
       "street": "Dimitrija Tucovića",
@@ -41,7 +41,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\milky.png",
     "id": 3,
-    "rating": 5.0,
+    "rating": 0.0,
     "deleted": false,
     "location": {
       "street": "Pavla Papa",
@@ -59,7 +59,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\kfc.png",
     "id": 4,
-    "rating": 4.0,
+    "rating": 0.0,
     "deleted": false,
     "location": {
       "street": "Bulevar Oslobođenja",
@@ -109,12 +109,12 @@
   },
   {
     "name": "Dva Štapića",
-    "type": "kineski",
+    "type": "Kineski",
     "status": "CLOSED",
     "logo": "restaurant logos\\dva stapica.png",
     "id": 7,
     "rating": 0.0,
-    "deleted": false,
+    "deleted": true,
     "location": {
       "street": "Branka Bajića",
       "number": "9n",
@@ -123,6 +123,6 @@
       "length": 19.8192022,
       "width": 45.2559147
     },
-    "managerId": 14
+    "managerId": 12
   }
 ]

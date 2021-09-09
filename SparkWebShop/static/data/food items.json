@@ -202,8 +202,8 @@
     "name": "Suvlaki",
     "price": 400.0,
     "restaurantId": 1,
-    "size": "250 gr",
-    "description": "Jako je dobra",
+    "size": "250 g",
+    "description": "Isto ko giros",
     "photo": "food images\\SUVLAKI.jpg",
     "amount": 1,
     "deleted": false

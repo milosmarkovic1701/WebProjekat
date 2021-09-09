@@ -134,7 +134,7 @@ public class OrderService {
 			}
 			if (!(query.getDateUp().trim().equalsIgnoreCase(""))) {
 				LocalDateTime queryDateUp = adjustDate(query.getDateUp());
-				if (order.getOrderDateTime().compareTo(queryDateUp) > 0)
+				if (order.getOrderDateTime().compareTo(queryDateUp.plusDays(1)) > 0)
 					valid = false;
 			}
 			if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(order.getRestaurantType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {
@@ -273,7 +273,7 @@ public class OrderService {
 			}
 			if (!(query.getDateUp().trim().equalsIgnoreCase(""))) {
 				LocalDateTime queryDateUp = adjustDate(query.getDateUp());
-				if (order.getOrderDateTime().compareTo(queryDateUp) > 0)
+				if (order.getOrderDateTime().compareTo(queryDateUp.plusDays(1)) > 0)
 					valid = false;
 			}
 			if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(order.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
@@ -404,7 +404,7 @@ public class OrderService {
 			}
 			if (!(query.getDateUp().trim().equalsIgnoreCase(""))) {
 				LocalDateTime queryDateUp = adjustDate(query.getDateUp());
-				if (order.getOrderDateTime().compareTo(queryDateUp) > 0)
+				if (order.getOrderDateTime().compareTo(queryDateUp.plusDays(1)) > 0)
 					valid = false;
 			}
 			if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(order.getRestaurantType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {

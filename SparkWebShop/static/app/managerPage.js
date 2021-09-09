@@ -100,7 +100,7 @@ template:`
                   <input type="date" v-model="orderSearchQueryForRestaurant.dateUp" class="form-control" placeholder="Datum-do">
                   <span class="input-group-text" id="basic-addon1">Datum-do</span>
                 </div>
-                <div class="col col-sm-1">
+                <div class="col col-sm-2">
                   <select class="form-select" v-model="orderSearchQueryForRestaurant.filterStatus">
                     <option value="" selected>Filter (status)</option>
                     <option value="processing">U obradi</option>
@@ -111,7 +111,7 @@ template:`
                     <option value="cancelled">Otkazano</option>
                   </select>
                 </div>
-                <div class="col col-sm-2">
+                <div class="col col-sm-3">
                   <select class="form-select" v-model="orderSearchQueryForRestaurant.sort">
                     <option value="" selected>Tip sortiranja</option>
                     <option value="cena_rastuce">Cena (rastuće)</option>
@@ -344,7 +344,7 @@ template:`
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
-        <button type="button" v-on:click = "addFoodItem()" class="btn btn-primary" data-bs-dismiss="modal">Sačuvaj</button>
+        <button type="button" v-on:click = "addFoodItem()" class="btn btn-primary">Sačuvaj</button>
       </div>
     </div>
   </div>
@@ -571,6 +571,13 @@ template:`
 				.then(response => {
 	                if (response.data != "Niste popunili sve potrebne podatke !"){
 						alert("Obaveštenje: " + response.data);
+						this.manager.user.id = this.userInfo.id
+        				this.manager.user.name = this.userInfo.name; 
+        				this.manager.user.lastName = this.userInfo.lastname;
+        				this.manager.user.username = this.userInfo.username;
+        				this.manager.user.password = this.userInfo.password;
+			 			this.manager.user.dateInfo = this.userInfo.birthDate;
+			 			localStorage.setItem("manager", JSON.stringify(this.manager));
 	                }
 	                else {
 	                    alert("Greška: " + response.data);

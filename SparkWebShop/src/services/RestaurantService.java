@@ -100,7 +100,7 @@ public class RestaurantService {
 		restaurants.put(id, 
 						new Restaurant(newRestaurant.getName(), 
 							   newRestaurant.getType(), 
-						       RestaurantStatus.CLOSED, 
+						       RestaurantStatus.OPENED, 
 						       "restaurant logos" + File.separator + logoName, 
 						       id, 
 						       0, 
@@ -150,52 +150,55 @@ public class RestaurantService {
 		restaurants = getAllRestaurants();
 		HashMap<Integer, Restaurant> restaurantsCopy = (HashMap<Integer, Restaurant>)restaurants.clone();
 		for (Restaurant rest : restaurants.values()) {
-			if (!rest.isDeleted()) {
-				boolean valid = true;
-				if (!(query.getName().trim().equalsIgnoreCase("")) && !(rest.getName().toLowerCase().contains(query.getName().trim().toLowerCase()))) {
-					valid = false;
-				}
-				if (!(query.getType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getType().trim().toLowerCase()))) {
-					valid = false;
-				}
-				if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(rest.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
-					valid = false;
-				}
-				if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {
-					valid = false;
-				}
-				if (!(query.getLocation().trim().equalsIgnoreCase("")) && !((rest.getAddress().toLowerCase()).contains(query.getLocation().trim().toLowerCase()))) {
-					valid = false;
-				}
-				if (!(query.getRating().trim().equalsIgnoreCase(""))) {
-					try {
-						if (!(Double.parseDouble(query.getRating()) <= rest.getRating())) 
-							valid = false;
-						}
-						catch(Exception e) {
-							e.printStackTrace();
-						}
-					} 
-				if (!valid) {
-					restaurantsCopy.remove(rest.getId());
-				}
+			boolean valid = true;
+			if (!(query.getName().trim().equalsIgnoreCase("")) && !(rest.getName().toLowerCase().contains(query.getName().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!(query.getType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getType().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(rest.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(rest.getType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!(query.getLocation().trim().equalsIgnoreCase("")) && !((rest.getAddress().toLowerCase()).contains(query.getLocation().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!(query.getRating().trim().equalsIgnoreCase(""))) {
+				try {
+					if (!(Double.parseDouble(query.getRating()) <= rest.getRating())) 
+						valid = false;
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+				} 
+			if (!valid) {
+				restaurantsCopy.remove(rest.getId());
 			}
 		}
-		ArrayList<Restaurant> sortedRestaurants = new ArrayList<>(restaurantsCopy.values());
-			if (query.getSort().equalsIgnoreCase("naziv_rastuce"))
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getName));
-			else if (query.getSort().equalsIgnoreCase("naziv_opadajuce"))
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getName).reversed());
-			else if (query.getSort().equalsIgnoreCase("lokacija_rastuce"))
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getAddress));
-			else if (query.getSort().equalsIgnoreCase("lokacija_opadajuce"))
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getAddress).reversed());
-			else if (query.getSort().equalsIgnoreCase("ocena_rastuce"))
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating));
-			else if (query.getSort().equalsIgnoreCase("ocena_opadajuce"))
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating).reversed());
-			else
-				Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
-			return sortedRestaurants;
+		ArrayList<Restaurant> validRestaurants = new ArrayList<Restaurant>();
+		for (Restaurant r : restaurantsCopy.values())
+			if (r.isDeleted() == false)
+				validRestaurants.add(r);
+		ArrayList<Restaurant> sortedRestaurants = validRestaurants;
+		
+		if (query.getSort().equalsIgnoreCase("naziv_rastuce"))
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getName));
+		else if (query.getSort().equalsIgnoreCase("naziv_opadajuce"))
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getName).reversed());
+		else if (query.getSort().equalsIgnoreCase("lokacija_rastuce"))
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getAddress));
+		else if (query.getSort().equalsIgnoreCase("lokacija_opadajuce"))
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getAddress).reversed());
+		else if (query.getSort().equalsIgnoreCase("ocena_rastuce"))
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating));
+		else if (query.getSort().equalsIgnoreCase("ocena_opadajuce"))
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getRating).reversed());
+		else
+			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
+		return sortedRestaurants;
 	}
 }

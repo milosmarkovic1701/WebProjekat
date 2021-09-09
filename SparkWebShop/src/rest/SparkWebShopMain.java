@@ -71,7 +71,6 @@ public class SparkWebShopMain {
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
 		
-		System.out.println(orderService.getAllOrdersDeliveryManDTO());
 		get("/rest/orders/getDeliveryMen/:id", (req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);

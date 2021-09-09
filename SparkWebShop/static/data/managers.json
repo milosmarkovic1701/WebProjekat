@@ -61,42 +61,22 @@
   },
   {
     "user": {
-      "username": "LEi",
-      "password": "poiu",
-      "name": "Lei",
-      "lastName": "Lei",
-      "fullName": "Lei Lei",
+      "username": "nikolap",
+      "password": "nikola",
+      "name": "Nikola",
+      "lastName": "Polić",
+      "fullName": "Nikola Polić",
       "birthDate": {
-        "year": 2021,
-        "month": 8,
-        "day": 31
+        "year": 1999,
+        "month": 6,
+        "day": 7
       },
-      "dateInfo": "2021-08-31",
+      "dateInfo": "1999-06-07",
       "role": "MANAGER",
       "deleted": false,
       "id": 12
     },
-    "restaurantId": 7,
-    "blocked": false
-  },
-  {
-    "user": {
-      "username": "leo",
-      "password": "lll",
-      "name": "Leo",
-      "lastName": "leo",
-      "fullName": "Leo leo",
-      "birthDate": {
-        "year": 2021,
-        "month": 9,
-        "day": 7
-      },
-      "dateInfo": "2021-09-07",
-      "role": "MANAGER",
-      "deleted": false,
-      "id": 14
-    },
-    "restaurantId": 7,
+    "restaurantId": 0,
     "blocked": false
   }
 ]
