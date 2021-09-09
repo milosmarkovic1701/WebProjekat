@@ -18,8 +18,10 @@ import beans.Order;
 import beans.User;
 import dto.AdminCommentDTO;
 import dto.ApproveDTO;
+import dto.DeliveryManIdIOrderIdDTO;
 import dto.DeliveryManTakingOrderDTO;
 import dto.LoginUserDTO;
+import dto.OrdersForDeliveryManDTO;
 import enums.Role;
 import enums.OrderStatus;
 
@@ -117,9 +119,10 @@ public class DeliveryManService {
 			if(o.getId() == ap.getOrderId()) {
 				o.setStatus(OrderStatus.IN_TRANSPORT);
 			}
-			orderService.saveAllOrders();
+			
 			
 		}
+		orderService.saveAllOrders();
 		return this.getPotentialDeliveyMen(ap.getRestaurantId());
 		 
 	}
@@ -129,12 +132,14 @@ public class DeliveryManService {
 			if(o.getId() == ap.getOrderId()) {
 				o.setDeliveryId(0);
 			}
-			orderService.saveAllOrders();
+			
 			
 		}
+		orderService.saveAllOrders();
 		return this.getPotentialDeliveyMen(ap.getRestaurantId());
 		 
 	}
+	
 	
 	
 }
