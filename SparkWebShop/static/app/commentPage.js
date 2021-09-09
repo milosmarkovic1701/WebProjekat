@@ -43,7 +43,7 @@ Vue.component("comment-page", {
         <div class="row">
             <div class="form-group">
                 <span class="input-group-text" id="basic-addon1">Komentar:</span>
-                <textarea class="form-control" v-model="comment.content" id="exampleFormControlTextarea1" rows="6"></textarea>
+                <textarea class="form-control" v-model="comment.content" id="exampleFormControlTextarea1" rows="10"></textarea>
               </div>
         </div>
         <div class="row"></div>

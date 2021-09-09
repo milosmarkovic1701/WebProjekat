@@ -35,14 +35,15 @@ public class CommentService {
 	}
 	
 	public ArrayList<RestaurantCommentDTO> getRestaurantComments(int restaurantId) {
+		getAllComments();
 		ArrayList<RestaurantCommentDTO> restaurantComments = new ArrayList<RestaurantCommentDTO>();
 		for (Comment comment : comments) {
-			if (comment.getRestaurantId() == restaurantId /*&& comment.isApproved()*/) { //jer jos nije uradjeno
-				for (Order o : orderService.getOrders()) {
+			if (comment.getRestaurantId() == restaurantId && comment.getStatus() == CommentStatus.DA) {
+				for (Order o : orderService.getAllOrders()) {
 					if (o.getId() == comment.getOrderId()) {
 						for (Customer c : customerService.getCustomers()) {
 							if (c.getUser().getId() == o.getCustomerId()) {
-								RestaurantCommentDTO rcDTO = new RestaurantCommentDTO(c.getUser().getName(), c.getUser().getLastName(), o.getOrderInfo(), comment.getContent(), o.getRating());
+								RestaurantCommentDTO rcDTO = new RestaurantCommentDTO(c.getUser().getName(), c.getUser().getLastName(), o.getOrderInfo(), comment.getContent(), comment.getRating());
 								restaurantComments.add(rcDTO);
 							}
 						}
@@ -50,29 +51,18 @@ public class CommentService {
 				}
 			}
 		}
+		System.out.println(restaurantComments);
 		return restaurantComments;
 	}
 
 	public void setComments(ArrayList<AdminCommentDTO> comments) {
 		this.commentsDTO = comments;
 	}
-	
-	
-	
+
 	public void addComment(CommentDTO comment) {
-		int ratingsAmount = 0;
-		int rating = 0;
 		getAllComments();
 		Comment newComment = new Comment(comment.getCustomerId(), comment.getRestaurantId(), comment.getOrderId(), comment.getRating(), comment.getContent());
 		comments.add(newComment);
-		for (Comment c : comments) {
-			if (c.getRestaurantId() == comment.getRestaurantId()) {
-				ratingsAmount++;
-				rating += c.getRating();
-			}
-		}
-		HashMap<Integer, Restaurant> restaurants = restaurantService.getAllRestaurants();
-		restaurants.get(comment.getRestaurantId()).setRating(rating/ratingsAmount);
 		ArrayList <Order> orders = orderService.getAllOrders();
 		for (Order o : orders) {
 			if (o.getId() == comment.getOrderId()) {
@@ -80,9 +70,8 @@ public class CommentService {
 				break;
 			}
 		}
-		saveAllComments();
-		restaurantService.saveAllRestaurants(restaurants);
 		orderService.saveAllOrders(orders);
+		saveAllComments();
 	}
 
 	public CommentService() {
@@ -177,13 +166,25 @@ public class CommentService {
 		for(Comment komentar:comments) {
 			if(komentar.getOrderId()==ap.getOrderId()) {
 				komentar.setStatus(CommentStatus.DA);
+				break;
 			}
 			
 		}
-		this.saveAllComments();
+		double ratingsAmount = 0;
+		double rating = 0;
+		for (Comment c : comments) {
+			if (c.getRestaurantId() == ap.getRestaurantId() && c.getStatus() == CommentStatus.DA) {
+				ratingsAmount++;
+				rating += c.getRating();
+			}
+		}
+		HashMap<Integer, Restaurant> restaurants = restaurantService.getAllRestaurants();
+		restaurants.get(ap.getRestaurantId()).setRating(rating/ratingsAmount);
+		restaurantService.saveAllRestaurants(restaurants);
+		saveAllComments();
 		return this.getAllCommentsForRestaurant(ap.getRestaurantId());
-	
 	}
+	
 	public ArrayList<AdminCommentDTO> changeCommentStatusToUnapproved(ApproveDTO ap){
 		comments = getAllComments();
 		for(Comment komentar:comments) {

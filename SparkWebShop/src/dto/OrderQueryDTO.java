@@ -10,7 +10,15 @@ public class OrderQueryDTO {
 	private String filterType;
 	private String filterStatus;
 	private String sort;
+	private int customerId; 
 	
+	
+	public int getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
 	public String getRestaurantName() {
 		return restaurantName;
 	}
@@ -61,7 +69,7 @@ public class OrderQueryDTO {
 	}
 	
 	public OrderQueryDTO(String restaurantName, String priceDown, String priceUp, String dateDown, String dateUp,
-			String filterType, String filterStatus, String sort) {
+			String filterType, String filterStatus, String sort, int customerId) {
 		super();
 		this.restaurantName = restaurantName;
 		this.priceDown = priceDown;
@@ -71,6 +79,7 @@ public class OrderQueryDTO {
 		this.filterType = filterType;
 		this.filterStatus = filterStatus;
 		this.sort = sort;
+		this.customerId = customerId;
 	}
 	
 	

@@ -16,14 +16,6 @@
     "status": "NE"
   },
   {
-    "customerId": 6,
-    "restaurantId": 1,
-    "orderId": 13,
-    "rating": 4.0,
-    "content": "Dobar mali",
-    "status": "DA"
-  },
-  {
     "customerId": 5,
     "restaurantId": 1,
     "orderId": 7,
@@ -37,6 +29,22 @@
     "orderId": 8,
     "rating": 4.0,
     "content": "a sta da ti kazem baki",
+    "status": "DA"
+  },
+  {
+    "customerId": 6,
+    "restaurantId": 1,
+    "orderId": 9,
+    "rating": 5.0,
+    "content": "Odlican 5",
+    "status": "DA"
+  },
+  {
+    "customerId": 6,
+    "restaurantId": 1,
+    "orderId": 10,
+    "rating": 5.0,
+    "content": "Dobarrrrrr",
     "status": "DA"
   }
 ]
