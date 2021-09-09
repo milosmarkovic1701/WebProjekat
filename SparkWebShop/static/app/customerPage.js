@@ -2,7 +2,7 @@ Vue.component("customer-page", {
 	data: function () {
 		    return {
 				restaurantSearchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
-				orderSearchQuery : {restaurantName: "", priceDown: "", priceUp: "", dateDown: "", dateUp: "", filterType: "", filterStatus: "", sort: "" },
+				orderSearchQuery : {restaurantName: "", priceDown: "", priceUp: "", dateDown: "", dateUp: "", filterType: "", filterStatus: "", sort: "", customerId: ""},
 				restaurants : null,
 				restaurantComments : null,
 				restaurantId : "",
@@ -150,7 +150,7 @@ template:`
       <div class="container-fluid" style="margin-top: 5mm; margin-left: 5mm;">
 	    <div class="row row-cols-1 row-cols-md-4 g-4">
 	      <div class="col" v-for="restaurant in restaurants">
-	        <div class="card" style="width: 21rem;">
+	        <div class="card" style="width: 93%">
 	          <img v-bind:src="restaurant.logo" width="300" height="300" class="card-img-top" alt="...">
 	          <div class="card-body">
 	            <h5 class="card-title">{{restaurant.name}}</h5>
@@ -243,7 +243,7 @@ template:`
       <div class="container-fluid my-container">
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in orders" class="col">
-            <div class="card" style="width: 21rem;">
+            <div class="card" style="width: 93%">
               <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
@@ -272,7 +272,7 @@ template:`
       <div class="container-fluid my-container">
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in orders" v-if="order.status != 'DELIVERED'" class="col">
-            <div class="card" style="width: 21rem;">
+            <div class="card" style="width: 93%">
               <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
@@ -300,7 +300,7 @@ template:`
       <div class="container-fluid">
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in orders" v-if="order.rating == 0.0 && order.status == 'DELIVERED'" class="col">
-            <div class="card" style="width: 21rem;">
+            <div class="card" style="width: 93%">
               <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
@@ -329,7 +329,7 @@ template:`
       <div class="container-fluid">
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div v-for="order in orders" v-if="order.status == 'PROCESSING'" class="col">
-            <div class="card" style="width: 21rem;">
+            <div class="card" style="width: 93%">
               <img v-bind:src="order.restaurantLogo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{order.restaurantName}}</h5>
@@ -390,6 +390,8 @@ template:`
 	          	.then(response => (this.restaurants = response.data))
 		},
 		searchOrders() {
+		this.orderSearchQuery.customerId = this.customer.user.id;
+		console.log(this.orderSearchQuery);
 			axios
 				.post('rest/orders/searchOrders', this.orderSearchQuery)
 	          	.then(response => (this.orders = response.data))
@@ -400,7 +402,6 @@ template:`
         },
         getLoggedUser() {
         	this.customer = JSON.parse(localStorage.getItem("customer"));
-        	console.log(this.customer);
         	this.userInfo.id = this.customer.user.id;
         	this.userInfo.name = this.customer.user.name;
         	this.userInfo.lastname = this.customer.user.lastName;
@@ -409,7 +410,6 @@ template:`
 			this.userInfo.birthDate = this.customer.user.dateInfo;
 			this.userInfo.address = this.customer.address;
 			document.getElementById("birthDateInput").value = this.customer.user.dateInfo;
-        	console.log(this.userInfo);
         },
         getCustomerInfo() {
 			if (this.customer.type === "BRONZE") {
@@ -421,7 +421,6 @@ template:`
 			else {	
 				this.customerType = "icons/gold.png";
 			}
-			console.log(this.customerType);
 		},
         getRestaurants() {
 	        axios
@@ -484,7 +483,6 @@ template:`
         rateOrder(id) {
         	for (o in this.orders) {
         		if (this.orders[o].id === id) {
-					console.log(this.orders[o]);
 					localStorage.setItem("orderToRate", JSON.stringify(this.orders[o]));
 					break;
         		}

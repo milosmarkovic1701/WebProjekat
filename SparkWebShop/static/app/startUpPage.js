@@ -87,12 +87,12 @@ Vue.component("startup-page", {
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-	        <button type="button" v-on:click="register(userRegister)" data-bs-dismiss="modal" class="btn btn-danger">Registruj se</button>
+	        <button type="button" v-on:click="register(userRegister)" class="btn btn-danger">Registruj se</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
-	
+	<div class="tab-content" id="myTabContent">
 	<div class="container-fluid" style="margin-top: 3mm;">
 		<div class="row">
 		  <div class="col">
@@ -174,7 +174,7 @@ Vue.component("startup-page", {
   <div class="container-fluid" style="margin-top: 15mm; margin-left: 5mm;">
     <div class="row row-cols-1 row-cols-sm-4 g-4">
       <div class="col" v-for="restaurant in restaurants">
-        <div class="card" style="width: 21rem;">
+        <div class="card" style="width: 93%">
           <img v-bind:src="restaurant.logo" width="300" height="300" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{restaurant.name}}</h5>
@@ -191,6 +191,7 @@ Vue.component("startup-page", {
 	      </div>
 	    </div>
 	  </div>
+	</div>
 	</div>
 </div>	  
 `

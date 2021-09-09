@@ -144,7 +144,11 @@ public class OrderService {
 				allOrders.remove(indexCounter--);
 			}
 		}
-		ArrayList<Order> sortedOrders = allOrders;
+		ArrayList<Order> customerOrders = new ArrayList<Order>();
+		for (Order o : allOrders)
+			if (o.getCustomerId() == query.getCustomerId())
+				customerOrders.add(o);
+		ArrayList<Order> sortedOrders = customerOrders;
 		if (!query.getSort().equalsIgnoreCase("")) {
 			if (query.getSort().equalsIgnoreCase("restoran_rastuce"))
 				Collections.sort(sortedOrders, Comparator.comparing(Order::getRestaurantName));

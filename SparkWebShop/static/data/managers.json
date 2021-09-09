@@ -98,25 +98,5 @@
     },
     "restaurantId": 7,
     "blocked": false
-  },
-  {
-    "user": {
-      "username": "werwe",
-      "password": "werwerw",
-      "name": "werew",
-      "lastName": "wrew",
-      "fullName": "werew wrew",
-      "birthDate": {
-        "year": 2021,
-        "month": 9,
-        "day": 14
-      },
-      "dateInfo": "2021-09-14",
-      "role": "MANAGER",
-      "deleted": false,
-      "id": 15
-    },
-    "restaurantId": 8,
-    "blocked": false
   }
 ]

@@ -4,7 +4,6 @@ Vue.component("administrator-page", {
 				restaurantSearchQuery : {name: "", type: "", location: "", rating: "", filterType: "", filterStatus: "", sort: ""},
 				usersSearchQuery : {username: "", name: "", lastname: "", filterRole: "", filterType: "", sort: ""},
 				restaurantLogo : "",
-				location : {latitude: 0, longitude: 0},
 				employee : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
 				newManager : {name: "", lastname: "", username: "", password: "", role: "", birthDate: ""},
 				newRestaurant : {name: "", type: "", logo: "", street: "", number: "", city: "", latitude: "", longitude: "", postalCode: "", managerId: ""},
@@ -19,7 +18,6 @@ Vue.component("administrator-page", {
 				admin: {},
 				userInfo : {id: "", name: "", lastname: "", username: "", password: "", birthDate: ""},
 				addressInfo : {street: "", number: "", city: "", postal: ""},
-				flag: "true",
 		    }
 	},
 	
@@ -102,7 +100,7 @@ Vue.component("administrator-page", {
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
-	        <button type="button" v-on:click="addManager()" data-bs-dismiss="modal" class="btn btn-danger">Dodaj menadžera</button>
+	        <button type="button" v-on:click="addManager()" class="btn btn-danger">Dodaj menadžera</button>
 	      </div>
 	    </div>
 	  </div>
@@ -174,7 +172,7 @@ Vue.component("administrator-page", {
 	  <div class="container-fluid" style="margin-top: 15mm; margin-left: 5mm;">
 	    <div class="row row-cols-1 row-cols-md-4 g-4">
 	      <div class="col" v-for="restaurant in restaurants">
-	        <div class="card" style="width: 21rem;">
+	        <div class="card" style="width: 93%">
 	          <img v-bind:src="restaurant.logo" width="300" height="300" class="card-img-top" alt="...">
 	          <div class="card-body">
 	            <h5 class="card-title">{{restaurant.name}}</h5>
@@ -503,8 +501,6 @@ Vue.component("administrator-page", {
 	        .get('rest/users/getManagers')
 	        .then(response => {
 	        this.managers = response.data
-	        
-	        console.log(this.managers);
 	        })
 		},
 		searchRestaurant() {

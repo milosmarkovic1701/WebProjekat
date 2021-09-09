@@ -55,7 +55,7 @@ Vue.component("selected-restaurant", {
     <div class="container-fluid my-container justify-content-between" style="margin-top: 2mm;">
         <div class="row row-cols-1 row-cols-md-4 g-4">
           <div class="col" v-for="fi in cart.items">
-            <div class="card" style="width: 21rem;">
+            <div class="card" style="width: 93%">
               <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{fi.name}}</h5>
@@ -133,7 +133,7 @@ Vue.component("selected-restaurant", {
             <div class="container-fluid my-container justify-content-between" style="margin-top: 5mm;">
               <div class="row row-cols-1 row-cols-md-4 g-4">
                 <div class="col" v-for="fi in foodItems">
-                  <div class="card" style="width: 21rem;">
+                  <div class="card" style="width: 93%">
                     <img v-bind:src="fi.photo" width="300" height="300" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{fi.name}}</h5>
@@ -191,11 +191,11 @@ Vue.component("selected-restaurant", {
         getRestaurantComments(){
             axios
 	            .get("/rest/comments/getRestaurantComments/" + this.$route.query.id)
-	            .then(response => (this.comments = response.data))
+	            .then(response => {this.comments = response.data
+	            })
         },
         getCartItems() {
         	this.customerId = JSON.parse(localStorage.getItem("customer")).user.id;
-        	console.log(this.customerId);
         	axios
             	.get("/rest/cart/getCustomerCart/" + this.customerId)
 	            .then(response => (this.cart = response.data))
@@ -226,6 +226,7 @@ Vue.component("selected-restaurant", {
 	            this.restaurantCoordinates.lat = this.restaurant.location.width;
 	            this.restaurantCoordinates.lng = this.restaurant.location.length;
         		this.initMap();
+        		this.getRestaurantComments();
 	            })
 	        this.getCartItems();
         },
@@ -300,7 +301,6 @@ Vue.component("selected-restaurant", {
 		this.getRestaurant();
 		this.getCustomer();
         this.getFoodItems();
-        this.getRestaurantComments();
     },
 
 });
