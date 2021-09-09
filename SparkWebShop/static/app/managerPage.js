@@ -135,7 +135,7 @@ template:`
               <th>Ime artikla</th>
               <th>Datum i vreme porudžbine</th>
               <th>Cena</th>
-              <th colspan="2">Status</th>
+              <th>Status</th>
           </thead>
        <tbody>
        <tr v-for="order in orders">
@@ -144,7 +144,12 @@ template:`
        <td>{{order.imeArtikla}}</td>
        <td>{{order.dateInfo}}</td>
        <td>{{order.cena}}</td>
-       <td colspan="2">{{order.status}}</td>
+                 <td v-if="order.status === 'PROCESSING'" class="list-group-item">U OBRADI</td>
+            	<td v-else-if="order.status === 'PREPARING'" class="list-group-item">PRIPREMA SE</td>
+            	<td v-else-if="order.status === 'READY_TO_DELIVER'" class="list-group-item">SPREMNO ZA DOSTAVU</td>
+            	<td v-else-if="order.status === 'IN_TRANSPORT'" class="list-group-item">DOSTAVLJA SE</td>
+            	<td v-else-if="order.status === 'DELIVERED'" class="list-group-item">DOSTAVLJENO</td>
+            	<td v-else-if="order.status === 'CANCELLED'" class="list-group-item">OTKAZANO</td>
       </tr>
       </tbody>
       </table>
@@ -160,7 +165,8 @@ template:`
               <th>Ime artikla</th>
               <th>Datum i vreme porudžbine</th>
               <th>Cena</th>
-              <th colspan="2">Status</th>
+              <th>Status</th>
+              <th>Akcija</th>
           </thead>
        <tbody>
        <tr v-for="order in orders" v-if="order.status === 'PROCESSING'">
@@ -169,7 +175,12 @@ template:`
        <td>{{order.imeArtikla}}</td>
        <td>{{order.dateInfo}}</td>
        <td>{{order.cena}}</td>
-       <td>{{order.status}}</td>
+                 <td v-if="order.status === 'PROCESSING'">U OBRADI</td>
+            	<td v-else-if="order.status === 'PREPARING'">PRIPREMA SE</td>
+            	<td v-else-if="order.status === 'READY_TO_DELIVER'">SPREMNO ZA DOSTAVU</td>
+            	<td v-else-if="order.status === 'IN_TRANSPORT'">DOSTAVLJA SE</td>
+            	<td v-else-if="order.status === 'DELIVERED'">DOSTAVLJENO</td>
+            	<td v-else-if="order.status === 'CANCELLED'">OTKAZANO</td>
        <td><button type="button" v-on:click= "changeOrderStatusToPreparing(order.orderId)" class="btn btn-success btn-sm">Pravljenje</td>
       </tr>
       <tr v-else-if="order.status === 'PREPARING'">
@@ -178,7 +189,12 @@ template:`
        <td>{{order.imeArtikla}}</td>
        <td>{{order.dateInfo}}</td>
        <td>{{order.cena}}</td>
-       <td>{{order.status}}</td>
+                 <td v-if="order.status === 'PROCESSING'">U OBRADI</td>
+            	<td v-else-if="order.status === 'PREPARING'" >PRIPREMA SE</td>
+            	<td v-else-if="order.status === 'READY_TO_DELIVER'" >SPREMNO ZA DOSTAVU</td>
+            	<td v-else-if="order.status === 'IN_TRANSPORT'">DOSTAVLJA SE</td>
+            	<td v-else-if="order.status === 'DELIVERED'" >DOSTAVLJENO</td>
+            	<td v-else-if="order.status === 'CANCELLED'" >OTKAZANO</td>
        <td><button type="button"  v-on:click= "changeOrderStatusToWaiting(order.orderId)" class="btn btn-danger btn-sm">Gotova porudžbina</td>
       </tr>
       </tbody>

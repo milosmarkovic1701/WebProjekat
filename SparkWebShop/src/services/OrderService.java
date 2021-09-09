@@ -16,8 +16,11 @@ import com.google.gson.GsonBuilder;
 
 import beans.Order;
 import dto.ApproveDTO;
+import dto.DeliveryManIdIOrderIdDTO;
 import dto.OrderQueryDTO;
 import dto.OrderQueryDTOForRestaurant;
+import dto.OrderQueryDeliveryManDTO;
+import dto.OrdersForDeliveryManDTO;
 import beans.Administrator;
 import beans.Customer;
 import beans.FoodItem;
@@ -236,7 +239,7 @@ public class OrderService {
 		}
 		return ordersDTO;
 	}
-
+	
 	
 	public ArrayList<RestaurantOrderDTO> searchOrdersForRestaurant (OrderQueryDTOForRestaurant query) {
 		ArrayList<Order> allOrders = this.getAllOrders();
@@ -299,6 +302,7 @@ public class OrderService {
 		}
 		return newOrders;
 	}
+	
 	public ArrayList<RestaurantOrderDTO> changeDeliveryStatusToPreparing(ApproveDTO ap){
 		ArrayList<Order> orders = this.getAllOrders();
 		
@@ -320,6 +324,122 @@ public class OrderService {
 		}
 		this.saveAllOrders();
 		return this.getAllRestaurantOrdersDTO(ap.getRestaurantId());
+	}
+	
+	public OrdersForDeliveryManDTO OrderToDeliveryManOrderDTO(Order o) {
+		String ime = customerService.getCustomerById(o.getCustomerId()).getUser().getName();
+		String prezime = customerService.getCustomerById(o.getCustomerId()).getUser().getLastName();
+		String adresa = customerService.getCustomerById(o.getCustomerId()).getAddress();
+		OrdersForDeliveryManDTO newOrderDTO = new OrdersForDeliveryManDTO(o.getId(),ime,prezime,adresa,o.getOrderInfo(),o.getDateInfo(),o.getOrderDateTime(),o.getPrice(),o.getStatus(),o.getRestaurantName(),o.getRestaurantId(),o.getDeliveryId()); 
+		return newOrderDTO;
+	
+	}
+	public ArrayList<OrdersForDeliveryManDTO> getAllOrdersDeliveryManDTO(){
+		ArrayList<Order> orders = this.getAllOrders();
+		ArrayList<OrdersForDeliveryManDTO> ordersDTO = new ArrayList<OrdersForDeliveryManDTO>();
+		for(Order o:orders) {
+			OrdersForDeliveryManDTO oDTO = this.OrderToDeliveryManOrderDTO(o);
+			ordersDTO.add(oDTO);
+		}
+		return ordersDTO;
+	}
+	public ArrayList<OrdersForDeliveryManDTO> giveOrderToDeliveryMan(DeliveryManIdIOrderIdDTO ap){
+		ArrayList<Order> orders = this.getAllOrders();
+		for(Order o: orders) {
+			if(o.getId() == ap.getOrderId()) {
+				o.setDeliveryId(ap.getDeliveryId());
+			}
+			
+			
+		}
+		this.saveAllOrders();
+		return this.getAllOrdersDeliveryManDTO();
+		 
+	}
+	public ArrayList<OrdersForDeliveryManDTO> finsihDelivery(DeliveryManIdIOrderIdDTO ap){
+		ArrayList<Order> orders = this.getAllOrders();
+		for(Order o: orders) {
+			if(o.getId() == ap.getOrderId()) {
+				o.setStatus(OrderStatus.DELIVERED);
+			}
+			
+			
+		}
+		this.saveAllOrders();
+		return this.getAllOrdersDeliveryManDTO();
+		 
+	}
+	public ArrayList<OrdersForDeliveryManDTO> searchOrdersDeliveryMan (OrderQueryDeliveryManDTO query) {
+		ArrayList<Order> allOrders = this.getAllOrders();
+		ArrayList<Order> allOrdersDeliveryMan = new ArrayList<Order>();
+		ArrayList<Order> toDelete = new ArrayList<Order>();
+		for(Order o:allOrders) {
+			if(o.getDeliveryId()==query.getDeliverymanId()) {
+				allOrdersDeliveryMan.add(o);
+			}
+		}
+		int indexCounter = -1;
+		for (Order order : allOrdersDeliveryMan) {
+			indexCounter++;
+			boolean valid = true;
+			if (!(query.getRestaurantName().trim().equalsIgnoreCase("")) && !(order.getRestaurantName().toLowerCase().contains(query.getRestaurantName().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!query.getPriceDown().equalsIgnoreCase("")) {
+				if (order.getPrice() < Double.parseDouble(query.getPriceDown()))
+				valid = false;
+			}
+			if (!query.getPriceUp().equalsIgnoreCase("")) {
+				if (order.getPrice() > Double.parseDouble(query.getPriceUp()))
+				valid = false;
+			}
+			if (!(query.getDateDown().trim().equalsIgnoreCase(""))) {
+				LocalDateTime queryDateDown = adjustDate(query.getDateDown());
+				if (order.getOrderDateTime().compareTo(queryDateDown) < 0)
+					valid = false;
+			}
+			if (!(query.getDateUp().trim().equalsIgnoreCase(""))) {
+				LocalDateTime queryDateUp = adjustDate(query.getDateUp());
+				if (order.getOrderDateTime().compareTo(queryDateUp) > 0)
+					valid = false;
+			}
+			if (!(query.getFilterType().trim().equalsIgnoreCase("")) && !(order.getRestaurantType().toLowerCase().contains(query.getFilterType().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!(query.getFilterStatus().trim().equalsIgnoreCase("")) && !(order.getStatus().toString().toLowerCase().contains(query.getFilterStatus().trim().toLowerCase()))) {
+				valid = false;
+			}
+			if (!valid) {
+				toDelete.add(order);
+				//allOrders.remove(indexCounter--);
+			}
+		}
+		
+		allOrdersDeliveryMan.removeAll(toDelete);
+		
+		ArrayList<Order> sortedOrders = allOrdersDeliveryMan;
+		if (!query.getSort().equalsIgnoreCase("")) {
+			if (query.getSort().equalsIgnoreCase("restoran_rastuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getRestaurantName));
+			else if (query.getSort().equalsIgnoreCase("restoran_opadajuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getRestaurantName).reversed());
+			else if (query.getSort().equalsIgnoreCase("cena_rastuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getPrice));
+			else if (query.getSort().equalsIgnoreCase("cena_opadajuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getPrice).reversed());
+			else if (query.getSort().equalsIgnoreCase("datum_rastuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getOrderDateTime));
+			else if (query.getSort().equalsIgnoreCase("datum_opadajuce"))
+				Collections.sort(sortedOrders, Comparator.comparing(Order::getOrderDateTime).reversed());
+			}
+		
+		
+		ArrayList<OrdersForDeliveryManDTO> newOrders = new ArrayList<OrdersForDeliveryManDTO>();
+		for(Order o:sortedOrders) {
+			OrdersForDeliveryManDTO oDTO = this.OrderToDeliveryManOrderDTO(o);
+			newOrders.add(oDTO);
+		}
+		return newOrders;
 	}
 	
 }

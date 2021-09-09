@@ -34,9 +34,9 @@
     },
     "dateInfo": "7.9.2021.  01:35",
     "price": 446.2,
-    "deliveryId": 11,
+    "deliveryId": 0,
     "customerId": 7,
-    "status": "READY_TO_DELIVER",
+    "status": "PROCESSING",
     "rating": 0.0
   },
   {
@@ -114,9 +114,9 @@
     },
     "dateInfo": "7.9.2021.  01:35",
     "price": 1600.5,
-    "deliveryId": 11,
+    "deliveryId": 0,
     "customerId": 7,
-    "status": "IN_TRANSPORT",
+    "status": "READY_TO_DELIVER",
     "rating": 5.0
   },
   {
@@ -156,7 +156,7 @@
     "price": 679.0,
     "deliveryId": 11,
     "customerId": 7,
-    "status": "IN_TRANSPORT",
+    "status": "DELIVERED",
     "rating": 0.0
   },
   {
@@ -267,7 +267,7 @@
     },
     "dateInfo": "7.9.2021.  15:04",
     "price": 1010.0,
-    "deliveryId": 0,
+    "deliveryId": 11,
     "customerId": 5,
     "status": "READY_TO_DELIVER",
     "rating": 0.0
@@ -320,7 +320,7 @@
     "price": 560.0,
     "deliveryId": 11,
     "customerId": 5,
-    "status": "IN_TRANSPORT",
+    "status": "DELIVERED",
     "rating": 4.0
   },
   {
@@ -360,7 +360,47 @@
     "price": 969.0,
     "deliveryId": 11,
     "customerId": 6,
-    "status": "IN_TRANSPORT",
+    "status": "DELIVERED",
     "rating": 3.0
+  },
+  {
+    "id": 9,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 19,
+        "name": "Suvlaki",
+        "price": 400.0,
+        "restaurantId": 1,
+        "size": "250 gr",
+        "description": "Jako je dobra",
+        "photo": "food images\\SUVLAKI.jpg",
+        "amount": 1,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Suvlaki 250 gr 1X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 9
+      },
+      "time": {
+        "hour": 19,
+        "minute": 47,
+        "second": 53,
+        "nano": 831133700
+      }
+    },
+    "dateInfo": "9.9.2021.  19:47",
+    "price": 400.0,
+    "deliveryId": 11,
+    "customerId": 5,
+    "status": "DELIVERED",
+    "rating": 5.0
   }
 ]

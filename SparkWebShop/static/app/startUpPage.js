@@ -254,7 +254,7 @@ Vue.component("startup-page", {
 	                if (response.data != "Prijava neuspešna. Proverite korisničko ime i lozinku." && response.data != "Prijava neuspešna. Vaš nalog je blokiran ili obrisan."){
 	                    localStorage.setItem("deliveryman", JSON.stringify(response.data));
 	                    //localStorage mora da cuva parove kljuc:string i da bi se koristio korisnik kao objekat mora se pozvati JSON.parse nad dobavljenim stringom iz localStorage
-	                    this.$router.push('/deliveymanPage'); 
+	                    this.$router.push('/deliveryManPage'); 
 	                    this.$router.go();
 	                }
 	                else {

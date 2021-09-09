@@ -38,5 +38,13 @@
     "rating": 4.0,
     "content": "a sta da ti kazem baki",
     "status": "DA"
+  },
+  {
+    "customerId": 5,
+    "restaurantId": 1,
+    "orderId": 9,
+    "rating": 5.0,
+    "content": "aa znas kako nije lose",
+    "status": "DA"
   }
 ]

@@ -5,7 +5,7 @@
     "status": "OPENED",
     "logo": "restaurant logos\\gyros master.jpg",
     "id": 1,
-    "rating": 3.0,
+    "rating": 4.0,
     "deleted": false,
     "location": {
       "street": "Dimitrija Tucovića",

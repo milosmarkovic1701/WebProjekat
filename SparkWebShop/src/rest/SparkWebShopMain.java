@@ -20,12 +20,14 @@ import beans.Cart;
 import beans.FoodItem;
 import beans.Manager;
 import beans.Restaurant;
+import dto.DeliveryManIdIOrderIdDTO;
 import dto.EmployeeDTO;
 import dto.FoodItemDTO;
 import dto.LoginUserDTO;
 import dto.NewOrderDTO;
 import dto.OrderQueryDTO;
 import dto.OrderQueryDTOForRestaurant;
+import dto.OrderQueryDeliveryManDTO;
 import dto.RegisterUserDTO;
 import dto.RestaurantDTO;
 import dto.RestaurantQueryDTO;
@@ -69,7 +71,7 @@ public class SparkWebShopMain {
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
 		
-		
+		System.out.println(orderService.getAllOrdersDeliveryManDTO());
 		get("/rest/orders/getDeliveryMen/:id", (req, res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
@@ -89,6 +91,10 @@ public class SparkWebShopMain {
 			return g.toJson(restaurantService.getRestaurants());
 		});
 		
+		get("/rest/orders/getAllOrders",(req,res) -> {
+			res.type("application/json");
+			return g.toJson(orderService.getAllOrdersDeliveryManDTO());
+		});
 		get("/rest/comments/getAllCommentsForRestaurant/:id",(req,res) -> {
 			String idS = req.params("id");
 			int id = Integer.parseInt(idS);
@@ -300,6 +306,19 @@ public class SparkWebShopMain {
 		});
 		
 		
+		post("rest/order/giveOrderToDeliveryMan", (req, res) -> {
+			DeliveryManIdIOrderIdDTO data = g.fromJson(req.body(), DeliveryManIdIOrderIdDTO.class);
+			res.type("application/json");		
+			return g.toJson(orderService.giveOrderToDeliveryMan(data));
+		});
+		
+		post("rest/order/FinishDelivery", (req, res) -> {
+			DeliveryManIdIOrderIdDTO data = g.fromJson(req.body(), DeliveryManIdIOrderIdDTO.class);
+			res.type("application/json");		
+			return g.toJson(orderService.finsihDelivery(data));
+		});
+		
+		
 		post("rest/order/acceptDeliveryMan", (req, res) -> {
 			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
 			res.type("application/json");		
@@ -411,6 +430,13 @@ public class SparkWebShopMain {
 			res.type("application/json");		
 			return g.toJson(orderService.searchOrders(query));
 		});
+		post("/rest/orders/searchOrdersDeliveryman", (req, res) -> {
+			OrderQueryDeliveryManDTO query = g.fromJson(req.body(), OrderQueryDeliveryManDTO.class);
+			res.type("application/json");		
+			return g.toJson(orderService.searchOrdersDeliveryMan(query));
+		});
+		
+		
 		post("/rest/orders/searchOrdersForRestaurant", (req, res) -> {
 			OrderQueryDTOForRestaurant query = g.fromJson(req.body(), OrderQueryDTOForRestaurant.class);
 			res.type("application/json");		
