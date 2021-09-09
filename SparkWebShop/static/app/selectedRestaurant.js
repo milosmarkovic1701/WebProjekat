@@ -47,7 +47,7 @@ Vue.component("selected-restaurant", {
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <button type="button" style="margin-top: 10mm;" v-on:click="sendOrder(customer.user.id)" class="btn btn-lg btn-danger">Poruči hranu</button>
+                    <button type="button" style="margin-top: 10mm;" v-on:click="sendOrder(customer.user.id)"  class="btn btn-lg btn-danger">Poruči hranu</button>
                 </div>
             </div>
         </div>
