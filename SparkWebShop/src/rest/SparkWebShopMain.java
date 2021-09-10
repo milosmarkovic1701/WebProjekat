@@ -180,6 +180,8 @@ public class SparkWebShopMain {
 					description.equals("")) {
 				return "Niste popunili sve potrebne podatke !";
 			}
+			else if (Double.parseDouble(price) < 1)
+				return "Niste uneli validnu vrednost cene !";
 				else
 				{
 					FoodItemDTO foodItem = new FoodItemDTO(name, price,restaurantId, description, photo, size, id);
@@ -200,11 +202,13 @@ public class SparkWebShopMain {
 					description.equals("")) {
 				return "Niste popunili sve potrebne podatke !";
 			}
-				else
-				{
-					FoodItemDTO foodItem = new FoodItemDTO(name, price,restaurantId, description, photo, size, id);
-					return foodItemService.changeFoodItem(foodItem);
-				}
+			else if (Double.parseDouble(price) < 1)
+				return "Niste uneli validnu vrednost cene !";
+			else
+			{
+				FoodItemDTO foodItem = new FoodItemDTO(name, price,restaurantId, description, photo, size, id);
+				return foodItemService.changeFoodItem(foodItem);
+			}
 		});
 		post("/rest/restaurants/addRestaurant", (req, res) -> {
 			RestaurantDTO newRestaurant = g.fromJson(req.body(), RestaurantDTO.class);

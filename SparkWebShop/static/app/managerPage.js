@@ -345,7 +345,7 @@ template:`
         <label class="input-group-text">Cena artikla:</label>  
       </div>
       <div class="col">
-      <input type="text" class="form-control" v-model="newFoodItem.price" placeholder="Unesite cenu..." >
+      <input type="number" class="form-control" v-model="newFoodItem.price" placeholder="Unesite cenu..." >
       </div>
     </div>
     <div class="row">
@@ -422,7 +422,7 @@ template:`
               <label class="input-group-text">Cena artikla:</label>  
             </div>
             <div class="col">
-            <input type="text" v-model = "changedFoodItem.price" class="form-control" >
+            <input type="number" v-model = "changedFoodItem.price" class="form-control" >
             </div>
           </div>
           <div class="row">
@@ -662,7 +662,6 @@ template:`
         
         	this.newFoodItem.photo = document.getElementById("uploadImage").value
         	this.newFoodItem.restaurantId = this.manager.restaurantId
-        	
         	for (fi in this.foodItems){
         		if(this.foodItems[fi].name === this.newFoodItem.name){
         			alert(" Ime aritkla se već koristi, unesite novo ime!");
@@ -675,7 +674,7 @@ template:`
         	axios
 				.post('rest/restaurant/addFoodItem', this.newFoodItem)	
 				.then(response => {
-		                if (response.data != "Niste popunili sve potrebne podatke !"){
+		                if (response.data != "Niste popunili sve potrebne podatke !" && response.data != "Niste uneli validnu vrednost cene !"){
 							alert("Obaveštenje: Uspešno ste dodali novi artikal!");
 							this.getAllFoodItems();
 							this.newFoodItem.name = ""; 
@@ -709,11 +708,10 @@ template:`
         	axios
 				.post('rest/restaurant/changeFoodItem', this.changedFoodItem)	
 				.then(response => {
-		                if (response.data != "Niste popunili sve potrebne podatke !"){
-							alert("Obaveštenje: Uspešno ste izmenili artikal!");
-							this.getAllFoodItems();
-							 
-		                }
+ 					if (response.data != "Niste popunili sve potrebne podatke !" && response.data != "Niste uneli validnu vrednost cene !"){
+								alert("Obaveštenje: Uspešno ste izmenili artikal!");
+								this.getAllFoodItems();
+					}
 		                else {
 		                    alert("Greška: " + response.data);
 		                }
