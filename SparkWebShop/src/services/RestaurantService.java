@@ -201,4 +201,14 @@ public class RestaurantService {
 			Collections.sort(sortedRestaurants, Comparator.comparing(Restaurant::getStatus));
 		return sortedRestaurants;
 	}
+	public Restaurant changeRestaurantStatus(int id) {
+		this.getAllRestaurants();
+	Restaurant r = this.getRestaurant(id);
+	if(r.getStatus()==RestaurantStatus.OPENED)
+		r.setStatus(RestaurantStatus.CLOSED);
+	else
+		r.setStatus(RestaurantStatus.OPENED);
+	this.saveAllRestaurants();
+	return r;
+	}
 }

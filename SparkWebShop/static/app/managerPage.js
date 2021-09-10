@@ -141,12 +141,14 @@ template:`
 		
         <table class="table table-hover table-striped ">
           <thead>
+          <tr>
               <th>Ime i prezime mušterije</th>
               <th>Adresa mušterije</th>
               <th>Ime artikla</th>
               <th>Datum i vreme porudžbine</th>
               <th>Cena</th>
               <th>Status</th>
+              </tr>
           </thead>
        <tbody>
        <tr v-for="order in orders">
@@ -171,6 +173,7 @@ template:`
             <div class="row my-row  justify-content-around">
        		<table class="table table-hover table-striped ">
           <thead>
+          <tr>
               <th>Ime i prezime mušterije</th>
               <th>Adresa mušterije</th>
               <th>Ime artikla</th>
@@ -178,6 +181,7 @@ template:`
               <th>Cena</th>
               <th>Status</th>
               <th>Akcija</th>
+              </tr>
           </thead>
        <tbody>
        <tr v-for="order in orders" v-if="order.status === 'PROCESSING'">
@@ -220,11 +224,13 @@ template:`
             <div class="row my-row  justify-content-around">
               <table class="table table-hover table-striped ">
                 <thead>
+                <tr>
                     <th>Ime i prezime dostavljača</th>
                     <th>Ime artikla</th>
                     <th>Datum i vreme porudžbine</th>
                     <th>Cena</th>
-                    <th></th>
+                    <th>Akcija</th>
+                    </tr>
                 </thead>
              <tbody>
              <tr v-for="deliveryMan in deliveryMen">
@@ -300,6 +306,13 @@ template:`
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Dodaj novi artikal
         </button>
+        
+        <button  type="button" v-on:click = "changeRestaurantStatus()" class="btn btn-danger" style="margin-left:50px" v-if = "restaurant.status === 'OPENED'">
+        Zatvori restoran
+        </button> 
+        <button  type="button" v-on:click = "changeRestaurantStatus()" class="btn btn-success" style="margin-left:50px" v-else>
+        Otvori restoran
+        </button>   
         </div>
 
 <!-- Modal -->
@@ -734,7 +747,14 @@ template:`
 	    			this.changedFoodItem.photo = "";
 	    		}
 	    	}
-	    }
+	    },
+	    
+	    
+	   changeRestaurantStatus(){
+	   axios
+	   	.post('rest/restaurant/changeStatus',this.restaurant.id)
+	          	.then(response => (this.restaurant = response.data))
+	   	}
 		},
 		mounted () {
 		this.getLoggedUser();

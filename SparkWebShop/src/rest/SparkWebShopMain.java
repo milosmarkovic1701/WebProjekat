@@ -138,6 +138,12 @@ public class SparkWebShopMain {
 			return g.toJson(orderService.changeDeliveryStatusToPreparing(data));
 		});
 		
+		post("rest/restaurant/changeStatus", (req, res) -> {
+			Integer data = g.fromJson(req.body(), Integer.class);
+			res.type("application/json");		
+			return g.toJson(restaurantService.changeRestaurantStatus(data));
+		});
+		
 		post("rest/order/changeToWaiting", (req, res) -> {
 			ApproveDTO data = g.fromJson(req.body(), ApproveDTO.class);
 			res.type("application/json");		
