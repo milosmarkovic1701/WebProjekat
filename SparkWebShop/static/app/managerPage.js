@@ -56,7 +56,7 @@ template:`
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="restaurant-tab" data-bs-toggle="tab" data-bs-target="#restaurant" type="button" role="tab" aria-controls="restaurant" aria-selected="false">Izmena restorana i artikala</button>
             </li>
-            <li class="nav-item" role="presentation" style="margin-left: 35mm;">
+            <li class="nav-item" role="presentation" style="margin-left: 26mm;">
               <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
                 <img src="icons/manager.png" alt="mdo" width="24" height="24" class="rounded-circle">
               </button>

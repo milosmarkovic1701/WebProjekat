@@ -33,7 +33,7 @@ template:`
               <span class="badge">{{this.ordersInTransportSize}}</span>
               </button>
             </li>
-            <li class="nav-item" role="presentation" style="margin-left: 171mm;">
+            <li class="nav-item" role="presentation" style="margin-left: 163mm;">
               <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
                 <img src="icons/delivery-man.png" alt="mdo" width="24" height="24" class="rounded-circle">
               </button>
@@ -138,6 +138,7 @@ template:`
 
                 <table class="table table-hover table-striped ">
                     <thead>
+                    <tr>
                         <th>Ime i prezime mušterije</th>
                         <th>Adresa mušterije</th>
                         <th>Ime artikla</th>
@@ -145,6 +146,7 @@ template:`
                         <th>Datum i vreme porudžbine</th>
                         <th>Cena</th>
                         <th>Status</th>
+                        </tr>
                     </thead>
                  <tbody>
                  <tr v-for="order in orders" v-if="order.deliveryId === deliveryman.user.id">
@@ -174,6 +176,7 @@ template:`
 
                 <table class="table table-hover table-striped ">
                     <thead>
+                    <tr>
                         <th>Ime i prezime mušterije</th>
                         <th>Adresa mušterije</th>
                         <th>Ime artikla</th>
@@ -181,6 +184,7 @@ template:`
                         <th>Datum i vreme porudžbine</th>
                         <th>Cena</th>
                         <th>Preuzmi</th>
+                        </tr>
                     </thead>
                  <tbody>
 				<tr v-for="order in orders" v-if="order.deliveryId === 0 && order.status === 'READY_TO_DELIVER'" >
@@ -202,13 +206,15 @@ template:`
           
             <table class="table table-hover table-striped ">
                 <thead>
+                <tr>
                     <th>Ime i prezime mušterije</th>
                     <th>Adresa mušterije</th>
                     <th>Ime artikla</th>
                     <th>Ime restorana</th>
                     <th>Datum i vreme porudžbine</th>
                     <th>Cena</th>
-                    <th></th>
+                    <th>Akcija</th>
+                    </tr>
                 </thead>
              <tbody>
              <tr v-for="order in orders" v-if="order.deliveryId === deliveryman.user.id && order.status === 'IN_TRANSPORT'" >

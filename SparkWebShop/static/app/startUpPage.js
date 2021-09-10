@@ -20,7 +20,7 @@ Vue.component("startup-page", {
 	          </button>
 	          </li>
 	          <li>
-	          <button type="button" style="margin-left: 32mm; margin-top: 1mm; margin-bottom: 1mm;" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logInModal">
+	          <button type="button" style="margin-left: 23mm; margin-top: 1mm; margin-bottom: 1mm;" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logInModal">
 	            Prijava
 	          </button>
 	          </li>

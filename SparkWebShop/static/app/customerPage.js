@@ -49,7 +49,7 @@ template:`
               <span class="badge">{{this.cancellableOrdersSize}}</span>
             </button>
           </li>
-          <li class="nav-item" role="presentation" style="margin-left: 43mm;">
+          <li class="nav-item" role="presentation" style="margin-left: 35mm;">
             <button class="nav-link" id="myinfo-tab" data-bs-toggle="tab" data-bs-target="#myinfo" type="button" role="tab" aria-controls="myinfo" aria-selected="false">Moji podaci
               <img src="icons/user.png" alt="mdo" width="24" height="24" class="rounded-circle">
               <img v-bind:src="this.customerType" alt="mdo" width="24" height="24" class="rounded-circle">
