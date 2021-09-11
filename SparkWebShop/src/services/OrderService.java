@@ -230,7 +230,7 @@ public class OrderService {
 			artikli = artikli + fi.getName() + ",";
 		}
 		artikli = artikli.substring(0,artikli.length()-1);
-			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(o.getId(),ime,prezime,adresa,artikli,o.getOrderDateTime(),o.getPrice(),o.getStatus(),o.getDateInfo()); 
+			RestaurantOrderDTO newOrderDTO = new RestaurantOrderDTO(o.getId(),ime,prezime,adresa,o.getOrderInfo(),o.getOrderDateTime(),o.getPrice(),o.getStatus(),o.getDateInfo()); 
 		return newOrderDTO;
 	
 	}

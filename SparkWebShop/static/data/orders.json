@@ -431,5 +431,45 @@
     "customerId": 5,
     "status": "READY_TO_DELIVER",
     "rating": 0.0
+  },
+  {
+    "id": 11,
+    "restaurantName": "Gyros Master",
+    "restaurantId": 1,
+    "restaurantLogo": "restaurant logos\\gyros master.jpg",
+    "restaurantType": "Grčki",
+    "items": [
+      {
+        "id": 2,
+        "name": "Veliki giros",
+        "price": 330.0,
+        "restaurantId": 1,
+        "size": "300g",
+        "description": "Tortilja, pomfrit, tzatziki, svinjetina, salata",
+        "photo": "food images\\gyros veliki.png",
+        "amount": 1,
+        "deleted": false
+      }
+    ],
+    "orderInfo": "Veliki giros 300g 1X, ",
+    "orderDateTime": {
+      "date": {
+        "year": 2021,
+        "month": 9,
+        "day": 11
+      },
+      "time": {
+        "hour": 12,
+        "minute": 45,
+        "second": 20,
+        "nano": 519685700
+      }
+    },
+    "dateInfo": "11.9.2021.  12:45",
+    "price": 313.5,
+    "deliveryId": 0,
+    "customerId": 6,
+    "status": "PROCESSING",
+    "rating": 0.0
   }
 ]
